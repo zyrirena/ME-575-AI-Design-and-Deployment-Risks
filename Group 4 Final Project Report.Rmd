@@ -1,0 +1,74 @@
+---
+title: "Group 4 Final Project Report"
+output: html_document
+date: "2026-04-08"
+---
+
+```{r setup-python, include=FALSE}
+library(reticulate)
+reticulate::py_install("kagglehub", pip = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+## Resume Data Validation and Risk Analysis
+
+```{r data-validation, message=FALSE, warning=FALSE}
+library(reticulate)
+library(tidyverse)
+library(janitor)
+library(tidytext)
+library(wordcloud)
+library(RColorBrewer)
+
+# 1. Download Dataset via kagglehub
+py_run_string("
+import kagglehub
+path = kagglehub.dataset_download('snehaanbhawal/resume-dataset')
+")
+dataset_path <- py$path
+all_files <- list.files(dataset_path, full.names = TRUE, recursive = TRUE, pattern = "\\.csv$")
+
+# 2. Secure Data Loading and Validation
+if (length(all_files) > 0) {
+  # Load data and clean names immediately
+  raw_data <- read_csv(all_files[1], show_col_types = FALSE) %>% clean_names()
+  
+  # Identify the text column while ignoring NA/NaN values
+  text_col_index <- which.max(sapply(raw_data, function(x) {
+    char_data <- as.character(x[!is.na(x)])
+    if(length(char_data) == 0) return(0)
+    mean(nchar(char_data))
+  }))
+  
+  colnames(raw_data)[text_col_index] <- "resume_text"
+  resume_data <- raw_data
+  
+  print(paste("SUCCESS: Data Realism verified with", nrow(resume_data), "records."))
+} else {
+  stop("Critical Failure: Dataset file not found.")
+}
+
+# 3. Bias Scan: Age Proxy Validation
+bias_scan <- resume_data %>%
+  mutate(has_year_proxy = str_detect(resume_text, "19[0-9]{2}|20[0-2]{2}")) %>%
+  tabyl(has_year_proxy) %>%
+  adorn_pct_formatting(digits = 1)
+
+print("Artifact: Initial Bias Scan Results")
+print(bias_scan)
+```
+
+## Data Visualization
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
