@@ -6,7 +6,7 @@ Group 4: Risk Ready Final Project Repository
 <br>
   a. Title: FairHire AI - automated applicant screening tool 
   b. Governance heavy project
-
+</br>
 **2. Problem Context: **
 <br>Our AI agent solves multiple problems in a recruiting environment.<br>  
 Operational: it helps the business screen through hundreds of resumes quickly to pull minimum qualified candidates to review, it reviews education, experience and minimum requirements of the position.<br> 
