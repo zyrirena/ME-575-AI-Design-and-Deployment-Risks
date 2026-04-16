@@ -1,6 +1,6 @@
 ---
 title: "FairHire AI Project"
-author: "Group 4: Risk Ready"
+author: "Group 4: Risk Ready Final Project"
 output: 
   html_document:
     theme: cosmo
@@ -12,13 +12,11 @@ output:
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
-
-## R Markdown
-
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
-
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
-
+<br>
+Testing Application Created: FairHire AI 
+[Click here to access the live FairHire AI Application](https://fairhireai-production.up.railway.app)
+<br>
+<br>
 ```{r cars}
 summary(cars)
 ```
