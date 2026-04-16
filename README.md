@@ -25,7 +25,7 @@ Compliance: The AI agent includes data testing to provide bias review and ensure
 
 **4. System Scope: **
 <br>System boundary
-<br>Model: will be running on Google Gemini 2.0 Flash
+<br>Model: will be running on Claude version: claude-3-haiku-20240307
 
 <br>Data: the system will include user uploaded resumes in a .docx or .pdf formats;  
 <br>job descriptions that will include each positions required skills, experience, education, and certifications which will be stored in jobs table
@@ -54,6 +54,7 @@ bias alert review - when AI detects thresholds are exceeded the admin must manua
 <br><br>
 Outputs: 
 <br>The FairHire AI outputs will include: 
+<br>Hiring Manager report with resumes that were recommended after HR Specilaist approval and certification
 <br>Applicant list with scores 
 <br>Bias audit report
 <br>NYC 144 Law compliance PDFs and exports of artifacts in JSON format 

@@ -1,7 +1,8 @@
 # ==============================================================================
-# PROJECT: FairHire AI - Massive Scale 200k Bias Audit
-# ROLE: Senior AI Engineer / Compliance Lead (Your Highness Irena)
-# PURPOSE: Full Pipeline from Kaggle Download to NYC LL144 Audit Report
+# PROJECT: FairHire AI - 200k Bias Audit
+# Group 4: Risk Ready
+# PURPOSE: Run bias testing to ensure compliance and provide audit proof for 
+# NYC 144 Law Audit Report
 # ==============================================================================
 
 # 1. INSTALL & LOAD DEPENDENCIES
@@ -15,7 +16,7 @@ library(data.table)
 library(janitor)
 
 # 2. DOWNLOAD DATASET VIA KAGGLEHUB
-# Ensure kagglehub is installed in the Python environment
+# Note: Ensure kagglehub is installed in the Python environment
 py_install("kagglehub", pip = TRUE)
 kh <- import("kagglehub")
 
@@ -27,9 +28,10 @@ all_files <- list.files(path, recursive = TRUE, full.names = TRUE)
 csv_file <- all_files[str_detect(all_files, ".csv$")][1]
 
 print(paste("Loading data from:", csv_file))
-raw_data <- fread(csv_file) # Fast-load 200k rows
+raw_data <- fread(csv_file) #for fast loading of data
 
-# 4. DATA CLEANING & STATUTORY FEATURE ENGINEERING
+# 4. DATA CLEANING
+# testing for age bias
 # We map 'age' to groups to test for Age Bias (EU AI Act requirement)
 audit_prep <- raw_data %>%
   as_tibble() %>%
@@ -61,7 +63,7 @@ edu_audit <- audit_prep %>%
 
 # 6. VISUAL RESULT FOR PRESENTATION
 print("==================================================================")
-print("NYC LL144 COMPLIANCE REPORT: EDUCATION LEVEL")
+print("NYC 144 LAW COMPLIANCE REPORT: EDUCATION LEVEL")
 print(edu_audit)
 print("==================================================================")
 
@@ -79,12 +81,11 @@ ggplot(edu_audit, aes(x = education_level, y = impact_ratio, fill = status)) +
 # 8. SAVE AUDIT FOR PROJECT DOCUMENTATION
 write_csv(edu_audit, "FairHire_200k_Audit_Results.csv")
 
-# 1. LOAD GRAPHING LIBRARY
+# 9. LOAD GRAPHING LIBRARY
 library(ggplot2)
 library(scales) # For percentage formatting
 
-# 2. CREATE THE STATUTORY COMPLIANCE PLOT
-# Assuming 'edu_audit' is the dataframe from your previous step
+# 10. CREATE THE STATUTORY COMPLIANCE PLOT
 compliance_plot <- ggplot(edu_audit, aes(x = reorder(education_level, -impact_ratio), 
                                          y = impact_ratio, 
                                          fill = status)) +
@@ -122,10 +123,10 @@ compliance_plot <- ggplot(edu_audit, aes(x = reorder(education_level, -impact_ra
     axis.text.x = element_text(angle = 0, hjust = 0.5)
   )
 
-# 3. DISPLAY THE PLOT
+# 11. DISPLAY THE PLOT
 print(compliance_plot)
 
-# 4. SAVE THE PLOT AS A PNG (For your Presentation Slides)
+# 12. SAVE THE PLOT AS A PNG
 ggsave("FairHire_Compliance_Chart.png", plot = compliance_plot, width = 10, height = 6, dpi = 300)
 
-print("Visualization complete! The graph 'FairHire_Compliance_Chart.png' has been saved to your folder.")
+print("Visualization done! The graph 'FairHire_Compliance_Chart.png' has been saved to your folder.")

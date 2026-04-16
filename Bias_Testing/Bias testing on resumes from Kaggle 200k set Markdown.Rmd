@@ -1,0 +1,178 @@
+---
+title: "FairHire AI: Statutory Bias Audit Report"
+author: "Group 4: Risk Ready"
+date: "`r Sys.Date()`"
+output: 
+  html_document:
+    theme: cosmo
+    toc: true
+---
+Bias testing conducted by Group 4 on the data set from Kaggle <br>
+Data Source & Specification <br>
+Dataset Name: Resume Screening Dataset (200k Candidates)<br>
+Provider: Rhythm Ghai via Kaggle <br>
+Format: Tabular (CSV) <br>
+Sample Size: 200,000 synthetic candidate profiles <br>
+Key Variables: Education Level, Age, University Tier, Years of Experience, and Hiring Outcome (Target). <br>
+Used in the project as a primary testing ground for the FairHire AI bias audit. It is utilized to simulate high-volume recruitment scenarios and calculate Impact Ratios across protected demographic groups.<br>
+
+```{r setup, include=FALSE}
+# CHUNK 1: ENVIRONMENT SETUP
+# include=FALSE hides installation messages from the report
+
+# Auto-install missing packages
+packages <- c("reticulate", "tidyverse", "data.table", 
+               "janitor", "scales", "knitr", "kableExtra")
+new_packages <- packages[!(packages %in% installed.packages()[,"Package"])]
+if (length(new_packages)) install.packages(new_packages)
+
+library(reticulate)
+library(tidyverse)
+library(data.table)
+library(janitor)
+library(scales)
+library(knitr)
+library(kableExtra)
+
+# FIX: Set knitr options for clean output throughout the report
+knitr::opts_chunk$set(
+  echo    = FALSE,
+  warning = FALSE,
+  message = FALSE
+)
+```
+
+```{r data_processing, include=FALSE}
+# CHUNK 2: DATA ACQUISITION & CLEANING
+# include=FALSE runs this silently — variables are available to all chunks below
+
+# 1. Download via kagglehub
+kh   <- import("kagglehub")
+path <- kh$dataset_download("rhythmghai/resume-screening-dataset-200k-candidates")
+
+# 2. Find and load CSV
+all_files <- list.files(path, recursive = TRUE, full.names = TRUE)
+csv_file  <- all_files[str_detect(all_files, "\\.csv$")][1]   # FIX: escaped dot in regex
+
+if (is.na(csv_file)) stop("ERROR: No CSV file found in downloaded dataset path.")
+
+raw_data <- fread(csv_file)
+
+# 3. Clean and engineer features
+audit_prep <- raw_data %>%
+  as_tibble() %>%
+  clean_names() %>%
+  mutate(
+    # EU AI Act: age grouping to test for ageism
+    age_group = case_when(
+      age < 25             ~ "Entry / Gen Z",
+      age >= 25 & age < 40 ~ "Mid-Career / Millennial",
+      age >= 40            ~ "Senior / Gen X+",
+      TRUE                 ~ "Unknown"          # FIX: catch-all for NAs
+    ),
+    # Proxy bias: university tier flag
+    is_elite_school = ifelse(university_tier == "Tier 1", "Yes", "No"),
+    # FIX: ensure 'hired' is numeric for sum() to work correctly
+    hired = as.integer(hired)
+  )
+
+# 4. Education-level bias audit
+edu_audit <- audit_prep %>%
+  group_by(education_level) %>%
+  summarise(
+    total          = n(),
+    selected       = sum(hired, na.rm = TRUE),
+    selection_rate = selected / total,
+    .groups        = "drop"
+  ) %>%
+  mutate(
+    impact_ratio = selection_rate / max(selection_rate),
+    # FIX: status labels must exactly match scale_fill_manual values below
+    status = ifelse(impact_ratio < 0.8, "FAIL (Bias)", "PASS")
+  )
+```
+<br>
+NYC 144 Law Impact Ratio must be calculated by comparing the selection rate of each group with the highest rate. 
+<br>
+Treshold set at 0.8.
+<br>
+```{r table, echo=FALSE}
+# CHUNK 3: EDUCATION AUDIT TABLE
+# echo=FALSE shows the table but hides the code
+
+kable(
+  edu_audit %>%                              # FIX: format columns for readability
+    mutate(
+      selection_rate = percent(selection_rate, accuracy = 0.1),
+      impact_ratio   = round(impact_ratio, 3)
+    ),
+  col.names = c("Education Level", "Total", "Selected", 
+                "Selection Rate", "Impact Ratio", "Status"),
+  caption   = "Table 1: Education Level Selection Rates (NYC LL 144 / 4/5ths Rule)"
+) %>%
+  kable_styling(
+    bootstrap_options = c("striped", "hover", "condensed"),
+    full_width        = FALSE
+  ) %>%
+  row_spec(
+    which(edu_audit$status == "FAIL (Bias)"),
+    background = "#ffe0e0"                   # highlight failing rows in red
+  )
+```
+
+```{r edu_chart, echo=FALSE, fig.width=9, fig.height=5}
+# CHUNK 4: EDUCATION IMPACT RATIO CHART
+
+ggplot(edu_audit, aes(
+    x    = reorder(education_level, -impact_ratio),
+    y    = impact_ratio,
+    fill = status
+  )) +
+  geom_col(width = 0.7) +
+  geom_hline(yintercept = 0.8, linetype = "dashed", color = "red", linewidth = 1.2) +
+  geom_text(
+    aes(label = round(impact_ratio, 2)),
+    vjust    = -0.5,
+    fontface = "bold",
+    size     = 3.5
+  ) +
+  # FIX: labels now exactly match the 'status' values set in data_processing
+  scale_fill_manual(
+    values = c("PASS" = "#55efc4", "FAIL (Bias)" = "#ff7675"),
+    labels = c("PASS" = "✅ PASS",  "FAIL (Bias)" = "⚠️ FAIL (Bias)")
+  ) +
+  scale_y_continuous(
+    labels = percent_format(accuracy = 1),
+    limits = c(0, 1.15)
+  ) +
+  labs(
+    title   = "Impact Ratio by Education Level (NYC LL 144 Compliance)",
+    subtitle = "Red dashed line = 80% legal threshold for Disparate Impact",
+    y       = "Impact Ratio",
+    x       = "Education Level",
+    fill    = "Compliance Status"
+  ) +
+  theme_minimal(base_size = 12) +
+  theme(axis.text.x = element_text(angle = 15, hjust = 1))
+```
+<br>
+This chart visualizes the age disparity to monitor the age bias. 
+<br>
+```{r age_density, echo=FALSE, fig.width=9, fig.height=5}
+# CHUNK 5: AGE SELECTION DENSITY CHART
+
+ggplot(audit_prep, aes(x = age, fill = factor(hired))) +
+  geom_density(alpha = 0.6) +
+  scale_fill_manual(
+    values = c("0" = "#dfe6e9", "1" = "#0984e3"),
+    labels = c("0" = "Rejected", "1" = "Hired")
+  ) +
+  labs(
+    title    = "Selection Density by Age",
+    subtitle = "Overlapping distributions suggest potential age-based disparate impact",
+    x        = "Candidate Age",
+    y        = "Density",
+    fill     = "Outcome"
+  ) +
+  theme_minimal(base_size = 12)
+```
