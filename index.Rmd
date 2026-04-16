@@ -1,6 +1,6 @@
 ---
 title: "FairHire AI Project"
-author: "Group 4: Risk Ready Final Project"
+author: "Group 4: Risk Ready"
 output: 
   html_document:
     theme: cosmo
@@ -13,17 +13,86 @@ output:
 knitr::opts_chunk$set(echo = TRUE)
 ```
 <br>
+**Group Members:** Irena Austin, Jacob Cossaboon, Bryden Dahl
+<br>
 Testing Application Created: FairHire AI 
 [Click here to access the live FairHire AI Application](https://fairhireai-production.up.railway.app)
 <br>
+**1. Title: FairHire AI Project**
 <br>
-```{r cars}
+**2. Problem Context: **
+Our AI agent solves multiple problems in a recruiting environment.
+
+Operational: it helps the business screen through hundreds of resumes quickly to pull minimum qualified candidates to review, it reviews education, experience and minimum requirements of the position.
+Compliance: The AI agent includes data testing to provide bias review and ensure compliance with NY 144 law and compliance with EU AI Act.
+
+<br>
+**3. Target entity and use case: **
+Any business or organization that has an in-house Recruitment Office and screens applicants or a Recruitment Agency.
+
+
+Stakeholders:
+- Applicants
+- Hiring managers
+- Human Resource Specialists
+<br>
+**4. System Scope: **
+System boundary
+Model: will be running on Claude version: claude-3-haiku-20240307
+
+
+Data: the system will include user uploaded resumes in a .docx or .pdf formats;
+
+job descriptions that will include each positions required skills, experience, education, and certifications which will be stored in jobs table
+Initial test data from Kaggle
+Test resumes system generated for bias testing
+
+Workflow:
+file upload with mime/size validation → text extraction via pdf-parse or mammoth → PII scrubbing across 10 regex pattern categories → scrub validation → database persistence. Screening is then triggered separately: the anonymized text and job criteria are sent to Gemini, the structured JSON response is validated for prohibited content, scores are computed across four weighted dimensions (skills 40 pts, experience 35 pts, education 15 pts, certifications 10 pts), and results are stored with the full prompt logged.
+
+AI Agents:
+Bias detection agent - generates six synthetic resumes with identical qualifications but varying demographic name signals, submits all six to Gemini, computes the Disparate Impact Ratio using the EEOC four-fifths rule, and stores results with an alert flag if DIR falls below 0.80.
+Selection rate monitor - continuous screening after each evaluation or anomaly
+Audit logging agent - to create audit_logs for compliance
+
+Users: AI agent will have assigned roles for administrators for bias testing, compliance PDF export, audit log access, and dataset loading; HR Recruiters to upload job descriptions, create new jobs, screen resumes, correct ratings/override ratings; applicants to upload resumes, delete their profile, and submit questions.
+
+Human review points:
+consent gate applicant must click “I consent” before resume is accepted; the recruiter override- to meet the human in the loop requirement the AI agent will require the recruiter to decide whether to advance, hold, reject, or escalate to human review,
+Applicant appeal - allow users to appeal AI decision so that recruiter can review and respond to the appeal
+bias alert review - when AI detects thresholds are exceeded the admin must manually review job criteria before continued use
+
+Outputs:
+The FairHire AI outputs will include:
+Hiring Manager report with resumes that were recommended after HR Specilaist approval and certification
+Applicant list with scores
+Bias audit report
+NYC 144 Law compliance PDFs and exports of artifacts in JSON format
+<br>
+**5. Risk framing: **
+<br>
+**6. Data Plan: **
+Database Used: Resume Dataset from Kaggle https://www.kaggle.com/datasets/snehaanbhawal/resume-dataset
+<br>
+**7. Tool stack: **
+<br>
+**8. Implementation plan: **
+<br>
+**9. Validation plan: **
+<br>
+**10. Deliverable and milestones: **
+<br>
+**11. Role Allocation: **
+<br>
+**12. Risks and fallback plan: **
+<br>
+```{r test}
 summary(cars)
 ```
 
 ## Including Plots
 
-You can also embed plots, for example:
+Add visuals here: 
 
 ```{r pressure, echo=FALSE}
 plot(pressure)
