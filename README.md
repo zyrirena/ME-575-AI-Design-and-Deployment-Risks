@@ -77,3 +77,31 @@ FairAI application github repository: <a href="https://github.com/zyrirena/FairH
 <b>11. Role Allocation: </b>
 
 <b>12. Risks and fallback plan: </b>
+
+
+graph TD
+  A[Candidate Resume (Raw Text)] -->|Ingestion| B[Application Backend];
+  B -->|Pre-processing| C{Fairness-Aware Pipeline};
+  
+  subgraph Data Governance & Pre-Processing
+    C -->|PII Masking| D[Anonymous Data];
+    C -->|Feature Engineering| E[Structured Data (Sensitive Features Identified)];
+  end
+  
+  subgraph Bias Auditing & Mitigation
+    D -->|Audit 1: Descriptive Analytics| F[Selection Rate & Parity Check (Internal)];
+    F -->|Mitigation Strategy| G{Bias Detected?};
+    G -->|Yes| H[Reductions/Post-processing (e.g., Fairlearn Optimizer)];
+    H -->|Updated Model| G;
+    G -->|No| I[Unbiased/Fair Model];
+    E -->|Model Inference| I;
+  end
+  
+  subgraph Compliance & Reporting
+    I -->|Generation of Reports| J[Bias Audit Results (Impact Ratio/Summary)];
+    J -->|Verification| K[Third-Party Auditor (For NYC LL 144)];
+    I -->|Resume Screening Score| L[Ranked Candidates];
+  end
+  
+  L -->|Decision Support| M[Final Shortlist & hiring Decision];
+  K -->|Compliance Certification| M;
