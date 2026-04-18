@@ -1,6 +1,6 @@
 # ME-575-AI-Design-and-Deployment-Risks
-Group 4: Risk Ready 
-
+<b>Group 4: Risk Ready </b>
+<br>
 
 <b>1. Project Title and Mode:</b>
 <br>
@@ -73,6 +73,7 @@ Outputs:
 <b>10. Deliverable and milestones:</b>
 Our genAI test application: <a href="https://fairhireai-production.up.railway.app/">FairHire AI</a> <br>
 FairAI application github repository: <a href="https://github.com/zyrirena/FairHireAI.git">FairHire AI Repository</a> 
+<br>
 <b>11. Role Allocation: </b>
 
 <b>12. Risks and fallback plan: </b>
