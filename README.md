@@ -15,7 +15,7 @@ Compliance: The AI agent includes data testing to provide bias review and ensure
 <br>
 
 
-**3. Target entity and use case: **
+<b>3. Target entity and use case: </b>
 <br>Any business or organization that has an in-house Recruitment Office and screens applicants or a Recruitment Agency.  
 
 <br>Stakeholders: 
@@ -23,7 +23,7 @@ Compliance: The AI agent includes data testing to provide bias review and ensure
 <br>- Hiring managers
 <br>- Human Resource Specialists
 
-**4. System Scope: **
+<b>4. System Scope: </b>
 <br>System boundary
 <br>Model: will be running on Claude version: claude-3-haiku-20240307
 
@@ -59,19 +59,20 @@ Outputs:
 <br>Bias audit report
 <br>NYC 144 Law compliance PDFs and exports of artifacts in JSON format 
 <br>
-**5. Risk framing: **
+<b>5. Risk framing: </b>
 
-**6. Data Plan: **
+<b>6. Data Plan:</b>
 <br>Database Used: Resume Dataset from Kaggle https://www.kaggle.com/datasets/snehaanbhawal/resume-dataset
 
-**7. Tool stack: **
+<b>7. Tool stack: </b>
 
-**8. Implementation plan: **
+<b>8. Implementation plan: </b>
 
-**9. Validation plan: **
+<b>9. Validation plan: </b>
 
-**10. Deliverable and milestones: **
+<b>10. Deliverable and milestones:</b>
+Our genAI test application: <a href="https://fairhireai-production.up.railway.app/">FairHire AI</a> <br>
+FairAI application github repository: <a href="https://github.com/zyrirena/FairHireAI.git">FairHire AI Repository</a> 
+<b>11. Role Allocation: </b>
 
-**11. Role Allocation: **
-
-**12. Risks and fallback plan: **
+<b>12. Risks and fallback plan: </b>
