@@ -2,12 +2,12 @@
 Group 4: Risk Ready 
 
 
-**1. Project Title and Mode:**
+<b>1. Project Title and Mode:</b>
 <br>
   a. Title: FairHire AI - automated applicant screening tool 
   b. Governance heavy project
 </br>
-**2. Problem Context: **
+<b>2. Problem Context: </b>
 <br>Our AI agent solves multiple problems in a recruiting environment.<br>  
 Operational: it helps the business screen through hundreds of resumes quickly to pull minimum qualified candidates to review, it reviews education, experience and minimum requirements of the position.<br> 
 Compliance: The AI agent includes data testing to provide bias review and ensure compliance with NY 144 law and compliance with EU AI Act.
