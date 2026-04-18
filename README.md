@@ -2,22 +2,8 @@
 Group 4: Risk Ready 
 
 
-**1. Project Proposal Title and Mode Selected:**
+**1. Project Title and Mode:**
 <br>
-<table>
-  <tr>
-    <th>Tool Name</th>
-    <th>Type</th>
-  </tr>
-  <tr>
-    <td>Fairlearn</td>
-    <td>Open Source</td>
-  </tr>
-  <tr>
-    <td>VerifyWise</td>
-    <td>Commercial</td>
-  </tr>
-</table>
   a. Title: FairHire AI - automated applicant screening tool 
   b. Governance heavy project
 </br>
