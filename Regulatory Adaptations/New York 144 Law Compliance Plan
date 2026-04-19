@@ -1,0 +1,38 @@
+New York 144 Law compliance plan:
+Using test data set to test for bias, dataset source kaggle.com - source and explanation of the data, how it was sourced
+Test requirement to be performed by an independent auditor 
+at a minimum our independent auditor would test and provide calculations of selection or scoring rates and the impact ratio across sex categories, race/ethnicity categories, and intersectional categories
+Initial testing with a plan for annual test on historical data
+Publish the summary of the most recent bias audit on our tool with a link to a separate site that stores the results, this would also reflect the distribution date of AEDT (Distribution date is the date the business started using the AEDT). Site would include: 
+the date of the most recent bias audit of the AEDT, 
+The source and explanation of the data used to conduct the bias audit, 
+The number of individuals the AEDT assessed that fall within an unknown category, 
+The number of applicants or candidates, the selection or scoring rates, as applicable, and the impact ratios for all categories.
+The AI tool would provide an automatic notice to the applicants that employer uses AEDT tool
+Formulas: 
+Impact Ratio = selection rate for a category / selection rate of the most selected category
+Example: If 100 Hispanic women apply for a position and 40 are selected for an interview after use of an AEDT, the selection rate for Hispanic women is 40/100 or 40%.
+Impact Ratio = scoring rate for a category / scoring rate of the highest scoring category
+Bias testing will include: 
+Calculate the selection rate for each category;
+      (2)   Calculate the impact ratio for each category;
+      (3)   Ensure that the calculations required in paragraphs (1) and (2) of this subdivision separately calculate the impact of the AEDT on:
+         i.   Sex categories (e.g., impact ratio for selection of male candidates vs female candidates),
+         ii.   Race/Ethnicity categories (e.g., impact ratio for selection of Hispanic or Latino candidates vs Black or African American [Not Hispanic or Latino] candidates), and
+         iii.   intersectional categories of sex, ethnicity, and race (e.g., impact ratio for selection of Hispanic or Latino male candidates vs. Not Hispanic or Latino Black or African American female candidates).
+      (4)   Ensure that the calculations in paragraphs (1), (2), and (3) of this subdivision are performed for each group, if an AEDT classifies candidates for employment or employees being considered for promotion into specified groups (e.g., leadership styles); and
+      (5)   Indicate the number of individuals the AEDT assessed that are not included in the required calculations because they fall within an unknown category.
+ 
+Example notice to use for email notification: 
+This template can be posted on the careers site or sent via email. 
+Notice of Automated Employment Decision Tool (AEDT) Use:
+ [Company Name] is committed to a fair and transparent hiring process. In connection with our assessment of candidates for [Job Title/Role], we use an Automated Employment Decision Tool (AI/machine learning tool) to assist in evaluating applicants. 
+How the Tool Works: The tool reviews application materials (resumes, cover letters, assessments) and compares them against the qualifications and characteristics listed in the job description to provide a ranking or screening score.
+Data Collected: The tool uses information you submit during the application process, including your resume, cover letter, and answers to application questions.
+Data Retention: Applicant records, including tool outputs, are retained for [e.g., one year] in accordance with our data retention policy.
+Bias Audit: A bias audit was conducted on this tool on [Date], and a summary of the results can be found [link to website/attachment].
+Request Alternative Process: If you wish to request an alternative selection process or a reasonable accommodation, please contact [Insert Email Address]. 
+ 
+Reference: 
+Automated Employment Decision Tools, 6 R.C.N.Y. § 5-300 et seq. (2023). https://codelibrary.amlegal.com/codes/newyorkcity/latest/NYCrules/0-0-0-138530
+
