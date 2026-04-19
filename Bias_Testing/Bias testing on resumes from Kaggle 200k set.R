@@ -118,4 +118,4 @@ ggsave("Audit_Education_Impact.png", compliance_plot, width = 10, height = 6, dp
 ggsave("Audit_Age_Density.png", age_dist_plot, width = 10, height = 6, dpi = 300)
 ggsave("Audit_University_Tier.png", tier_plot, width = 10, height = 6, dpi = 300)
 
-print("--- ALL AUDITS COMPLETE AND SAVED TO FOLDER ---")
+print("--- all pictures saved ---")
