@@ -81,6 +81,9 @@ Database Used: Resume Dataset from Kaggle https://www.kaggle.com/datasets/snehaa
 **9. Validation plan: **
 <br>
 **10. Deliverable and milestones: **
+Our genAI test application: <a href="https://fairhireai-production.up.railway.app/">FairHire AI</a> <br>
+FairAI application github repository: <a href="https://github.com/zyrirena/FairHireAI.git">FairHire AI Repository</a> 
+<br>
 <br>
 **11. Role Allocation: **
 <br>
