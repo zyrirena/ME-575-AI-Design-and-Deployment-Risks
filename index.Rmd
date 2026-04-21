@@ -210,7 +210,17 @@ FairAI application github repository: <a href="https://github.com/zyrirena/FairH
 summary(cars)
 ```
 
-## Including Plots
+## Project Title
+
+## Problem Context
+
+| Resource Name | Link to Documentation |
+| :--- | :--- |
+| **FairHire AI Test Application** | [Visit Posit](https://fairhire-production-4782.up.railway.app/) |
+| **FairHire Repository** | [View Repository](https://github.com/zyrirena/FairHire.git) |
+| **any other link** | [Get PDF](https://rstudio.github.io/cheatsheets/) |
+
+## Target Entity
 
 Add visuals here: 
 
