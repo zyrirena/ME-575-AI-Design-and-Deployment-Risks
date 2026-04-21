@@ -13,10 +13,103 @@ output:
 knitr::opts_chunk$set(echo = TRUE)
 ```
 <br>
+
+## Group Members
+
 **Group Members:** Irena Austin, Jacob Cossaboon, Bryden Dahl
-<br>
-Testing Application Created: FairHire AI 
-[Click here to access the live FairHire AI Application](https://fairhireai-production.up.railway.app)
+
+## Project Files
+```{r table-links, echo=FALSE, message=FALSE}
+library(knitr)
+library(kableExtra)
+
+# 1. Define the data with Markdown link syntax
+table_data <- data.frame(
+  `Resource Name` = c(
+    "**FairHire AI Test Application**", 
+    "**FairHire Repository**", 
+    "**any other link**"
+  ),
+  `Link to Documentation` = c(
+    "[Visit Posit](https://fairhire-production-4782.up.railway.app/)",
+    "[View Repository](https://github.com/zyrirena/FairHire.git)",
+    "[Get PDF](https://rstudio.github.io/cheatsheets/)"
+  ),
+  check.names = FALSE # Keeps the spaces in column names
+)
+
+# 2. Render the table
+# escape = FALSE is required to render the Markdown syntax as actual links
+kable(table_data, format = "html", escape = FALSE) %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed"), 
+                full_width = F, 
+                position = "left")
+```
+
+
+## Problem Context
+
+
+## Target Entity and Stakeholders
+
+
+## System Scope
+
+
+## Risk Framing
+
+
+## Operating Model and Governance Design 
+
+
+## Control Architecture and Policy-to-Control Translation
+
+
+
+## Implementation Artifacts
+
+
+## Validation and Assurance Design
+
+
+## Tool Integration and Justification
+
+
+## Data Plan, Risks, and Fallback
+
+
+## Task allocation
+
+```{r task-allocation, echo=FALSE, message=FALSE}
+library(knitr)
+library(kableExtra)
+
+# 1. Create the task data
+tasks <- data.frame(
+  Status = c("Checked", "Pending", "Pending", "Checked", "Checked", "Pending", "Pending", "Checked"),
+  Task_Description = c("Set up Repository", "Model Training", "Regulatory Compliance", "Documentation", "test", "test", "test", "test"),
+  Assignee = c("Irena", "Irena", "Jacob", "Bryden", "Irena", "Irena", "Jacob", "Bryden"),
+  Deadline = c("2026-04-20", "2026-04-20", "2026-04-20", "2026-04-20", "2026-04-20", "2026-04-20", "2026-04-20", "2026-04-20")
+)
+
+# 2. Convert Status to Markdown Checkboxes
+tasks$Done <- ifelse(tasks$Status == "Checked", "[x]", "[ ]")
+
+# 3. Reorder and Select Columns
+final_table <- tasks[, c("Done", "Task_Description", "Assignee", "Deadline")]
+
+# 4. Render
+kable(final_table, 
+      col.names = c("Status", "Task", "Assigned To", "Due Date"),
+      escape = FALSE, # Required to render the [x] correctly
+      format = "html",
+      align = "clll") %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed"), 
+                full_width = F) %>%
+  column_spec(1, bold = TRUE, color = "#2c3e50")
+
+```
+
 <br>
 **1. Title: FairHire AI Project**
 <br>
@@ -180,6 +273,12 @@ Additional resumes and job descriptions will be built by the team as the testing
 
 <br>
 **7. Tool stack: **
+| Resource Name | Link to Documentation |
+| :--- | :--- |
+| **FairHire AI Test Application** | [Visit Posit](https://fairhire-production-4782.up.railway.app/) |
+| **FairHire Repository** | [View Repository](https://github.com/zyrirena/FairHire.git) |
+| **any other link** | [Get PDF](https://rstudio.github.io/cheatsheets/) |
+
 <br>
 **8. Implementation plan: **
 <br>
@@ -214,11 +313,6 @@ summary(cars)
 
 ## Problem Context
 
-| Resource Name | Link to Documentation |
-| :--- | :--- |
-| **FairHire AI Test Application** | [Visit Posit](https://fairhire-production-4782.up.railway.app/) |
-| **FairHire Repository** | [View Repository](https://github.com/zyrirena/FairHire.git) |
-| **any other link** | [Get PDF](https://rstudio.github.io/cheatsheets/) |
 
 ## Target Entity
 
