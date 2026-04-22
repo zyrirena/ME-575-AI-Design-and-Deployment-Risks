@@ -75,12 +75,12 @@ library(kableExtra)
 table_data <- data.frame(
   `Resource Name` = c(
     "**Specifications Sheet**", 
-    "**Add More**", 
+    "**New Front Page**", 
     "**Add more**"
   ),
   `Link to Documentation` = c(
     "[View](Evidence/FairHireAI_Specifications.html)",
-    "[View](https://github.com/zyrirena/FairHire.git)",
+    "[View](NewIndex.html)",
     "[View](https://rstudio.github.io/cheatsheets/)"
   ),
   check.names = FALSE # Keeps the spaces in column names
