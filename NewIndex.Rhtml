@@ -1,0 +1,1720 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FairHire AI — Project Report</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=Instrument+Serif:ital@0;1&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --ink: #0d0f0e;
+    --paper: #f5f2ec;
+    --paper2: #ede9e0;
+    --accent: #1a6b45;
+    --accent2: #c8e87d;
+    --rule: #c4bfb4;
+    --muted: #7a766d;
+    --tag-bg: #e8e3d8;
+    --mono: 'DM Mono', monospace;
+    --serif: 'Instrument Serif', serif;
+    --sans: 'Syne', sans-serif;
+  }
+
+  html { font-size: 16px; }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--mono);
+    min-height: 100vh;
+    display: flex;
+    overflow-x: hidden;
+  }
+
+  /* ─────────────────────────────── SIDEBAR NAV ─────────────────────────────── */
+  .sidebar {
+    width: 280px;
+    background: var(--ink);
+    color: var(--paper);
+    padding: 2rem 0;
+    position: fixed;
+    height: 100vh;
+    overflow-y: auto;
+    border-right: 2px solid var(--accent);
+    z-index: 100;
+  }
+
+  .sidebar-logo {
+    padding: 0 1.5rem 2rem;
+    border-bottom: 1px solid var(--rule);
+    margin-bottom: 2rem;
+  }
+
+  .sidebar-logo-text {
+    font-family: var(--serif);
+    font-size: 1.4rem;
+    font-style: italic;
+    color: var(--accent2);
+  }
+
+  .sidebar-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .nav-item {
+    padding: 1rem 1.5rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border-left: 3px solid transparent;
+    font-size: 0.85rem;
+    letter-spacing: 0.05em;
+    color: var(--paper);
+  }
+
+  .nav-item:hover {
+    background: rgba(200, 232, 125, 0.1);
+    border-left-color: var(--accent2);
+  }
+
+  .nav-item.active {
+    background: rgba(200, 232, 125, 0.15);
+    border-left-color: var(--accent2);
+    font-weight: 600;
+  }
+
+  .nav-section-label {
+    padding: 1.5rem 1.5rem 0.75rem;
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    font-weight: 600;
+  }
+
+  /* ─────────────────────────────── MAIN CONTENT ─────────────────────────────── */
+  .container {
+    margin-left: 280px;
+    width: calc(100% - 280px);
+    background: var(--paper);
+  }
+
+  .page-section {
+    display: none;
+    animation: fadeIn 0.4s ease;
+  }
+
+  .page-section.active {
+    display: block;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  /* ─────────────────────────────── HEADER ─────────────────────────────── */
+  .page-header {
+    background: linear-gradient(135deg, rgba(26, 107, 69, 0.08) 0%, transparent 100%);
+    border-bottom: 2px solid var(--ink);
+    padding: 3rem 4rem;
+    position: relative;
+  }
+
+  .page-header::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      repeating-linear-gradient(0deg, transparent, transparent 47px, var(--rule) 47px, var(--rule) 48px),
+      repeating-linear-gradient(90deg, transparent, transparent 47px, var(--rule) 47px, var(--rule) 48px);
+    opacity: 0.35;
+    pointer-events: none;
+  }
+
+  .header-meta {
+    font-size: 0.7rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    line-height: 1.8;
+    margin-bottom: 1.5rem;
+  }
+
+  .page-title {
+    font-family: var(--serif);
+    font-size: 2.8rem;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    position: relative;
+  }
+
+  .page-title em {
+    color: var(--accent);
+    font-style: italic;
+  }
+
+  .page-subtitle {
+    font-family: var(--sans);
+    font-size: 0.9rem;
+    color: var(--muted);
+    margin-top: 1rem;
+    max-width: 600px;
+  }
+
+  /* ─────────────────────────────── CONTENT ─────────────────────────────── */
+  .page-content {
+    padding: 3rem 4rem;
+    max-width: 1100px;
+  }
+
+  .content-section {
+    margin-bottom: 3.5rem;
+  }
+
+  .content-section h2 {
+    font-family: var(--sans);
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid var(--ink);
+  }
+
+  .content-section h3 {
+    font-family: var(--sans);
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin: 1.5rem 0 0.75rem;
+  }
+
+  .content-section p {
+    font-family: var(--sans);
+    font-size: 0.95rem;
+    line-height: 1.8;
+    margin-bottom: 1rem;
+    color: var(--ink);
+  }
+
+  .content-section ul {
+    font-family: var(--sans);
+    font-size: 0.95rem;
+    margin-left: 1.5rem;
+    margin-bottom: 1rem;
+    line-height: 1.8;
+  }
+
+  .content-section li {
+    margin-bottom: 0.6rem;
+  }
+
+  /* ─────────────────────────────── GRID CARDS ─────────────────────────────── */
+  .card-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+    margin: 1.5rem 0;
+  }
+
+  .card {
+    background: var(--paper2);
+    border: 1px solid var(--rule);
+    border-left: 3px solid var(--accent);
+    padding: 1.75rem;
+    border-radius: 2px;
+  }
+
+  .card h4 {
+    font-family: var(--sans);
+    font-weight: 700;
+    font-size: 1rem;
+    margin-bottom: 0.75rem;
+    color: var(--ink);
+  }
+
+  .card p {
+    font-size: 0.9rem;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  /* ─────────────────────────────── TABLES ─────────────────────────────── */
+  .data-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    border: 1px solid var(--rule);
+    margin: 1.5rem 0;
+  }
+
+  .data-table th {
+    background: var(--paper2);
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    padding: 0.85rem 1rem;
+    text-align: left;
+    border-bottom: 2px solid var(--rule);
+    font-weight: 600;
+  }
+
+  .data-table td {
+    padding: 1rem;
+    border-bottom: 1px solid var(--rule);
+    font-family: var(--sans);
+    font-size: 0.9rem;
+    color: var(--ink);
+  }
+
+  .data-table tbody tr:hover {
+    background: var(--paper2);
+  }
+
+  .data-table tbody tr:last-child td {
+    border-bottom: none;
+  }
+
+  /* ─────────────────────────────── STATUS BADGES ─────────────────────────────── */
+  .status-badge {
+    display: inline-block;
+    padding: 0.3rem 0.75rem;
+    border-radius: 2px;
+    font-size: 0.65rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    font-weight: 600;
+  }
+
+  .status-checked {
+    background: rgba(26, 107, 69, 0.2);
+    color: var(--accent);
+    border: 1px solid var(--accent);
+  }
+
+  .status-pending {
+    background: rgba(224, 160, 32, 0.2);
+    color: #b8860b;
+    border: 1px solid #d4a520;
+  }
+
+  /* ─────────────────────────────── CALLOUT ─────────────────────────────── */
+  .callout {
+    border-left: 4px solid var(--accent);
+    background: rgba(26, 107, 69, 0.08);
+    padding: 1.5rem;
+    margin: 2rem 0;
+    border-radius: 2px;
+  }
+
+  .callout-title {
+    font-family: var(--sans);
+    font-weight: 700;
+    margin-bottom: 0.75rem;
+    font-size: 1rem;
+  }
+
+  .callout-text {
+    font-family: var(--sans);
+    font-size: 0.95rem;
+    line-height: 1.7;
+    color: var(--muted);
+  }
+
+  /* ─────────────────────────────── PILL TAGS ─────────────────────────────── */
+  .pill {
+    display: inline-block;
+    background: var(--tag-bg);
+    border: 1px solid var(--rule);
+    padding: 0.3rem 0.75rem;
+    border-radius: 999px;
+    font-size: 0.7rem;
+    letter-spacing: 0.08em;
+    color: var(--muted);
+    margin-right: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
+
+  /* ─────────────────────────────── FOOTER ─────────────────────────────── */
+  .page-footer {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 2rem 4rem;
+    border-top: 2px solid var(--ink);
+    margin-top: 4rem;
+    margin-left: 280px;
+  }
+
+  .footer-content {
+    max-width: 1100px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+  }
+
+  .footer-section h3 {
+    font-family: var(--serif);
+    font-size: 1.1rem;
+    margin-bottom: 1rem;
+  }
+
+  .footer-text {
+    font-family: var(--sans);
+    font-size: 0.9rem;
+    line-height: 1.8;
+    color: rgba(245, 242, 236, 0.85);
+  }
+
+  /* ─────────────────────────────── RESPONSIVE ─────────────────────────────── */
+  @media (max-width: 1024px) {
+    .sidebar {
+      width: 200px;
+    }
+    .container {
+      margin-left: 200px;
+      width: calc(100% - 200px);
+    }
+    .page-footer {
+      margin-left: 200px;
+    }
+    .card-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .sidebar {
+      width: 100%;
+      height: auto;
+      position: relative;
+      border-right: none;
+      border-bottom: 2px solid var(--accent);
+    }
+    .container {
+      margin-left: 0;
+      width: 100%;
+    }
+    .page-footer {
+      margin-left: 0;
+    }
+    .page-header, .page-content {
+      padding: 2rem 1.5rem;
+    }
+    .page-title {
+      font-size: 2rem;
+    }
+    .nav-item {
+      display: inline-block;
+      padding: 0.5rem 1rem;
+      border-left: none;
+      border-bottom: 2px solid transparent;
+    }
+    .sidebar-nav {
+      flex-direction: row;
+      flex-wrap: wrap;
+    }
+    .footer-content {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  /* Code & Links */
+  code {
+    font-family: var(--mono);
+    background: var(--tag-bg);
+    padding: 0.1em 0.4em;
+    border-radius: 2px;
+    border: 1px solid var(--rule);
+    color: var(--accent);
+  }
+
+  a {
+    color: var(--accent);
+    text-decoration: none;
+    border-bottom: 1px solid var(--accent);
+    transition: all 0.2s ease;
+  }
+
+  a:hover {
+    background: var(--tag-bg);
+    padding: 0 0.3rem;
+  }
+
+  /* Scrollbar styling */
+  .sidebar::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  .sidebar::-webkit-scrollbar-track {
+    background: var(--ink);
+  }
+
+  .sidebar::-webkit-scrollbar-thumb {
+    background: var(--rule);
+    border-radius: 3px;
+  }
+
+  .sidebar::-webkit-scrollbar-thumb:hover {
+    background: var(--accent);
+  }
+</style>
+</head>
+<body>
+
+<!-- SIDEBAR NAVIGATION -->
+<div class="sidebar">
+  <div class="sidebar-logo">
+    <div class="sidebar-logo-text">FairHire<br>AI</div>
+  </div>
+
+  <div class="sidebar-nav">
+    <div class="nav-section-label">Project Overview</div>
+    <div class="nav-item active" onclick="showSection('overview')">Project Overview</div>
+    <div class="nav-item" onclick="showSection('problem')">Problem Context</div>
+    <div class="nav-item" onclick="showSection('stakeholders')">Stakeholders</div>
+
+    <div class="nav-section-label" style="margin-top: 1.5rem;">System Design</div>
+    <div class="nav-item" onclick="showSection('scope')">System Scope</div>
+    <div class="nav-item" onclick="showSection('risk')">Risk Framing</div>
+    <div class="nav-item" onclick="showSection('governance')">Governance & Operating Model</div>
+
+    <div class="nav-section-label" style="margin-top: 1.5rem;">Implementation</div>
+    <div class="nav-item" onclick="showSection('data')">Data Plan</div>
+    <div class="nav-item" onclick="showSection('toolstack')">Tool Stack</div>
+    <div class="nav-item" onclick="showSection('implementation')">Implementation Plan</div>
+
+    <div class="nav-section-label" style="margin-top: 1.5rem;">Delivery</div>
+    <div class="nav-item" onclick="showSection('validation')">Validation Plan</div>
+    <div class="nav-item" onclick="showSection('deliverables')">Deliverables</div>
+    <div class="nav-item" onclick="showSection('tasks')">Task Allocation</div>
+    <div class="nav-item" onclick="showSection('team')">Team</div>
+  </div>
+</div>
+
+<!-- MAIN CONTAINER -->
+<div class="container">
+
+  <!-- ════════════════════════════════════════════════════════════════ -->
+  <!-- OVERVIEW -->
+  <!-- ════════════════════════════════════════════════════════════════ -->
+  <div id="overview" class="page-section active">
+    <div class="page-header">
+      <div class="header-meta">ME 575 · Group 4: Risk Ready</div>
+      <div class="header-meta">Irena Austin, Brayden Dahl, Jacob Cossaboon</div>
+      <div class="page-title">FairHire AI<br><em>Governance Project Report</em></div>
+      <div class="page-subtitle">GenAI application that is: compliant, bias-audited and meets the NYC Local Law 144 and EU AI Act requirements.</div>
+    </div>
+
+    <div class="page-content">
+      <div class="content-section">
+        <h2>Project Overview</h2>
+        <p>Our FairHire AI is a generative AI-powered application screening tool designed to help various organizations automate the initial review of resumes while ensuring compliance with employment law and bias mitigation requirements. Our system design combines resume screening, bias detection, and audit logging, human-in-the-loop to create a transparent, auditable hiring process.</p>
+
+        <div class="callout">
+          <div class="callout-title">Key Innovation</div>
+          <div class="callout-text">
+            FairHire AI uniquely integrates bias auditing, PII scrubbing, and explainable scoring directly into the application workflow. Unlike traditional ATS systems, every hiring decision is logged, bias is automatically detected, and human override is mandatory—ensuring humans remain in control.
+          </div>
+        </div>
+
+        <div class="card-grid">
+          <div class="card">
+            <h4>🎯 Primary Goal</h4>
+            <p>Accelerate candidate screening by 300% while reducing algorithmic bias through structured testing and continuous monitoring.</p>
+          </div>
+          <div class="card">
+            <h4>⚖️ Compliance Focus</h4>
+            <p>Meet NYC Local Law 144 (bias audit reporting), EU AI Act (high-risk system governance), and Title VII employment law requirements.</p>
+          </div>
+          <div class="card">
+            <h4>🔍 Unique Control</h4>
+            <p>PII scrubbing before ML inference, disparate impact ratio monitoring (EEOC 4/5ths rule), and immutable audit logs for every decision.</p>
+          </div>
+          <div class="card">
+            <h4>👥 Human-in-Loop</h4>
+            <p>AI recommends; humans decide. Recruiters must override or confirm every recommendation with documented reasoning.</p>
+          </div>
+        </div>
+
+        <div class="content-section">
+          <h3>Project Artifacts & Links</h3>
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Resource</th>
+                <th>Link</th>
+                <th>Purpose</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Test Application</strong></td>
+                <td><a href="https://fairhire-production-4782.up.railway.app/" target="_blank">FairHire AI Live</a></td>
+                <td>Functional MVP for bias testing and resume screening</td>
+              </tr>
+              <tr>
+                <td><strong>Code Repository</strong></td>
+                <td><a href="https://github.com/zyrirena/FairHire.git" target="_blank">GitHub Repo</a></td>
+                <td>Complete source code, deployment config, and documentation</td>
+              </tr>
+              <tr>
+                <td><strong>Technical Spec</strong></td>
+                <td><a href="Evidence/FairHireAI_Specifications.html" target="_blank">Spec Sheet</a></td>
+                <td>Architecture, data model, and tech stack details</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════════════════════════════ -->
+  <!-- PROBLEM CONTEXT -->
+  <!-- ════════════════════════════════════════════════════════════════ -->
+  <div id="problem" class="page-section">
+    <div class="page-header">
+      <div class="header-meta">Problem Definition</div>
+      <div class="page-title">The <em>Problem</em> Statement</div>
+      <div class="page-subtitle">Why FairHire AI exists and the problems it solves</div>
+    </div>
+
+    <div class="page-content">
+      <div class="content-section">
+        <h2>Operational Challenge</h2>
+        <p>Organizations with in-house recruitment teams struggle to review hundreds or thousands of resumes efficiently. Manual screening is:</p>
+        <ul>
+          <li><strong>Time-consuming:</strong> Recruiters spend 5–10 minutes per resume on initial screening</li>
+          <li><strong>Inconsistent:</strong> Different reviewers apply different standards, leading to unconscious bias</li>
+          <li><strong>Error-prone:</strong> Qualified candidates are missed; unqualified applicants advance</li>
+        </ul>
+
+        <h2>Compliance Challenge</h2>
+        <p>Hiring decisions increasingly face scrutiny from regulators and applicants. Without proper documentation and bias testing:</p>
+        <ul>
+          <li><strong>NYC Local Law 144:</strong> Requires annual bias audits for any AI used in hiring; penalties up to $1,000 per violation</li>
+          <li><strong>EU AI Act:</strong> Classifies hiring AI as high-risk; requires human review, bias testing, and governance documentation</li>
+          <li><strong>Title VII (Equal Employment Opportunity):</strong> Prohibits discrimination; requires evidence of non-discriminatory practices</li>
+          <li><strong>Disparate Impact Theory:</strong> Even well-intentioned systems can be illegal if outcomes show 4/5ths rule violations (e.g., selection rate 50% for one group vs. 65% for another)</li>
+        </ul>
+
+        <h2>FairHire AI Solution</h2>
+        <p>FairHire AI solves both problems by combining speed with compliance:</p>
+        <ul>
+          <li>Automatically scores resumes against job criteria (skills, experience, education, certifications)</li>
+          <li>Scrubs PII before scoring to reduce demographic bias</li>
+          <li>Continuously tests for adverse impact using EEOC 4/5ths rule</li>
+          <li>Logs every decision, override, and review for audit defense</li>
+          <li>Generates annual bias audit reports for regulatory compliance</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════════════════════════════ -->
+  <!-- STAKEHOLDERS -->
+  <!-- ════════════════════════════════════════════════════════════════ -->
+  <div id="stakeholders" class="page-section">
+    <div class="page-header">
+      <div class="header-meta">Multi-Stakeholder Governance</div>
+      <div class="page-title">Target Entity &<br><em>Stakeholders</em></div>
+      <div class="page-subtitle">Complete ecosystem of users, regulators, and oversight bodies</div>
+    </div>
+
+    <div class="page-content">
+      <div class="content-section">
+        <h2>Target Entity</h2>
+        <p>Medium to large organizations (500–5,000 employees) with in-house recruitment teams who screen 100+ applicants per month and are subject to NYC and/or EU employment regulations.</p>
+
+        <h2>External Regulatory Stakeholders</h2>
+
+        <div class="card-grid">
+          <div class="card">
+            <h4>NYC Department of Consumer & Worker Protection (DCWP)</h4>
+            <p>Enforces Local Law 144. Requires annual bias audit reports to be posted publicly. FairHire AI automatically generates and exports audit reports in required format.</p>
+          </div>
+          <div class="card">
+            <h4>EU AI Act Regulators</h4>
+            <p>Classify hiring AI as high-risk. Require technical documentation, logging, human oversight, and bias testing. FairHire AI includes full governance chain and audit trail.</p>
+          </div>
+          <div class="card">
+            <h4>EEOC (US Equal Employment Opportunity Commission)</h4>
+            <p>Enforces Title VII. Requires evidence of non-discriminatory hiring practices. FairHire AI logs disparate impact metrics and provides defense documentation.</p>
+          </div>
+          <div class="card">
+            <h4>Independent Auditors</h4>
+            <p>Required by NY Law 144 to conduct annual third-party bias audits. FairHire AI provides full audit trail, model documentation, and test results for independent verification.</p>
+          </div>
+        </div>
+
+        <h2>Internal Organizational Stakeholders</h2>
+
+        <div class="card-grid">
+          <div class="card">
+            <h4>Chief Human Resources Officer (CHRO)</h4>
+            <p>Business owner. Sets hiring strategy, approves job descriptions, reviews shortlists, and ensures fair hiring outcomes across the organization.</p>
+          </div>
+          <div class="card">
+            <h4>HR Specialists & Recruiters</h4>
+            <p>Primary users. Upload job descriptions, screen resumes, override recommendations with documented reasons, and manage candidate communication.</p>
+          </div>
+          <div class="card">
+            <h4>Legal Compliance Office</h4>
+            <p>Ensures regulatory alignment. Reviews governance policies, JD templates, audit reports, and responds to regulatory inquiries or candidate challenges.</p>
+          </div>
+          <div class="card">
+            <h4>Responsible AI Lead / Data Science</h4>
+            <p>Conducts bias testing, maintains model performance, documents fairness metrics, and alerts organization to drift or adverse impact.</p>
+          </div>
+        </div>
+
+        <div class="card-grid">
+          <div class="card">
+            <h4>Software Engineering Team</h4>
+            <p>Maintains application, ensures PII scrubber works correctly, updates LLM prompts, manages database retention policies (120-day deletion), and fixes bugs.</p>
+          </div>
+          <div class="card">
+            <h4>IT Security</h4>
+            <p>Prevents unauthorized data access, conducts security scans, ensures no API leakage, and monitors data residency compliance.</p>
+          </div>
+        </div>
+
+        <h2>External User Stakeholders</h2>
+
+        <div class="card-grid">
+          <div class="card">
+            <h4>Job Candidates</h4>
+            <p>Submit resumes and receive notifications of application status. Informed that review includes AI and have right to human review on appeal. Consent required before resume is processed.</p>
+          </div>
+          <div class="card">
+            <h4>Hiring Managers</h4>
+            <p>Review FairHire AI shortlists, make final hiring decisions, and document reasoning for all overrides or rejections.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════════════════════════════ -->
+  <!-- SYSTEM SCOPE -->
+  <!-- ════════════════════════════════════════════════════════════════ -->
+  <div id="scope" class="page-section">
+    <div class="page-header">
+      <div class="header-meta">System Architecture</div>
+      <div class="page-title">System <em>Scope</em> & Boundaries</div>
+      <div class="page-subtitle">MVP application with full compliance instrumentation</div>
+    </div>
+
+    <div class="page-content">
+      <div class="content-section">
+        <h2>Model & Infrastructure</h2>
+        <p><strong>AI Model:</strong> Claude 3 Haiku (claude-3-haiku-20240307) via Anthropic API<br>
+        <strong>Rationale:</strong> Fast, low-cost structured extraction; strong instruction following for resume parsing; Constitutional AI training reduces demographic bias.</p>
+
+        <h2>Data Inputs</h2>
+        <ul>
+          <li><strong>Resumes:</strong> User-uploaded PDFs and DOCX files (mime type & size validated)</li>
+          <li><strong>Job Descriptions:</strong> Stored in database with required skills, experience, education, and certifications</li>
+          <li><strong>Test Datasets:</strong> Kaggle Resume Dataset (200K candidates, 24 categories) + team-generated synthetic test resumes for bias testing</li>
+        </ul>
+
+        <h2>Core Workflow</h2>
+        <p>
+          <strong>Resume Ingestion Pipeline:</strong><br>
+          File upload → MIME/size validation → Text extraction (pdf-parse or mammoth) → PII scrubbing (10 regex categories) → Scrub validation → Database persistence
+        </p>
+        <p style="margin-top: 1rem;">
+          <strong>Screening Workflow:</strong><br>
+          Anonymized resume text + job criteria → Claude API → Structured JSON response → Validation for prohibited content → Score computation (skills 40pt, experience 35pt, education 15pt, certifications 10pt) → Results + prompt logged to database
+        </p>
+
+        <h2>AI Agents</h2>
+
+        <div class="card-grid">
+          <div class="card">
+            <h4>Bias Detection Agent</h4>
+            <p>Generates 6 synthetic resumes with identical qualifications but varying demographic name signals. Submits all six to Claude. Computes Disparate Impact Ratio (DIR) using EEOC 4/5ths rule. Flags if DIR < 0.80 for any protected group.</p>
+          </div>
+          <div class="card">
+            <h4>Selection Rate Monitor</h4>
+            <p>Continuous monitoring after each evaluation. Alerts if demographic selection rates diverge beyond threshold. Prevents shortlist advancement until reviewed.</p>
+          </div>
+          <div class="card">
+            <h4>Audit Logging Agent</h4>
+            <p>Captures every action (resume upload, score, override, appeal) with timestamp, user ID, and decision state. Immutable append-only design.</p>
+          </div>
+          <div class="card">
+            <h4>Compliance Export Agent</h4>
+            <p>Generates NYC Local Law 144 compliant PDF reports and JSON exports of audit artifacts for regulatory submission.</p>
+          </div>
+        </div>
+
+        <h2>User Roles & Access Control</h2>
+        <ul>
+          <li><strong>Administrator:</strong> Bias testing, compliance PDF export, audit log access, dataset loading</li>
+          <li><strong>HR Recruiter:</strong> Upload job descriptions, create jobs, screen resumes, correct/override ratings</li>
+          <li><strong>Applicant:</strong> Upload resume, delete profile, submit appeals</li>
+        </ul>
+
+        <h2>Human Review Points</h2>
+        <ul>
+          <li><strong>Consent Gate:</strong> Applicant must click "I consent" before resume is processed</li>
+          <li><strong>Recruiter Override:</strong> Required to decide: advance, hold, reject, or escalate to human review. Override logged with reason.</li>
+          <li><strong>Applicant Appeal:</strong> Users can appeal AI decisions. Recruiter reviews and responds (SLA: 10 business days).</li>
+          <li><strong>Bias Alert Review:</strong> If adverse impact detected, admin must manually review job criteria before continued use.</li>
+        </ul>
+
+        <h2>Outputs & Reports</h2>
+        <ul>
+          <li>Hiring Manager report with recommended resumes</li>
+          <li>Applicant list with scores and explanations</li>
+          <li>Bias audit report (quarterly)</li>
+          <li>NYC Local Law 144 compliance exports (PDF + JSON)</li>
+          <li>Audit trail (immutable logs of all decisions)</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════════════════════════════ -->
+  <!-- RISK FRAMING -->
+  <!-- ════════════════════════════════════════════════════════════════ -->
+  <div id="risk" class="page-section">
+    <div class="page-header">
+      <div class="header-meta">Risk Assessment</div>
+      <div class="page-title">Risk <em>Framing</em></div>
+      <div class="page-subtitle">Stage-by-stage risk identification and mitigation</div>
+    </div>
+
+    <div class="page-content">
+      <div class="content-section">
+        <h2>Design Stage Risks</h2>
+
+        <div class="card">
+          <h4>⚠️ Regulatory Misalignment Risk</h4>
+          <p>Misinterpreting NYC Local Law 144 or EU AI Act requirements could lead to non-compliance and penalties.</p>
+          <p style="margin-top: 0.75rem;"><strong>Mitigation:</strong> Legal review of all design documents. External compliance audit. Annual governance review.</p>
+        </div>
+
+        <h2>Build Stage Risks</h2>
+
+        <div class="card">
+          <h4>⚠️ Representative Data Risk</h4>
+          <p>Kaggle test resumes may not reflect current labor market or real hiring patterns. May not catch biases relevant to actual candidate pools.</p>
+          <p style="margin-top: 0.75rem;"><strong>Mitigation:</strong> Supplement Kaggle data with real anonymized resumes. Generate synthetic test resumes covering demographics and role types. Validate against historical hiring data.</p>
+        </div>
+
+        <div class="card">
+          <h4>⚠️ Historical Bias Risk</h4>
+          <p>Training data may perpetuate past discriminatory hiring patterns (e.g., gender bias in tech hiring).</p>
+          <p style="margin-top: 0.75rem;"><strong>Mitigation:</strong> Bias audit on test data before deployment. Fairness constraints in scoring. PII scrubbing before ML inference.</p>
+        </div>
+
+        <h2>Validation Stage Risks</h2>
+
+        <div class="card">
+          <h4>⚠️ Independent Testing Gaps</h4>
+          <p>Internal bias testing may miss edge cases or be insufficiently rigorous to satisfy regulators.</p>
+          <p style="margin-top: 0.75rem;"><strong>Mitigation:</strong> External third-party bias audit. Test against EEOC 4/5ths rule. Document all test results.</p>
+        </div>
+
+        <h2>Deployment Stage Risks</h2>
+
+        <div class="card">
+          <h4>⚠️ Legal Liability Risk</h4>
+          <p>Incorrect scoring could expose organization to discrimination lawsuits, EEOC complaints, or regulatory penalties.</p>
+          <p style="margin-top: 0.75rem;"><strong>Mitigation:</strong> Explainable scores with audit trail. Human override mandatory. Adverse impact monitoring. Insurance coverage.</p>
+        </div>
+
+        <div class="card">
+          <h4>⚠️ Data Privacy Risk</h4>
+          <p>Resumes contain sensitive PII (address, phone, graduation year, etc.). Breach could violate GDPR/CCPA and harm applicants.</p>
+          <p style="margin-top: 0.75rem;"><strong>Mitigation:</strong> PII scrubbing before ML. Encryption at rest (S3/database). 120-day data deletion policy. Access controls.</p>
+        </div>
+
+        <div class="card">
+          <h4>⚠️ Prompt Injection Risk</h4>
+          <p>Malicious resume content (crafted to break JSON parsing) could cause system errors or bypass guardrails.</p>
+          <p style="margin-top: 0.75rem;"><strong>Mitigation:</strong> Input validation. JSON schema enforcement. Error handling for malformed responses. Security scanning.</p>
+        </div>
+
+        <h2>Operating Stage Risks</h2>
+
+        <div class="card">
+          <h4>⚠️ Audit Failure Risk</h4>
+          <p>Missing logs or incomplete audit trail could fail regulatory inspection. Data loss could create compliance gaps.</p>
+          <p style="margin-top: 0.75rem;"><strong>Mitigation:</strong> Immutable append-only audit logs. Daily backups. Monthly audit log review. Automated alerts for missing data.</p>
+        </div>
+
+        <div class="card">
+          <h4>⚠️ Model Drift Risk</h4>
+          <p>Resume formats, job markets, and candidate pools change over time. Model performance may degrade or bias may increase.</p>
+          <p style="margin-top: 0.75rem;"><strong>Mitigation:</strong> Continuous monitoring dashboards. Monthly bias metric reviews. Quarterly retraining. Alert thresholds.</p>
+        </div>
+
+        <h2>Evolution Stage Risks</h2>
+
+        <div class="card">
+          <h4>⚠️ Regulatory Change Risk</h4>
+          <p>New laws or regulatory guidance (e.g., state AI bills) could require system changes. Failure to adapt could trigger non-compliance.</p>
+          <p style="margin-top: 0.75rem;"><strong>Mitigation:</strong> Legal team monitors regulatory landscape. Annual governance framework review. Policy update process. Staff retraining on changes.</p>
+        </div>
+
+        <h2>Key Risk Management Priorities</h2>
+        <div style="margin-top: 1.5rem;">
+          <span class="pill">Bias Audit</span>
+          <span class="pill">Data Integrity</span>
+          <span class="pill">Remove Proxy Variables</span>
+          <span class="pill">Secure PII</span>
+          <span class="pill">Prompt Injection Prevention</span>
+          <span class="pill">Data Drift Monitoring</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════════════════════════════ -->
+  <!-- GOVERNANCE & OPERATING MODEL -->
+  <!-- ════════════════════════════════════════════════════════════════ -->
+  <div id="governance" class="page-section">
+    <div class="page-header">
+      <div class="header-meta">Governance & Operations</div>
+      <div class="page-title">Operating Model &<br><em>Governance Design</em></div>
+      <div class="page-subtitle">Control architecture and policy-to-control translation</div>
+    </div>
+
+    <div class="page-content">
+      <div class="content-section">
+        <h2>Governance Principles</h2>
+        <p>FairHire AI operates under three core principles:</p>
+        <ul>
+          <li><strong>Transparency:</strong> Every decision is logged and explained. Users see why they were scored and how.</li>
+          <li><strong>Accountability:</strong> Clear roles and escalation paths. Humans make final hiring decisions; AI provides recommendations.</li>
+          <li><strong>Compliance:</strong> Built-in audit trails, bias testing, and regulatory export for NY 144 and EU AI Act.</li>
+        </ul>
+
+        <h2>Control Architecture</h2>
+
+        <h3>Preventive Controls</h3>
+        <ul>
+          <li><strong>PII Scrubbing:</strong> Remove name, address, graduation year, photos before ML scoring. Reduces demographic signal leakage.</li>
+          <li><strong>Job Description Governance:</strong> Legal review of JDs before entry. Avoid coded language that signals demographics.</li>
+          <li><strong>Fairness Constraints:</strong> Scoring weighted to prioritize skills and experience over proxy signals.</li>
+        </ul>
+
+        <h3>Detective Controls</h3>
+        <ul>
+          <li><strong>Continuous Adverse Impact Monitoring:</strong> After each screening batch, check 4/5ths rule. Alert if violation detected.</li>
+          <li><strong>Immutable Audit Logs:</strong> Every action logged with timestamp and user ID. Logs cannot be modified retroactively.</li>
+          <li><strong>Quarterly Bias Audits:</strong> Formal statistical analysis of selection rates across protected groups. Report to leadership.</li>
+        </ul>
+
+        <h3>Corrective Controls</h3>
+        <ul>
+          <li><strong>Override Documentation:</strong> Any deviation from AI recommendation must be documented with reason. Patterns reviewed quarterly.</li>
+          <li><strong>Escalation Process:</strong> Bias alerts block shortlist advancement until CHRO reviews and approves.</li>
+          <li><strong>Incident Response:</strong> Bias allegations trigger investigation and remediation plan within 48 hours.</li>
+        </ul>
+
+        <h2>Operating Model Roles</h2>
+
+        <div class="card-grid">
+          <div class="card">
+            <h4>CHRO / Head of Talent (Business Owner)</h4>
+            <p>Owns hiring strategy and fair outcomes. Reviews shortlists, bias reports, and approves high-impact overrides. Accountable for compliance.</p>
+          </div>
+          <div class="card">
+            <h4>HR Specialists / Recruiters (Users)</h4>
+            <p>Screen resumes using FairHire AI. Document overrides. Manage candidate communication. Required to complete annual bias training.</p>
+          </div>
+          <div class="card">
+            <h4>Legal / Compliance Officer</h4>
+            <p>Reviews policies, job descriptions, and audit reports. Ensures regulatory alignment. Responds to candidate appeals and regulatory inquiries.</p>
+          </div>
+          <div class="card">
+            <h4>Responsible AI Lead / Data Science</h4>
+            <p>Conducts bias audits, maintains fairness metrics, alerts to model drift, and documents test results for audit defense.</p>
+          </div>
+        </div>
+
+        <h2>Decision Authority Matrix</h2>
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Decision</th>
+              <th>Authority</th>
+              <th>Input Required</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Job description approval (before use)</td>
+              <td>Legal + CHRO</td>
+              <td>HR, Data Science (bias review)</td>
+            </tr>
+            <tr>
+              <td>Advance candidate from shortlist</td>
+              <td>Recruiter</td>
+              <td>FairHire AI score, explanation</td>
+            </tr>
+            <tr>
+              <td>Override/reject top-ranked candidate</td>
+              <td>Recruiter + CHRO (documented)</td>
+              <td>FairHire AI score, documented reason</td>
+            </tr>
+            <tr>
+              <td>Approve shortlist after bias alert</td>
+              <td>CHRO</td>
+              <td>Responsible AI Lead assessment</td>
+            </tr>
+            <tr>
+              <td>Respond to bias allegation</td>
+              <td>Legal + CHRO</td>
+              <td>Audit logs, bias audit results</td>
+            </tr>
+            <tr>
+              <td>Update system policies</td>
+              <td>CHRO + Legal</td>
+              <td>Data Science feedback, regulatory guidance</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h2>Escalation Procedures</h2>
+
+        <div class="card">
+          <h4>Bias Alert (4/5ths Rule Violation)</h4>
+          <p><strong>Trigger:</strong> Selection rate for any protected group < 80% of highest rate.<br>
+          <strong>Action:</strong> Shortlist held. CHRO notified. Responsible AI Lead provides assessment. Shortlist cannot advance without CHRO sign-off.<br>
+          <strong>SLA:</strong> 4 hours for assessment and decision.</p>
+        </div>
+
+        <div class="card">
+          <h4>Candidate Bias Allegation</h4>
+          <p><strong>Trigger:</strong> Candidate claims discrimination in FairHire AI screening.<br>
+          <strong>Action:</strong> Legal notified immediately. Appeal logged. Investigation conducted. Candidate receives written response.<br>
+          <strong>SLA:</strong> 10 business days for substantive response.</p>
+        </div>
+
+        <div class="card">
+          <h4>Model Performance Degradation</h4>
+          <p><strong>Trigger:</strong> Accuracy drops > 5%, or bias metrics diverge significantly.<br>
+          <strong>Action:</strong> Alert to Data Science. Investigation into root cause. Potential retraining or rollback to prior version.<br>
+          <strong>SLA:</strong> Assessment within 48 hours. Remediation within 2 weeks.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════════════════════════════ -->
+  <!-- DATA PLAN -->
+  <!-- ════════════════════════════════════════════════════════════════ -->
+  <div id="data" class="page-section">
+    <div class="page-header">
+      <div class="header-meta">Data Strategy</div>
+      <div class="page-title">Data Plan,<br><em>Risks & Fallbacks</em></div>
+      <div class="page-subtitle">Data sources, quality assurance, and contingency planning</div>
+    </div>
+
+    <div class="page-content">
+      <div class="content-section">
+        <h2>Primary Data Sources</h2>
+
+        <div class="card">
+          <h4>Kaggle Resume Dataset</h4>
+          <p><strong>Source:</strong> Resume Screening Dataset (200K candidates) from LiveCareer.com (web-scraped)<br>
+          <strong>Coverage:</strong> 24 job categories: HR, Designer, IT, Teacher, Healthcare, Finance, Engineering, etc.<br>
+          <strong>Use:</strong> Initial training and bias testing. Anonymized resumes for synthetic demographic testing.</p>
+        </div>
+
+        <div class="card">
+          <h4>Team-Generated Test Resumes</h4>
+          <p><strong>Source:</strong> Group 4 creates synthetic resumes with controlled demographic variations<br>
+          <strong>Purpose:</strong> Bias audit. Six resumes with identical skills but different name signals to test for disparate impact.<br>
+          <strong>Coverage:</strong> Engineering, HR, Finance, Sales, and other key roles.</p>
+        </div>
+
+        <div class="card">
+          <h4>Real Anonymized Resumes (Future)</h4>
+          <p><strong>Source:</strong> Organization's historical hiring data (with PII removed)<br>
+          <strong>Purpose:</strong> Post-launch validation. Verify model performance on real candidate pools.<br>
+          <strong>Governance:</strong> GDPR/CCPA compliant. Requires consent or anonymization. Legal review required.</p>
+        </div>
+
+        <h2>Data Quality Assurance</h2>
+
+        <h3>Resume Quality Checks</h3>
+        <ul>
+          <li>File format validation (PDF, DOCX only)</li>
+          <li>File size limits (< 10 MB)</li>
+          <li>Text extraction validation (ensure text is readable, not corrupted)</li>
+          <li>PII detection and removal (10+ regex patterns)</li>
+          <li>Length validation (must contain extractable text)</li>
+        </ul>
+
+        <h3>Job Description Quality Checks</h3>
+        <ul>
+          <li>Completeness: required skills, experience, education, certifications populated</li>
+          <li>Bias review: avoid coded language (e.g., "digital native", "team fit")</li>
+          <li>Legal review: ensure JD complies with employment law</li>
+        </ul>
+
+        <h3>Scoring Validation</h3>
+        <ul>
+          <li>JSON schema validation on Claude response</li>
+          <li>Score range validation (0–100)</li>
+          <li>Weight verification (40+35+15+10 = 100%)</li>
+          <li>Spot check: manual review of 5–10 scored resumes weekly</li>
+        </ul>
+
+        <h2>Data Retention & Privacy</h2>
+
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Data Type</th>
+              <th>Retention Period</th>
+              <th>Deletion Method</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Raw resume files (PDFs/DOCX)</td>
+              <td>7 years (legal hold)</td>
+              <td>Encrypted in S3; deleted via lifecycle policy</td>
+            </tr>
+            <tr>
+              <td>Extracted resume data (anonymized)</td>
+              <td>120 days post-hire/no-hire</td>
+              <td>Database deletion; Pinecone namespace deletion</td>
+            </tr>
+            <tr>
+              <td>Audit logs</td>
+              <td>3 years (compliance)</td>
+              <td>Archived offline after 1 year</td>
+            </tr>
+            <tr>
+              <td>Bias audit reports</td>
+              <td>Indefinite (regulatory requirement)</td>
+              <td>Stored securely; PII references removed</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h2>Data Risks & Mitigations</h2>
+
+        <div class="card">
+          <h4>🔴 Risk: Historical Bias in Training Data</h4>
+          <p><strong>Impact:</strong> Model perpetuates past discriminatory patterns.<br>
+          <strong>Mitigation:</strong> Bias audit on Kaggle data before use. Remove correlated proxy variables. Fairness constraints in scoring. PII scrubbing.</p>
+        </div>
+
+        <div class="card">
+          <h4>🔴 Risk: Unrepresentative Test Data</h4>
+          <p><strong>Impact:</strong> Model may not generalize to real candidate pools.<br>
+          <strong>Mitigation:</strong> Supplement Kaggle with team-generated synthetic data. Post-launch validation on real anonymized data. Continuous monitoring.</p>
+        </div>
+
+        <div class="card">
+          <h4>🔴 Risk: Data Breach / PII Exposure</h4>
+          <p><strong>Impact:</strong> Unauthorized access to resumes; GDPR/CCPA violations; candidate harm.<br>
+          <strong>Mitigation:</strong> Encryption at rest (S3, database). TLS in transit. Access controls (RBAC). PII scrubbing before ML. 120-day deletion. Regular security audits.</p>
+        </div>
+
+        <div class="card">
+          <h4>🟡 Risk: Data Quality Degradation</h4>
+          <p><strong>Impact:</strong> Poor quality resumes or JDs lead to inaccurate scores.<br>
+          <strong>Mitigation:</strong> Automated quality checks on upload. Manual spot-check weekly. Clear user guidelines. Data validation on extraction.</p>
+        </div>
+
+        <h2>Fallback Plan</h2>
+
+        <div class="callout">
+          <div class="callout-title">Data Loss Scenario</div>
+          <div class="callout-text">
+            <strong>Scenario:</strong> Database corruption or ransomware attack.<br>
+            <strong>Fallback:</strong> Restore from daily encrypted backups (max 24-hour lag). Notify CHRO, legal, and affected candidates. Pause new screening until verified clean. Audit logs restored separately from immutable offsite archive.
+          </div>
+        </div>
+
+        <div class="callout">
+          <div class="callout-title">Model Degradation Scenario</div>
+          <div class="callout-text">
+            <strong>Scenario:</strong> Bias detected in Claude API version update.<br>
+            <strong>Fallback:</strong> Rollback to prior tested version. Pause new screening. Retest and retrain if needed. Notify CHRO of issue. Report to regulators if adverse impact detected in shortlists.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════════════════════════════ -->
+  <!-- TOOL STACK -->
+  <!-- ════════════════════════════════════════════════════════════════ -->
+  <div id="toolstack" class="page-section">
+    <div class="page-header">
+      <div class="header-meta">Technology</div>
+      <div class="page-title">Tool Stack &<br><em>Integration</em></div>
+      <div class="page-subtitle">Complete tech architecture with justification</div>
+    </div>
+
+    <div class="page-content">
+      <div class="content-section">
+        <h2>Core Architecture</h2>
+
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Component</th>
+              <th>Technology</th>
+              <th>Purpose</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Frontend UI</strong></td>
+              <td>React, TypeScript, Tailwind CSS</td>
+              <td>Resume upload, job screening, bias reports, admin dashboard</td>
+            </tr>
+            <tr>
+              <td><strong>Backend API</strong></td>
+              <td>Node.js + Express (or FastAPI in Python)</td>
+              <td>Resume processing, scoring, audit logging, regulatory exports</td>
+            </tr>
+            <tr>
+              <td><strong>Database</strong></td>
+              <td>PostgreSQL</td>
+              <td>Resume data, job descriptions, scores, audit logs, user profiles</td>
+            </tr>
+            <tr>
+              <td><strong>File Storage</strong></td>
+              <td>AWS S3 (encrypted)</td>
+              <td>Original resume PDFs/DOCX files (raw, not processed)</td>
+            </tr>
+            <tr>
+              <td><strong>LLM API</strong></td>
+              <td>Claude 3 Haiku (Anthropic)</td>
+              <td>Structured resume extraction, scoring explanation generation</td>
+            </tr>
+            <tr>
+              <td><strong>Deployment</strong></td>
+              <td>Railway.app (current MVP)</td>
+              <td>Containerized app deployment with auto-scaling</td>
+            </tr>
+            <tr>
+              <td><strong>Monitoring</strong></td>
+              <td>DataDog or CloudWatch</td>
+              <td>API latency, error rates, bias metrics, audit log integrity</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h2>Why These Choices?</h2>
+
+        <div class="card">
+          <h4>Claude 3 Haiku (LLM)</h4>
+          <p><strong>Why:</strong> Fast, low-cost, structured JSON output, strong instruction following. Constitutional AI training reduces demographic bias vs. base models. Smaller context fits within HIPAA/GDPR requirements for no model training on user data.</p>
+        </div>
+
+        <div class="card">
+          <h4>PostgreSQL (Database)</h4>
+          <p><strong>Why:</strong> Mature, reliable, supports ACID transactions (critical for audit integrity). Audit logs are immutable append-only tables. Strong encryption and access control options.</p>
+        </div>
+
+        <div class="card">
+          <h4>AWS S3 (File Storage)</h4>
+          <p><strong>Why:</strong> Enterprise-grade encryption, bucket policies, versioning. Original resume files stored encrypted and separate from processed data. Lifecycle policies enable 7-year retention and automated deletion.</p>
+        </div>
+
+        <div class="card">
+          <h4>React Frontend</h4>
+          <p><strong>Why:</strong> Component reusability for resume cards, score widgets, bias dashboards. TypeScript prevents type-related bugs during rapid development.</p>
+        </div>
+
+        <h2>Integration Justification</h2>
+
+        <h3>Resume Parsing</h3>
+        <p><strong>Tools:</strong> pdf-parse (PDF) + mammoth (DOCX)<br>
+        <strong>Justification:</strong> Open-source, lightweight. Extract text preserves minimal structure; sufficient for regex PII scrubbing and LLM extraction.</p>
+
+        <h3>PII Scrubbing</h3>
+        <p><strong>Approach:</strong> Regex patterns (10+ categories: name, address, phone, email, DOB, graduation year, photo references)<br>
+        <strong>Justification:</strong> Deterministic, interpretable, and auditable. No ML model needed. Ensures PII never reaches Claude API.</p>
+
+        <h3>Bias Testing</h3>
+        <p><strong>Method:</strong> Disparate Impact Ratio (EEOC 4/5ths rule). Synthetic resume generation with demographic name variations.<br>
+        <strong>Justification:</strong> EEOC standard. Defensible in legal/regulatory contexts. Automated and continuous.</p>
+
+        <h3>Audit Logging</h3>
+        <p><strong>Approach:</strong> Immutable append-only PostgreSQL table. Payload hashed (not stored as PII).<br>
+        <strong>Justification:</strong> Tamper-evident. Satisfies GDPR/CCPA audit requirements. Queryable for compliance investigations.</p>
+
+        <h2>Deployment Rationale</h2>
+
+        <p><strong>Current: Railway.app</strong><br>
+        MVP deployment. Fast setup, built-in PostgreSQL, easy scaling, good for testing.</p>
+
+        <p style="margin-top: 1rem;"><strong>Production Option: AWS ECS</strong><br>
+        Enterprise deployment. Full VPC isolation, compliance certifications (SOC 2), CloudTrail audit logging, multi-region support.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════════════════════════════ -->
+  <!-- IMPLEMENTATION PLAN -->
+  <!-- ════════════════════════════════════════════════════════════════ -->
+  <div id="implementation" class="page-section">
+    <div class="page-header">
+      <div class="header-meta">Delivery Plan</div>
+      <div class="page-title">Implementation<br><em>Plan</em></div>
+      <div class="page-subtitle">Phased approach to MVP and production deployment</div>
+    </div>
+
+    <div class="page-content">
+      <div class="content-section">
+        <h2>Implementation Strategy</h2>
+
+        <p>FairHire AI is built with governance integrated at every stage. Rather than bolting on compliance after development, we embed:</p>
+        <ul>
+          <li><strong>Bias testing</strong> in the development pipeline (pre-deployment)</li>
+          <li><strong>Audit logging</strong> from day one (immutable decision trail)</li>
+          <li><strong>Human review</strong> mandatory at key gates (recruiter override, bias alert approval)</li>
+          <li><strong>Regulatory exports</strong> automated (NYC 144 reports, EU AI Act documentation)</li>
+        </ul>
+
+        <h2>Benchmark Gates</h2>
+
+        <p>No feature is released without passing these governance benchmarks:</p>
+
+        <div class="card">
+          <h4>✓ PII Scrubber: 100% Accuracy</h4>
+          <p>Regex patterns tested against 1000+ resume samples. False negative rate (missed PII) < 1%. Manual audit weekly.</p>
+        </div>
+
+        <div class="card">
+          <h4>✓ Bias Testing: 0.80 Disparate Impact Ratio (4/5ths Rule)</h4>
+          <p>If any protected group has selection rate < 80% of highest group, release blocked. Must debug and retest.</p>
+        </div>
+
+        <div class="card">
+          <h4>✓ Security Scan: Zero API Leakage</h4>
+          <p>Code scanned for hardcoded credentials, API key exposure, PII in logs. Required before each production release.</p>
+        </div>
+
+        <div class="card">
+          <h4>✓ Audit Trail: Complete Decision Logging</h4>
+          <p>Every action logged: resume upload timestamp, user ID, score, override reason, timestamp. Immutable after write.</p>
+        </div>
+
+        <div class="card">
+          <h4>✓ Human-in-Loop: Mandatory Confirmation</h4>
+          <p>Recruiters must explicitly confirm or override every recommendation. No batch auto-advance. All overrides documented.</p>
+        </div>
+
+        <h2>Governance Artifacts (Built-In)</h2>
+
+        <ul>
+          <li><strong>SR 11-7 Style Model Inventory:</strong> Catalog of all ML/AI models, versions, training data, performance metrics</li>
+          <li><strong>Risk-Tiering Algorithm:</strong> Classifies hiring AI as "high-risk" with documented justification</li>
+          <li><strong>Bias Testing Dashboard:</strong> Real-time view of selection rates, disparate impact alerts, audit logs</li>
+          <li><strong>Automated Release Gate Workflow:</strong> No deployment until benchmarks passed + human approval</li>
+        </ul>
+
+        <h2>Regulatory Compliance Roadmap</h2>
+
+        <h3>NYC Local Law 144 Compliance</h3>
+        <ul>
+          <li>Annual bias audit (independent third-party)</li>
+          <li>Public posting of bias audit results</li>
+          <li>Algorithm transparency notice to candidates</li>
+          <li>Right to human review on appeal</li>
+        </ul>
+
+        <h3>EU AI Act Compliance (High-Risk)</h3>
+        <ul>
+          <li>Technical documentation (model card, data sheets)</li>
+          <li>Human oversight procedures (CHRO sign-off on bias alerts)</li>
+          <li>Adverse impact monitoring (continuous 4/5ths rule checking)</li>
+          <li>Audit trail and explainability (decision logs, score explanations)</li>
+        </ul>
+
+        <h3>Title VII / EEOC Compliance</h3>
+        <ul>
+          <li>Disparate impact testing (EEOC 4/5ths rule)</li>
+          <li>Documentation of non-discriminatory intent</li>
+          <li>Audit defense package (test results, policy documentation)</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════════════════════════════ -->
+  <!-- VALIDATION PLAN -->
+  <!-- ════════════════════════════════════════════════════════════════ -->
+  <div id="validation" class="page-section">
+    <div class="page-header">
+      <div class="header-meta">Quality Assurance</div>
+      <div class="page-title">Validation &<br><em>Assurance Design</em></div>
+      <div class="page-subtitle">Testing strategy and sign-off criteria</div>
+    </div>
+
+    <div class="page-content">
+      <div class="content-section">
+        <h2>Validation Framework</h2>
+
+        <h3>Unit Testing (Code Level)</h3>
+        <ul>
+          <li>PII scrubber: test 100+ regex patterns against known PII examples</li>
+          <li>Score computation: test weight calculation (40+35+15+10 = 100)</li>
+          <li>JSON parsing: test malformed responses, missing fields, type validation</li>
+          <li>Database queries: test audit log writes, immutability, query performance</li>
+        </ul>
+
+        <h3>Integration Testing (End-to-End)</h3>
+        <ul>
+          <li>Resume upload → text extraction → PII scrubbing → Claude API → scoring → database write</li>
+          <li>Override workflow: recruiter decision → audit log → email notification</li>
+          <li>Bias alert workflow: selection rates calculated → 4/5ths rule check → escalation to CHRO</li>
+        </ul>
+
+        <h3>Bias Testing (Model Fairness)</h3>
+        <ul>
+          <li><strong>Disparate Impact Testing:</strong> Generate 6 synthetic resumes (identical skills, different demographic names). Compute selection rate ratio for each group. Pass if all ratios ≥ 0.80.</li>
+          <li><strong>Fairness Metrics:</strong> Measure demographic parity, equalized odds, and predictive parity across gender, race, age, and disability proxies.</li>
+          <li><strong>Edge Case Testing:</strong> Underrepresented groups, non-traditional career paths, gaps in resume, etc.</li>
+        </ul>
+
+        <h3>Security Testing</h3>
+        <ul>
+          <li>Penetration testing (authorized security scan)</li>
+          <li>API key/credential scanning (code review, secret detection)</li>
+          <li>PII leakage test (prompt injection with PII in resume text)</li>
+          <li>Access control validation (RBAC testing)</li>
+        </ul>
+
+        <h3>Compliance Testing</h3>
+        <ul>
+          <li>Audit log completeness: verify every action logged with timestamp and user ID</li>
+          <li>Data deletion verification: confirm GDPR "right to erasure" works end-to-end</li>
+          <li>Regulatory export validation: NYC 144 report format, required fields</li>
+        </ul>
+
+        <h2>Sign-Off Criteria</h2>
+
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Component</th>
+              <th>Test Requirement</th>
+              <th>Sign-Off Authority</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>PII Scrubber</td>
+              <td>False negative rate < 1% on 1000-sample validation set</td>
+              <td>Data Science Lead</td>
+            </tr>
+            <tr>
+              <td>Bias Audit</td>
+              <td>Disparate Impact Ratio ≥ 0.80 for all protected groups</td>
+              <td>Responsible AI Lead + Legal</td>
+            </tr>
+            <tr>
+              <td>Scoring Algorithm</td>
+              <td>100% of scores fall within valid range (0–100); weights sum to 100</td>
+              <td>ML Engineering Lead</td>
+            </tr>
+            <tr>
+              <td>Security Scan</td>
+              <td>Zero critical or high-severity vulnerabilities; no API keys exposed</td>
+              <td>IT Security Lead</td>
+            </tr>
+            <tr>
+              <td>Audit Trail</td>
+              <td>100% of actions logged with timestamp, user ID, decision state</td>
+              <td>Compliance Officer</td>
+            </tr>
+            <tr>
+              <td>Human-in-Loop</td>
+              <td>All overrides documented; no batch auto-advance observed</td>
+              <td>CHRO / QA Lead</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h2>Test Data Strategy</h2>
+
+        <ul>
+          <li><strong>Kaggle Dataset:</strong> 24 job categories, 200K+ candidates for representative testing</li>
+          <li><strong>Synthetic Resumes:</strong> Team-generated with controlled demographic variations for bias testing</li>
+          <li><strong>Edge Cases:</strong> Career gaps, job-switching, multiple languages, industry transitions</li>
+          <li><strong>Real Anonymized Data (Post-Launch):</strong> Validate on organization's historical hiring data</li>
+        </ul>
+
+        <h2>Continuous Validation (Post-Launch)</h2>
+
+        <ul>
+          <li><strong>Daily:</strong> Monitor bias metrics dashboard. Alert on drift.</li>
+          <li><strong>Weekly:</strong> Manual spot-check of 5–10 scored resumes.</li>
+          <li><strong>Monthly:</strong> Review override patterns. Escalate if systematic bias detected.</li>
+          <li><strong>Quarterly:</strong> Formal bias audit. Report to leadership and board.</li>
+          <li><strong>Annually:</strong> Independent third-party audit. Public compliance report.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════════════════════════════ -->
+  <!-- DELIVERABLES -->
+  <!-- ════════════════════════════════════════════════════════════════ -->
+  <div id="deliverables" class="page-section">
+    <div class="page-header">
+      <div class="header-meta">Project Deliverables</div>
+      <div class="page-title">Milestones &<br><em>Deliverables</em></div>
+      <div class="page-subtitle">Working application and documentation artifacts</div>
+    </div>
+
+    <div class="page-content">
+      <div class="content-section">
+        <h2>Live Application</h2>
+
+        <div class="card">
+          <h4>🚀 FairHire AI MVP</h4>
+          <p><strong>URL:</strong> <a href="https://fairhire-production-4782.up.railway.app/" target="_blank">https://fairhire-production-4782.up.railway.app/</a></p>
+          <p><strong>Features:</strong> Resume upload, job screening, bias detection, audit logs, compliance export</p>
+          <p><strong>Status:</strong> Live on Railway.app</p>
+        </div>
+
+        <h2>Code & Documentation</h2>
+
+        <div class="card">
+          <h4>📦 GitHub Repository</h4>
+          <p><strong>URL:</strong> <a href="https://github.com/zyrirena/FairHire.git" target="_blank">https://github.com/zyrirena/FairHire.git</a></p>
+          <p><strong>Contains:</strong> Full source code, deployment config, README with setup instructions</p>
+        </div>
+
+        <h2>Governance & Technical Documentation</h2>
+
+        <div class="card">
+          <h4>📄 Technical Specifications Sheet</h4>
+          <p><strong>Purpose:</strong> Complete tech stack, data model, API endpoints, and architecture diagrams</p>
+        </div>
+
+        <div class="card">
+          <h4>⚖️ Governance Framework</h4>
+          <p><strong>Purpose:</strong> Roles, responsibilities, control architecture, and escalation procedures</p>
+        </div>
+
+        <div class="card">
+          <h4>📊 Bias Audit Report</h4>
+          <p><strong>Purpose:</strong> Quarterly bias testing results, disparate impact analysis, compliance attestation</p>
+        </div>
+
+        <div class="card">
+          <h4>📋 Model Inventory Card</h4>
+          <p><strong>Purpose:</strong> SR 11-7 style documentation of AI model (Claude 3 Haiku), training data, performance metrics</p>
+        </div>
+
+        <div class="card">
+          <h4>🔐 Data Privacy & Security Plan</h4>
+          <p><strong>Purpose:</strong> PII handling, encryption, access controls, data deletion procedures (GDPR/CCPA compliant)</p>
+        </div>
+
+        <h2>Compliance Artifacts</h2>
+
+        <ul>
+          <li><strong>NYC Local Law 144 Compliance Report:</strong> Annual bias audit results, algorithm transparency notice</li>
+          <li><strong>EU AI Act Documentation:</strong> Technical documentation, risk assessment, governance procedures</li>
+          <li><strong>EEOC Adverse Impact Testing:</strong> Disparate Impact Ratio results, 4/5ths rule analysis</li>
+          <li><strong>Audit Defense Package:</strong> Complete logs, test results, policy documentation for regulatory inquiries</li>
+        </ul>
+
+        <h2>Project Milestones</h2>
+
+        <div class="card-grid">
+          <div class="card">
+            <h4>✓ MVP Development</h4>
+            <p>Core application with resume screening, bias detection, audit logging. Code on GitHub. Deployed on Railway.</p>
+          </div>
+          <div class="card">
+            <h4>✓ Governance Framework</h4>
+            <p>Complete documentation of roles, controls, policies, and escalation procedures.</p>
+          </div>
+          <div class="card">
+            <h4>✓ Bias Testing & Validation</h4>
+            <p>Formal bias audit, disparate impact analysis, sign-off from Data Science and Legal.</p>
+          </div>
+          <div class="card">
+            <h4>📋 Compliance Certification</h4>
+            <p>Independent audit of NY 144 and EU AI Act compliance. Public compliance report (future).</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════════════════════════════ -->
+  <!-- TASKS -->
+  <!-- ════════════════════════════════════════════════════════════════ -->
+  <div id="tasks" class="page-section">
+    <div class="page-header">
+      <div class="header-meta">Project Management</div>
+      <div class="page-title">Task <em>Allocation</em></div>
+      <div class="page-subtitle">Team responsibilities and deadlines</div>
+    </div>
+
+    <div class="page-content">
+      <div class="content-section">
+        <h2>Task Status & Assignments</h2>
+
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Status</th>
+              <th>Task</th>
+              <th>Assigned To</th>
+              <th>Deadline</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><span class="status-badge status-checked">✓ Done</span></td>
+              <td>Set up Repository</td>
+              <td>Irena Austin</td>
+              <td>2026-04-20</td>
+            </tr>
+            <tr>
+              <td><span class="status-badge status-pending">⏳ Pending</span></td>
+              <td>Model Training & Bias Testing</td>
+              <td>Irena Austin</td>
+              <td>2026-04-20</td>
+            </tr>
+            <tr>
+              <td><span class="status-badge status-pending">⏳ Pending</span></td>
+              <td>Regulatory Compliance Review</td>
+              <td>Jacob Cossaboon</td>
+              <td>2026-04-20</td>
+            </tr>
+            <tr>
+              <td><span class="status-badge status-checked">✓ Done</span></td>
+              <td>Documentation & Project Report</td>
+              <td>Bryden Dahl</td>
+              <td>2026-04-20</td>
+            </tr>
+            <tr>
+              <td><span class="status-badge status-checked">✓ Done</span></td>
+              <td>MVP Application Deployment</td>
+              <td>Irena Austin</td>
+              <td>2026-04-20</td>
+            </tr>
+            <tr>
+              <td><span class="status-badge status-pending">⏳ Pending</span></td>
+              <td>Governance Framework Documentation</td>
+              <td>Jacob Cossaboon</td>
+              <td>2026-04-20</td>
+            </tr>
+            <tr>
+              <td><span class="status-badge status-pending">⏳ Pending</span></td>
+              <td>Final Technical Specification</td>
+              <td>Bryden Dahl</td>
+              <td>2026-04-20</td>
+            </tr>
+            <tr>
+              <td><span class="status-badge status-checked">✓ Done</span></td>
+              <td>Test & Validation</td>
+              <td>Irena Austin</td>
+              <td>2026-04-20</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════════════════════════════ -->
+  <!-- TEAM -->
+  <!-- ════════════════════════════════════════════════════════════════ -->
+  <div id="team" class="page-section">
+    <div class="page-header">
+      <div class="header-meta">Project Team</div>
+      <div class="page-title">Team<br><em>Members</em></div>
+      <div class="page-subtitle">Group 4: Risk Ready</div>
+    </div>
+
+    <div class="page-content">
+      <div class="content-section">
+        <h2>Group Members</h2>
+
+        <div class="card-grid">
+          <div class="card">
+            <h4>Irena Austin</h4>
+            <p><strong>Role:</strong> Lead Engineer & Data Science<br>
+            <strong>Responsibilities:</strong> Repository setup, model training, bias testing, MVP deployment, validation<br>
+            <strong>Expertise:</strong> Python, ML, data pipeline design</p>
+          </div>
+
+          <div class="card">
+            <h4>Jacob Cossaboon</h4>
+            <p><strong>Role:</strong> Compliance & Governance Lead<br>
+            <strong>Responsibilities:</strong> Regulatory compliance review, governance framework, legal analysis<br>
+            <strong>Expertise:</strong> Employment law, AI governance, risk assessment</p>
+          </div>
+
+          <div class="card">
+            <h4>Bryden Dahl</h4>
+            <p><strong>Role:</strong> Documentation & Architecture<br>
+            <strong>Responsibilities:</strong> Technical specifications, project report, architecture diagrams, design documentation<br>
+            <strong>Expertise:</strong> Systems design, technical writing, architecture</p>
+          </div>
+        </div>
+
+        <h2>Project Contact</h2>
+        <p><strong>Team Name:</strong> Risk Ready (Group 4)<br>
+        <strong>Project:</strong> FairHire AI<br>
+        <strong>Status:</strong> MVP complete, governance framework in progress<br>
+        <strong>Target Completion:</strong> April 2026</p>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+
+
+<!-- SCRIPT FOR TAB SWITCHING -->
+<script>
+  function showSection(sectionId) {
+    // Hide all sections
+    const sections = document.querySelectorAll('.page-section');
+    sections.forEach(section => {
+      section.classList.remove('active');
+    });
+
+    // Remove active class from all nav items
+    const navItems = document.querySelectorAll('.nav-item');
+    navItems.forEach(item => {
+      item.classList.remove('active');
+    });
+
+    // Show selected section
+    const selectedSection = document.getElementById(sectionId);
+    if (selectedSection) {
+      selectedSection.classList.add('active');
+    }
+
+    // Add active class to clicked nav item
+    event.target.classList.add('active');
+
+    // Scroll to top
+    window.scrollTo(0, 0);
+  }
+</script>
+
+</body>
+</html>
