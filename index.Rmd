@@ -67,7 +67,32 @@ kable(table_data, format = "html", escape = FALSE) %>%
 
 
 ## Implementation Artifacts
+```{r table-artifacts, echo=FALSE, message=FALSE}
+library(knitr)
+library(kableExtra)
 
+# 1. Define the data with Markdown link syntax
+table_data <- data.frame(
+  `Resource Name` = c(
+    "**Specifications Sheet**", 
+    "**Add More**", 
+    "**Add more**"
+  ),
+  `Link to Documentation` = c(
+    "[View](Evidence/FairHireAI_Specifications.html)",
+    "[View](https://github.com/zyrirena/FairHire.git)",
+    "[View](https://rstudio.github.io/cheatsheets/)"
+  ),
+  check.names = FALSE # Keeps the spaces in column names
+)
+
+# 2. Render the table
+# escape = FALSE is required to render the Markdown syntax as actual links
+kable(table_data, format = "html", escape = FALSE) %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed"), 
+                full_width = F, 
+                position = "left")
+```
 
 ## Validation and Assurance Design
 
