@@ -1,0 +1,1277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<style type="text/css">
+.inline {
+  background-color: #f7f7f7;
+  border:solid 1px #B0B0B0;
+}
+.error {
+	font-weight: bold;
+	color: #FF0000;
+}
+.warning {
+	font-weight: bold;
+}
+.message {
+	font-style: italic;
+}
+.source, .output, .warning, .error, .message {
+	padding: 0 1em;
+  border:solid 1px #F7F7F7;
+}
+.source {
+  background-color: #f5f5f5;
+}
+.left {
+  text-align: left;
+}
+.right {
+  text-align: right;
+}
+.center {
+  text-align: center;
+}
+.hl.num {
+  color: #AF0F91;
+}
+.hl.sng {
+  color: #317ECC;
+}
+.hl.com {
+  color: #AD95AF;
+  font-style: italic;
+}
+.hl.opt {
+  color: #000000;
+}
+.hl.def {
+  color: #585858;
+}
+.hl.kwa {
+  color: #295F94;
+  font-weight: bold;
+}
+.hl.kwb {
+  color: #B05A65;
+}
+.hl.kwc {
+  color: #55aa55;
+}
+.hl.kwd {
+  color: #BC5A65;
+  font-weight: bold;
+}
+</style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FairHire AI — Implementation Spec</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=Instrument+Serif:ital@0;1&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --ink: #0d0f0e;
+    --paper: #f5f2ec;
+    --paper2: #ede9e0;
+    --accent: #1a6b45;
+    --accent2: #c8e87d;
+    --rule: #c4bfb4;
+    --muted: #7a766d;
+    --tag-bg: #e8e3d8;
+    --mono: 'DM Mono', monospace;
+    --serif: 'Instrument Serif', serif;
+    --sans: 'Syne', sans-serif;
+  }
+
+  html { font-size: 16px; }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--mono);
+    min-height: 100vh;
+    padding: 0;
+    overflow-x: hidden;
+  }
+
+  /* ── COVER ── */
+  .cover {
+    min-height: 100vh;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    padding: 3rem 4rem;
+    position: relative;
+    overflow: hidden;
+    border-bottom: 2px solid var(--ink);
+    animation: fadeUp 0.8s ease both;
+  }
+
+  .cover::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      repeating-linear-gradient(0deg, transparent, transparent 47px, var(--rule) 47px, var(--rule) 48px),
+      repeating-linear-gradient(90deg, transparent, transparent 47px, var(--rule) 47px, var(--rule) 48px);
+    opacity: 0.35;
+    pointer-events: none;
+  }
+
+  .cover-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    position: relative;
+  }
+
+  .doc-meta {
+    font-size: 0.7rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    line-height: 1.8;
+  }
+
+  .doc-badge {
+    display: inline-block;
+    background: var(--ink);
+    color: var(--paper);
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0.35rem 0.75rem;
+    border-radius: 2px;
+  }
+
+  .cover-hero {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+    padding: 4rem 0;
+  }
+
+  .cover-eyebrow {
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .cover-eyebrow::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--accent);
+    max-width: 120px;
+  }
+
+  .cover-title {
+    font-family: var(--serif);
+    font-size: clamp(4rem, 10vw, 8.5rem);
+    line-height: 0.92;
+    letter-spacing: -0.02em;
+    margin-bottom: 1rem;
+  }
+
+  .cover-title em {
+    font-style: italic;
+    color: var(--accent);
+  }
+
+  .cover-subtitle {
+    font-family: var(--sans);
+    font-size: 0.95rem;
+    font-weight: 400;
+    color: var(--muted);
+    letter-spacing: 0.03em;
+    margin-top: 2rem;
+    max-width: 480px;
+    line-height: 1.6;
+  }
+
+  .cover-stamp {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%) rotate(-8deg);
+    width: 160px;
+    height: 160px;
+    border: 3px solid var(--accent);
+    border-radius: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    opacity: 0.22;
+  }
+
+  .cover-stamp span {
+    font-family: var(--sans);
+    font-size: 0.6rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    text-align: center;
+    line-height: 1.8;
+  }
+
+  .cover-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    padding-top: 2rem;
+    border-top: 1px solid var(--rule);
+    position: relative;
+  }
+
+  .cover-tagline {
+    font-size: 0.75rem;
+    color: var(--muted);
+    letter-spacing: 0.05em;
+    font-style: italic;
+    font-family: var(--serif);
+  }
+
+  .pill-row {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+
+  .pill {
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.08em;
+    padding: 0.3rem 0.75rem;
+    border: 1px solid var(--rule);
+    border-radius: 999px;
+    color: var(--muted);
+    background: var(--tag-bg);
+  }
+
+  /* ── LAYOUT ── */
+  .page {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 5rem 4rem;
+  }
+
+  /* ── SECTION ── */
+  .section {
+    margin-bottom: 5rem;
+    animation: fadeUp 0.6s ease both;
+  }
+
+  .section-header {
+    display: flex;
+    align-items: baseline;
+    gap: 1.5rem;
+    margin-bottom: 2.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid var(--ink);
+  }
+
+  .section-num {
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    color: var(--muted);
+    letter-spacing: 0.12em;
+    min-width: 2.5rem;
+  }
+
+  .section-title {
+    font-family: var(--sans);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+  }
+
+  .section-rule {
+    flex: 1;
+    height: 1px;
+    background: var(--rule);
+    align-self: center;
+  }
+
+  /* ── OVERVIEW GRID ── */
+  .overview-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    border: 1px solid var(--rule);
+  }
+
+  .overview-cell {
+    padding: 1.75rem 2rem;
+    border-right: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+    position: relative;
+  }
+
+  .overview-cell:nth-child(2n) { border-right: none; }
+  .overview-cell:nth-last-child(-n+2) { border-bottom: none; }
+
+  .overview-cell-label {
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 0.6rem;
+  }
+
+  .overview-cell-value {
+    font-family: var(--sans);
+    font-size: 1.05rem;
+    font-weight: 600;
+    line-height: 1.3;
+  }
+
+  .overview-cell-sub {
+    font-size: 0.72rem;
+    color: var(--muted);
+    margin-top: 0.35rem;
+    line-height: 1.5;
+  }
+
+  /* ── STACK TABLE ── */
+  .stack-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  .stack-table th {
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-align: left;
+    padding: 0.6rem 1rem;
+    border-bottom: 1px solid var(--rule);
+    background: var(--paper2);
+  }
+
+  .stack-table th:first-child { padding-left: 0; }
+
+  .stack-table td {
+    padding: 1.1rem 1rem;
+    border-bottom: 1px solid var(--rule);
+    font-size: 0.82rem;
+    vertical-align: top;
+  }
+
+  .stack-table td:first-child {
+    padding-left: 0;
+    font-family: var(--sans);
+    font-weight: 600;
+    font-size: 0.8rem;
+    white-space: nowrap;
+    color: var(--accent);
+    width: 160px;
+  }
+
+  .stack-table td:nth-child(2) {
+    font-family: var(--mono);
+    font-size: 0.78rem;
+    width: 220px;
+  }
+
+  .stack-table td:last-child {
+    color: var(--muted);
+    font-size: 0.77rem;
+    line-height: 1.6;
+  }
+
+  .stack-table tr:last-child td { border-bottom: none; }
+
+  .stack-table tr:hover td { background: var(--paper2); }
+
+  /* ── FEATURE CARDS ── */
+  .feature-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5px;
+    background: var(--rule);
+    border: 1px solid var(--rule);
+  }
+
+  .feature-card {
+    background: var(--paper);
+    padding: 1.75rem;
+    transition: background 0.2s;
+  }
+
+  .feature-card:hover { background: var(--paper2); }
+
+  .feature-icon {
+    width: 36px;
+    height: 36px;
+    background: var(--ink);
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1rem;
+    font-size: 1rem;
+  }
+
+  .feature-name {
+    font-family: var(--sans);
+    font-weight: 700;
+    font-size: 0.88rem;
+    margin-bottom: 0.5rem;
+    letter-spacing: 0.01em;
+  }
+
+  .feature-desc {
+    font-size: 0.76rem;
+    color: var(--muted);
+    line-height: 1.65;
+  }
+
+  /* ── PIPELINE ── */
+  .pipeline {
+    display: flex;
+    gap: 0;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .pipeline-step {
+    flex: 1;
+    padding: 1.75rem 1.5rem;
+    border: 1px solid var(--rule);
+    border-right: none;
+    position: relative;
+  }
+
+  .pipeline-step:last-child { border-right: 1px solid var(--rule); }
+
+  .pipeline-step::after {
+    content: '→';
+    position: absolute;
+    right: -14px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 1rem;
+    color: var(--accent);
+    z-index: 2;
+    background: var(--paper);
+    padding: 0 4px;
+  }
+
+  .pipeline-step:last-child::after { display: none; }
+
+  .step-num {
+    font-family: var(--mono);
+    font-size: 0.62rem;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+    margin-bottom: 0.6rem;
+  }
+
+  .step-name {
+    font-family: var(--sans);
+    font-weight: 700;
+    font-size: 0.85rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .step-detail {
+    font-size: 0.72rem;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  /* ── DECISION TABLE ── */
+  .decision-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  .decision-table th {
+    background: var(--ink);
+    color: var(--paper);
+    font-family: var(--sans);
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 0.85rem 1.25rem;
+    text-align: left;
+  }
+
+  .decision-table td {
+    padding: 1rem 1.25rem;
+    border-bottom: 1px solid var(--rule);
+    font-size: 0.79rem;
+    line-height: 1.55;
+    vertical-align: top;
+  }
+
+  .decision-table td:first-child {
+    font-family: var(--sans);
+    font-weight: 600;
+    font-size: 0.8rem;
+    width: 200px;
+  }
+
+  .decision-table td:nth-child(2) {
+    font-family: var(--mono);
+    font-size: 0.76rem;
+    color: var(--accent);
+    width: 220px;
+  }
+
+  .decision-table td:last-child { color: var(--muted); }
+
+  .decision-table tr:last-child td { border-bottom: none; }
+
+  .decision-table tr:nth-child(even) td { background: var(--paper2); }
+
+  /* ── CALLOUT ── */
+  .callout {
+    border-left: 4px solid var(--accent);
+    background: var(--paper2);
+    padding: 1.5rem 2rem;
+    margin: 2rem 0;
+    position: relative;
+  }
+
+  .callout-label {
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 0.6rem;
+    font-weight: 500;
+  }
+
+  .callout-text {
+    font-family: var(--serif);
+    font-size: 1.1rem;
+    font-style: italic;
+    line-height: 1.55;
+    color: var(--ink);
+  }
+
+  /* ── BIAS AUDIT ── */
+  .audit-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+  }
+
+  .audit-item {
+    border: 1px solid var(--rule);
+    padding: 1.5rem;
+    background: var(--paper);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .audit-item::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%;
+    height: 3px;
+    background: var(--accent2);
+  }
+
+  .audit-item-title {
+    font-family: var(--sans);
+    font-weight: 700;
+    font-size: 0.85rem;
+    margin-bottom: 0.6rem;
+  }
+
+  .audit-item-body {
+    font-size: 0.76rem;
+    color: var(--muted);
+    line-height: 1.65;
+  }
+
+  .tag {
+    display: inline-block;
+    background: var(--tag-bg);
+    border: 1px solid var(--rule);
+    font-size: 0.63rem;
+    letter-spacing: 0.08em;
+    padding: 0.2rem 0.55rem;
+    border-radius: 2px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 0.6rem;
+  }
+
+  /* ── STATUS INDICATORS ── */
+  .status {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.7rem;
+    letter-spacing: 0.06em;
+  }
+
+  .status::before {
+    content: '';
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .status.done::before { background: var(--accent); }
+  .status.wip::before { background: #e0a020; }
+  .status.planned::before { background: var(--rule); border: 1px solid var(--muted); }
+
+  /* ── ROADMAP ── */
+  .roadmap-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 2rem;
+    padding: 1.5rem 0;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .roadmap-row:last-child { border-bottom: none; }
+
+  .roadmap-phase {
+    min-width: 120px;
+    font-family: var(--sans);
+    font-weight: 700;
+    font-size: 0.8rem;
+    padding-top: 0.15rem;
+  }
+
+  .roadmap-items {
+    flex: 1;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .roadmap-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.35rem 0.75rem;
+    background: var(--paper2);
+    border: 1px solid var(--rule);
+    font-size: 0.72rem;
+    border-radius: 2px;
+  }
+
+  /* ── FOOTER ── */
+  .footer {
+    border-top: 2px solid var(--ink);
+    padding: 2.5rem 4rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--ink);
+    color: var(--paper);
+  }
+
+  .footer-brand {
+    font-family: var(--serif);
+    font-size: 1.4rem;
+    font-style: italic;
+  }
+
+  .footer-meta {
+    font-size: 0.68rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(245,242,236,0.45);
+    text-align: right;
+    line-height: 1.9;
+  }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .section:nth-child(1) { animation-delay: 0.1s; }
+  .section:nth-child(2) { animation-delay: 0.2s; }
+  .section:nth-child(3) { animation-delay: 0.3s; }
+  .section:nth-child(4) { animation-delay: 0.4s; }
+  .section:nth-child(5) { animation-delay: 0.5s; }
+  .section:nth-child(6) { animation-delay: 0.6s; }
+
+  /* ── CODE INLINE ── */
+  code {
+    font-family: var(--mono);
+    font-size: 0.85em;
+    background: var(--tag-bg);
+    padding: 0.1em 0.4em;
+    border-radius: 2px;
+    border: 1px solid var(--rule);
+    color: var(--accent);
+  }
+
+  /* ── DIVIDER ── */
+  .divider {
+    height: 1px;
+    background: var(--rule);
+    margin: 3rem 0;
+  }
+
+  @media (max-width: 768px) {
+    .cover, .page, .footer { padding: 2rem 1.5rem; }
+    .cover-title { font-size: 3.5rem; }
+    .overview-grid, .feature-grid, .audit-grid { grid-template-columns: 1fr; }
+    .pipeline { flex-direction: column; }
+    .pipeline-step { border-right: 1px solid var(--rule); border-bottom: none; }
+    .pipeline-step::after { content: '↓'; right: unset; bottom: -14px; top: unset; left: 50%; transform: translateX(-50%); }
+    .cover-stamp { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- COVER -->
+<div class="cover">
+  <div class="cover-top">
+    <div class="doc-meta">
+      FairHire AI &nbsp;/&nbsp; Implementation Canvas<br>
+      Spec Version 1.0 &nbsp;·&nbsp; April 2026
+    </div>
+    <span class="doc-badge">Confidential Draft for Group 4: RiskReady</span>
+    <div>
+    <span class="doc-badge">Irena Austin, Brayden Dahl, Jacob Cossaboom</span>
+    </div>
+  </div>
+
+  <div class="cover-hero">
+    <div class="cover-eyebrow">Implementation Canvas</div>
+    <div class="cover-title">Fair<em>Hire</em><br>AI</div>
+    <p class="cover-subtitle">
+      Plain-language technical choices that prime the build — a living spec for an AI-powered hiring platform designed to reduce bias, accelerate screening, and surface the most qualified candidates objectively.
+    </p>
+
+    <div class="cover-stamp">
+      <span>Bias-<br>Audited<br>AI<br>System</span>
+    </div>
+  </div>
+
+  <div class="cover-bottom">
+    <p class="cover-tagline">"Hire on merit. Every time. At scale."</p>
+    <div class="pill-row">
+      <span class="pill">NLP Pipeline</span>
+      <span class="pill">Bias Mitigation</span>
+      <span class="pill">RAG Matching</span>
+      <span class="pill">Explainable AI</span>
+      <span class="pill">EEOC Compliant</span>
+    </div>
+  </div>
+</div>
+
+<!-- MAIN CONTENT -->
+<div class="page">
+
+  <!-- 01 PROJECT OVERVIEW -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-num">01</span>
+      <span class="section-title">Project Overview</span>
+      <div class="section-rule"></div>
+    </div>
+
+    <div class="overview-grid">
+      <div class="overview-cell">
+        <div class="overview-cell-label">Project Name</div>
+        <div class="overview-cell-value">FairHire AI</div>
+        <div class="overview-cell-sub">AI-augmented recruitment screening platform</div>
+      </div>
+      <div class="overview-cell">
+        <div class="overview-cell-label">Problem Statement</div>
+        <div class="overview-cell-value">Bias in human-led resume screening</div>
+        <div class="overview-cell-sub">Studies show resumes with "white-sounding" names receive 50% more callbacks — this system corrects that systematically</div>
+      </div>
+      <div class="overview-cell">
+        <div class="overview-cell-label">Primary Output</div>
+        <div class="overview-cell-value">Ranked Candidate Shortlist</div>
+        <div class="overview-cell-sub">Scored, explained, and auditable — not a black box</div>
+      </div>
+      <div class="overview-cell">
+        <div class="overview-cell-label">Target Users</div>
+        <div class="overview-cell-value">HR teams, Hiring Managers, Recruiters</div>
+        <div class="overview-cell-sub">Non-technical operators using a clean dashboard interface</div>
+      </div>
+      <div class="overview-cell">
+        <div class="overview-cell-label">Deployment Model</div>
+        <div class="overview-cell-value">SaaS Web App + API</div>
+        <div class="overview-cell-sub">Browser-based dashboard + REST API for ATS integrations</div>
+      </div>
+      <div class="overview-cell">
+        <div class="overview-cell-label">Compliance Targets</div>
+        <div class="overview-cell-value">EEOC · GDPR · CCPA</div>
+        <div class="overview-cell-sub">Adverse impact monitoring built into every scoring run</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 02 TECH STACK -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-num">02</span>
+      <span class="section-title">Technology Stack</span>
+      <div class="section-rule"></div>
+    </div>
+
+    <table class="stack-table">
+      <thead>
+        <tr>
+          <th>Layer</th>
+          <th>Choice</th>
+          <th>Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Frontend</td>
+          <td>React 18 + TypeScript</td>
+          <td>Component reuse for resume cards and score widgets; TypeScript catches data-shape bugs early when handling variable resume formats.</td>
+        </tr>
+        <tr>
+          <td>Backend API</td>
+          <td>FastAPI (Python 3.11)</td>
+          <td>Async-native, auto-generates OpenAPI docs, and keeps all ML code in the same ecosystem as the models — no language boundary.</td>
+        </tr>
+        <tr>
+          <td>AI / LLM</td>
+          <td>Claude claude-sonnet-4-20250514 via Anthropic API</td>
+          <td>Strong instruction following for structured extraction; Constitutional AI training reduces model-level demographic bias; JSON mode for deterministic outputs.</td>
+        </tr>
+        <tr>
+          <td>Embeddings</td>
+          <td>text-embedding-3-small (OpenAI)</td>
+          <td>High semantic recall at low cost; used for skill-to-JD similarity; dimensions tunable to 256 for fast ANN search.</td>
+        </tr>
+        <tr>
+          <td>Vector Store</td>
+          <td>Pinecone (serverless)</td>
+          <td>Managed ANN search; serverless tier eliminates cold-start ops; supports metadata filters for department/level namespace isolation.</td>
+        </tr>
+        <tr>
+          <td>Database</td>
+          <td>PostgreSQL 16 + pgvector</td>
+          <td>Primary store for jobs, candidates, scores, audit logs; pgvector as fallback for low-volume similarity search without Pinecone cost.</td>
+        </tr>
+        <tr>
+          <td>Auth</td>
+          <td>Auth0 (OIDC + RBAC)</td>
+          <td>Roles: <code>admin</code>, <code>hiring_manager</code>, <code>recruiter</code>; SSO for enterprise clients; audit trail for who accessed which candidate.</td>
+        </tr>
+        <tr>
+          <td>File Parsing</td>
+          <td>Apache Tika + PyMuPDF</td>
+          <td>Tika handles docx/odt/rtf; PyMuPDF for layout-aware PDF extraction; preserves section structure used by the skill extractor.</td>
+        </tr>
+        <tr>
+          <td>Task Queue</td>
+          <td>Celery + Redis</td>
+          <td>Async resume processing jobs; Redis as broker + result backend; prevents blocking API responses when processing bulk uploads of 500+ resumes.</td>
+        </tr>
+        <tr>
+          <td>Observability</td>
+          <td>LangSmith + Datadog</td>
+          <td>LangSmith traces every LLM call for debugging extraction quality; Datadog monitors API latency, queue depth, and cost-per-screening-run.</td>
+        </tr>
+        <tr>
+          <td>Infra / Deploy</td>
+          <td>AWS (ECS Fargate + RDS + ElastiCache)</td>
+          <td>Containerized services; RDS for managed Postgres; ElastiCache for Redis; VPC-isolated for GDPR data residency (eu-west-1 for EU customers).</td>
+        </tr>
+        <tr>
+          <td>CI/CD</td>
+          <td>GitHub Actions + ECR</td>
+          <td>On merge to main: lint → test → build Docker image → push to ECR → deploy to ECS; staging environment mirrors prod.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- 03 AI PIPELINE -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-num">03</span>
+      <span class="section-title">AI Processing Pipeline</span>
+      <div class="section-rule"></div>
+    </div>
+
+    <div class="pipeline">
+      <div class="pipeline-step">
+        <div class="step-num">STEP 01</div>
+        <div class="step-name">Ingest &amp; Parse</div>
+        <div class="step-detail">Upload PDF/DOCX → Tika/PyMuPDF extracts raw text + structure → stored in S3 and Postgres</div>
+      </div>
+      <div class="pipeline-step">
+        <div class="step-num">STEP 02</div>
+        <div class="step-name">PII Scrub</div>
+        <div class="step-detail">Regex + NER removes name, photo references, address, graduation year before any LLM call</div>
+      </div>
+      <div class="pipeline-step">
+        <div class="step-num">STEP 03</div>
+        <div class="step-name">Structured Extract</div>
+        <div class="step-detail">Claude extracts skills, titles, tenure, education, and achievements as typed JSON — no hallucination on factual fields</div>
+      </div>
+      <div class="pipeline-step">
+        <div class="step-num">STEP 04</div>
+        <div class="step-name">Embed &amp; Index</div>
+        <div class="step-detail">Skill + experience text embedded via text-embedding-3-small; upserted to Pinecone under job namespace</div>
+      </div>
+      <div class="pipeline-step">
+        <div class="step-num">STEP 05</div>
+        <div class="step-name">Score &amp; Rank</div>
+        <div class="step-detail">Weighted scoring: skill match (40%) · experience fit (30%) · trajectory (20%) · culture signals (10%)</div>
+      </div>
+      <div class="pipeline-step">
+        <div class="step-num">STEP 06</div>
+        <div class="step-name">Explain &amp; Audit</div>
+        <div class="step-detail">Claude generates plain-English rationale per candidate; adverse impact 4/5ths rule check logged per run</div>
+      </div>
+    </div>
+
+    <div class="callout">
+      <div class="callout-label">Design Principle</div>
+      <p class="callout-text">PII removal happens before any LLM call — the model never sees a name, address, or photo. Bias mitigation is structural, not just instructional.</p>
+    </div>
+  </div>
+
+  <!-- 04 CORE FEATURES -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-num">04</span>
+      <span class="section-title">Core Feature Set</span>
+      <div class="section-rule"></div>
+    </div>
+
+    <div class="feature-grid">
+      <div class="feature-card">
+        <div class="feature-icon">🔍</div>
+        <div class="feature-name">Semantic JD Matching</div>
+        <div class="feature-desc">Embeds job descriptions and resumes in shared vector space. Ranks candidates by cosine similarity — catches "machine learning" ↔ "ML engineer" equivalences that keyword search misses.</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">⚖️</div>
+        <div class="feature-name">Bias Audit Dashboard</div>
+        <div class="feature-desc">Runs EEOC 4/5ths rule check on every screening batch. Flags adverse impact by inferred demographic proxies and surfaces it to admins before shortlists are shared.</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">💬</div>
+        <div class="feature-name">Explainable Scores</div>
+        <div class="feature-desc">Every candidate score includes a plain-English explanation generated by Claude — "Strong fit: 8 years Python, led distributed systems team, OSS contributor" — not just a number.</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">📄</div>
+        <div class="feature-name">Bulk Resume Ingestion</div>
+        <div class="feature-desc">Upload 1–1000 resumes via dashboard or POST to <code>/api/v1/resumes/batch</code>. Celery workers process asynchronously; recruiter notified via webhook when complete.</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🔗</div>
+        <div class="feature-name">ATS Integrations</div>
+        <div class="feature-desc">REST API + webhooks connect to Greenhouse, Lever, and Workday. Scores sync back to ATS candidate records; no double-entry for recruiting teams.</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🎯</div>
+        <div class="feature-name">Custom Scoring Weights</div>
+        <div class="feature-desc">Hiring managers adjust skill/experience/culture signal weights per role via a simple UI slider — a staff engineer role weights technical depth heavier than a sales role.</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🏷️</div>
+        <div class="feature-name">Skills Taxonomy</div>
+        <div class="feature-desc">Proprietary skills graph normalises "React.js", "ReactJS", and "React" to a single node. Edges encode skill adjacency — a Rails dev scores partial credit for Django experience.</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">📊</div>
+        <div class="feature-name">Screening Analytics</div>
+        <div class="feature-desc">Per-role funnel metrics: applicant volume, average score distribution, time-to-shortlist, and source quality (LinkedIn vs. referral vs. job board) over rolling 90 days.</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🔐</div>
+        <div class="feature-name">Role-Based Access</div>
+        <div class="feature-desc">Admins see all; hiring managers see their own roles; recruiters see shortlists only — no raw resume access unless explicitly granted. Full access log for GDPR compliance.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 05 ARCHITECTURAL DECISIONS -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-num">05</span>
+      <span class="section-title">Key Architectural Decisions</span>
+      <div class="section-rule"></div>
+    </div>
+
+    <table class="decision-table">
+      <thead>
+        <tr>
+          <th>Decision</th>
+          <th>Choice Made</th>
+          <th>Why — and What We Rejected</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>LLM API vs. Self-Hosted</td>
+          <td>Claude API (hosted)</td>
+          <td>Self-hosting a 70B+ model requires GPU infra we can't justify at launch. API cost per resume screening run is ~$0.003 — well under budget. Data stays encrypted in transit; no fine-tune needed for extraction quality.</td>
+        </tr>
+        <tr>
+          <td>Vector DB choice</td>
+          <td>Pinecone serverless</td>
+          <td>Weaviate and Qdrant considered. Pinecone's serverless tier is zero-ops and scales to millions of vectors; no cluster to manage. Accepted trade-off: less control over index internals.</td>
+        </tr>
+        <tr>
+          <td>PII handling strategy</td>
+          <td>Strip before LLM, store raw encrypted</td>
+          <td>Some vendors blind the model but retain PII in structured fields for recruiter UX. We strip aggressively — the model never processes names. Raw resumes stored AES-256 in S3 for audit; model-processed data is always anonymised.</td>
+        </tr>
+        <tr>
+          <td>Scoring architecture</td>
+          <td>Weighted rubric (not end-to-end ML)</td>
+          <td>An end-to-end trained ranker would require thousands of labeled "good hire" outcomes we don't have at launch. A transparent rubric with configurable weights is auditable, explainable, and doesn't perpetuate historical hiring bias baked into training labels.</td>
+        </tr>
+        <tr>
+          <td>Sync vs. async processing</td>
+          <td>Async Celery jobs</td>
+          <td>Parsing + embedding + scoring 500 resumes takes 3–8 minutes. Synchronous would time out. Celery jobs + webhook callbacks let the frontend stay responsive; recruiters get a push notification when ready.</td>
+        </tr>
+        <tr>
+          <td>Monolith vs. microservices</td>
+          <td>Modular monolith (Phase 1)</td>
+          <td>Three bounded contexts (ingestion, scoring, reporting) share a codebase but use internal service interfaces. Can extract to microservices when scale demands it — without the networking complexity at MVP stage.</td>
+        </tr>
+        <tr>
+          <td>Interview question generation</td>
+          <td>RAG from internal playbooks</td>
+          <td>Generic interview questions waste time. We embed company-specific interview playbooks in Pinecone; the LLM generates role-calibrated questions grounded in the JD and candidate's unique background — not hallucinated generic prompts.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- 06 BIAS MITIGATION -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-num">06</span>
+      <span class="section-title">Bias Mitigation Strategy</span>
+      <div class="section-rule"></div>
+    </div>
+
+    <div class="audit-grid">
+      <div class="audit-item">
+        <div class="tag">Structural</div>
+        <div class="audit-item-title">Pre-LLM PII Scrubbing</div>
+        <div class="audit-item-body">Name, gender pronouns, address, photo descriptions, and graduation year are removed from the text before any LLM or embedding call. Uses spaCy NER + regex patterns. This is non-negotiable architecture — not a prompt instruction that can be overridden.</div>
+      </div>
+      <div class="audit-item">
+        <div class="tag">Monitoring</div>
+        <div class="audit-item-title">EEOC 4/5ths Rule Check</div>
+        <div class="audit-item-body">After every shortlist generation, the system calculates selection rates across inferred demographic proxies (name-based inference, zip code analysis). If any group's rate falls below 80% of the highest-selected group, a warning is surfaced to the admin before the shortlist is released.</div>
+      </div>
+      <div class="audit-item">
+        <div class="tag">Model-Level</div>
+        <div class="audit-item-title">Constitutional AI Model</div>
+        <div class="audit-item-body">Claude's training includes Constitutional AI principles that explicitly reduce demographic bias in outputs. We supplement this with system prompt constraints that prohibit scoring inferences based on name patterns, gaps framed as red flags, or non-job-relevant signals.</div>
+      </div>
+      <div class="audit-item">
+        <div class="tag">Scoring Design</div>
+        <div class="audit-item-title">Skills-First Rubric</div>
+        <div class="audit-item-body">The scoring rubric is anchored on demonstrated skills and measurable achievements — not pedigree signals like company prestige or university rankings. "Increased checkout conversion by 14%" outweighs "worked at FAANG" in the default weighting configuration.</div>
+      </div>
+      <div class="audit-item">
+        <div class="tag">Audit Trail</div>
+        <div class="audit-item-title">Immutable Score Ledger</div>
+        <div class="audit-item-body">Every scoring event is written to an append-only audit log: model version, prompt hash, input embedding fingerprint, score breakdown, and reviewer identity. Provides defensible records if a hiring decision is ever legally challenged.</div>
+      </div>
+      <div class="audit-item">
+        <div class="tag">Human-in-Loop</div>
+        <div class="audit-item-title">AI Recommends, Humans Decide</div>
+        <div class="audit-item-body">FairHire AI produces a ranked shortlist with explanations — it never auto-rejects a candidate or sends communications autonomously. Every consequential action (advance, reject, interview invite) requires a human click in the dashboard with logged intent.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 07 DATA MODEL -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-num">07</span>
+      <span class="section-title">Core Data Model</span>
+      <div class="section-rule"></div>
+    </div>
+
+    <table class="stack-table">
+      <thead>
+        <tr>
+          <th>Entity</th>
+          <th>Key Fields</th>
+          <th>Notes</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Job</td>
+          <td><code>id, title, jd_text, jd_embedding, scoring_weights, status</code></td>
+          <td>JD embedding computed once on publish; weights customisable per role; status controls visibility to recruiters.</td>
+        </tr>
+        <tr>
+          <td>Resume</td>
+          <td><code>id, raw_s3_key, parsed_json, pii_scrubbed_text, uploaded_by, created_at</code></td>
+          <td>Raw file is immutable in S3. <code>parsed_json</code> contains structured extraction. <code>pii_scrubbed_text</code> is the only version sent to LLM.</td>
+        </tr>
+        <tr>
+          <td>Candidate</td>
+          <td><code>id, resume_id, skills[], embedding_id, anonymised_profile</code></td>
+          <td>Decoupled from Resume to support one person applying to multiple roles. Anonymised profile is the model's view — never contains PII.</td>
+        </tr>
+        <tr>
+          <td>Application</td>
+          <td><code>id, job_id, candidate_id, score, score_breakdown, explanation, status</code></td>
+          <td>Junction between Job and Candidate. <code>score_breakdown</code> is JSON with per-dimension scores. <code>explanation</code> is Claude-generated prose.</td>
+        </tr>
+        <tr>
+          <td>AuditLog</td>
+          <td><code>id, event_type, actor_id, target_id, payload_hash, timestamp</code></td>
+          <td>Append-only table. Payload is hashed, not stored, to avoid PII in logs. Covers scoring runs, shortlist views, status changes, and exports.</td>
+        </tr>
+        <tr>
+          <td>BiasReport</td>
+          <td><code>id, job_id, run_at, group_rates, flag_triggered, reviewed_by</code></td>
+          <td>Generated automatically after each scoring batch. <code>flag_triggered</code> gates shortlist release until an admin acknowledges the report.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- 08 ROADMAP -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-num">08</span>
+      <span class="section-title">Build Roadmap</span>
+      <div class="section-rule"></div>
+    </div>
+
+    <div class="roadmap-row">
+      <div class="roadmap-phase">Phase 1<br><span style="font-weight:400;color:var(--muted);font-size:0.72rem">MVP · 8 wks</span></div>
+      <div class="roadmap-items">
+        <div class="roadmap-item"><span class="status done"></span>Resume upload + parsing</div>
+        <div class="roadmap-item"><span class="status done"></span>PII scrubbing pipeline</div>
+        <div class="roadmap-item"><span class="status done"></span>LLM structured extraction</div>
+        <div class="roadmap-item"><span class="status done"></span>Semantic JD matching</div>
+        <div class="roadmap-item"><span class="status done"></span>Candidate score + explanation</div>
+        <div class="roadmap-item"><span class="status done"></span>Shortlist dashboard</div>
+        <div class="roadmap-item"><span class="status done"></span>Basic RBAC (admin + recruiter)</div>
+      </div>
+    </div>
+
+    <div class="roadmap-row">
+      <div class="roadmap-phase">Phase 2<br><span style="font-weight:400;color:var(--muted);font-size:0.72rem">Growth · 12 wks</span></div>
+      <div class="roadmap-items">
+        <div class="roadmap-item"><span class="status wip"></span>Bias audit dashboard</div>
+        <div class="roadmap-item"><span class="status wip"></span>Greenhouse + Lever integration</div>
+        <div class="roadmap-item"><span class="status wip"></span>Custom scoring weights UI</div>
+        <div class="roadmap-item"><span class="status wip"></span>Bulk upload (batch API)</div>
+        <div class="roadmap-item"><span class="status planned"></span>RAG interview questions</div>
+        <div class="roadmap-item"><span class="status planned"></span>Hiring manager portal</div>
+      </div>
+    </div>
+
+    <div class="roadmap-row">
+      <div class="roadmap-phase">Phase 3<br><span style="font-weight:400;color:var(--muted);font-size:0.72rem">Enterprise · Q3</span></div>
+      <div class="roadmap-items">
+        <div class="roadmap-item"><span class="status planned"></span>SSO / SAML integration</div>
+        <div class="roadmap-item"><span class="status planned"></span>Workday connector</div>
+        <div class="roadmap-item"><span class="status planned"></span>EU data residency (eu-west-1)</div>
+        <div class="roadmap-item"><span class="status planned"></span>Skills taxonomy editor</div>
+        <div class="roadmap-item"><span class="status planned"></span>Analytics & funnel reporting</div>
+        <div class="roadmap-item"><span class="status planned"></span>Immutable audit export (SOC 2)</div>
+      </div>
+    </div>
+
+    <div style="display:flex;gap:2rem;margin-top:1.5rem;padding-top:1.5rem;border-top:1px solid var(--rule);">
+      <span class="status done" style="font-size:0.72rem">Complete</span>
+      <span class="status wip" style="font-size:0.72rem">In Progress</span>
+      <span class="status planned" style="font-size:0.72rem">Planned</span>
+    </div>
+  </div>
+
+  <!-- 09 NON-FUNCTIONAL REQUIREMENTS -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-num">09</span>
+      <span class="section-title">Non-Functional Requirements</span>
+      <div class="section-rule"></div>
+    </div>
+
+    <table class="decision-table">
+      <thead>
+        <tr>
+          <th>Dimension</th>
+          <th>Target</th>
+          <th>Implementation Approach</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>API Latency</td>
+          <td>p95 &lt; 800ms (sync calls)</td>
+          <td>Resume parsing is async. Sync endpoints (job search, shortlist fetch) hit Postgres + Redis cache; no LLM in the hot path.</td>
+        </tr>
+        <tr>
+          <td>Throughput</td>
+          <td>500 resumes / batch run</td>
+          <td>Celery workers auto-scale on ECS; 10 concurrent workers process ~50 resumes/min. Full 500-resume run completes in ~10 min.</td>
+        </tr>
+        <tr>
+          <td>Uptime</td>
+          <td>99.5% monthly SLA</td>
+          <td>ECS service with min 2 tasks across 2 AZs; RDS Multi-AZ; health check auto-restart. Anthropic API outages gracefully degrade to cached scores.</td>
+        </tr>
+        <tr>
+          <td>Data Security</td>
+          <td>SOC 2 Type II (target)</td>
+          <td>AES-256 at rest (S3 + RDS); TLS 1.3 in transit; VPC isolation; secrets in AWS Secrets Manager; audit log for all data access events.</td>
+        </tr>
+        <tr>
+          <td>Cost per Run</td>
+          <td>&lt; $0.05 per resume</td>
+          <td>Claude extraction: ~$0.003; embedding: ~$0.0001; Pinecone upsert: ~$0.001; infra amortised: ~$0.01. Total well within target at volume.</td>
+        </tr>
+        <tr>
+          <td>GDPR / CCPA</td>
+          <td>Right to erasure in &lt; 30 days</td>
+          <td><code>DELETE /candidates/{id}</code> cascades to S3, Postgres, and Pinecone namespace. Cryptographic shredding on S3 keys. Audit log entry retained (no PII content) per legal requirement.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+  <div class="footer-brand">FairHire AI</div>
+  <div class="footer-meta">
+    Implementation Canvas v1.0 · April 2025<br>
+    Internal Use · Not for Distribution
+  </div>
+</div>
+
+</body>
+</html>
