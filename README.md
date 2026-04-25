@@ -1,79 +1,35 @@
-# ME-575-AI-Design-and-Deployment-Risks
-<b>Group 4: Risk Ready </b>
-<br>
+# ME-575: AI Design & Deployment Risks
+## Group 4 — *Risk Ready*
 
-<b>1. Project Title and Mode:</b>
-<br>
-  a. Title: FairHire AI - automated applicant screening tool 
-  b. Governance heavy project
-</br>
-<b>2. Problem Context: </b>
-<br>Our AI agent solves multiple problems in a recruiting environment.<br>  
-Operational: it helps the business screen through hundreds of resumes quickly to pull minimum qualified candidates to review, it reviews education, experience and minimum requirements of the position.<br> 
-Compliance: The AI agent includes data testing to provide bias review and ensure compliance with NY 144 law and compliance with EU AI Act.
+---
 
-<br>
+<div align="center">
+
+### 🔗 [**Click Here to View the Project →**](https://zyrirena.github.io/ME-575-AI-Design-and-Deployment-Risks/)
+
+`https://zyrirena.github.io/ME-575-AI-Design-and-Deployment-Risks/`
+
+</div>
+
+---
+
+## 👥 Team Members
+
+|  |
+|------|
+| Irena Austin |
+| Jacob Cossaboom |
+| Brayden Dahl |
 
 
-<b>3. Target entity and use case: </b>
-<br>Any business or organization that has an in-house Recruitment Office and screens applicants or a Recruitment Agency.  
+---
 
-<br>Stakeholders: 
-<br>- Applicants
-<br>- Hiring managers
-<br>- Human Resource Specialists
+## 🚀 How to View
 
-<b>4. System Scope: </b>
-<br>System boundary
-<br>Model: will be running on Claude version: claude-3-haiku-20240307
+Simply click the link below — no setup required:
 
-<br>Data: the system will include user uploaded resumes in a .docx or .pdf formats;  
-<br>job descriptions that will include each positions required skills, experience, education, and certifications which will be stored in jobs table
-<br>Initial test data from Kaggle
-<br>Test resumes system generated for bias testing 
-<br>
-<br>
-Workflow: <br>
-file upload with mime/size validation → text extraction via pdf-parse or mammoth → PII scrubbing across 10 regex pattern categories → scrub validation → database persistence. Screening is then triggered separately: the anonymized text and job criteria are sent to Gemini, the structured JSON response is validated for prohibited content, scores are computed across four weighted dimensions (skills 40 pts, experience 35 pts, education 15 pts, certifications 10 pts), and results are stored with the full prompt logged.
-<br>
-<br>
-AI Agents: <br>
-Bias detection agent - generates six synthetic resumes with identical qualifications but varying demographic name signals, submits all six to Gemini, computes the Disparate Impact Ratio using the EEOC four-fifths rule, and stores results with an alert flag if DIR falls below 0.80.<br>
-Selection rate monitor - continuous screening  after each evaluation or anomaly <br>
-Audit logging agent - to create audit_logs for compliance
-<br>
-<br>
-Users: AI agent will have assigned roles for administrators for bias testing, compliance PDF export, audit log access, and dataset loading; HR Recruiters to upload job descriptions, create new jobs, screen resumes, correct ratings/override ratings;  applicants to upload resumes, delete their profile, and submit questions.
-<br>
-<br>
-Human review points: <br>
-consent gate applicant must click “I consent” before resume is accepted; 
-the recruiter override- to meet the human in the loop requirement the AI agent will require the recruiter to decide whether to advance, hold, reject, or escalate to human review, <br>
-Applicant appeal - allow users to appeal AI decision so that recruiter can review and respond to the appeal <br>
-bias alert review - when AI detects thresholds are exceeded the admin must manually review job criteria before continued use 
-<br><br>
-Outputs: 
-<br>The FairHire AI outputs will include: 
-<br>Hiring Manager report with resumes that were recommended after HR Specilaist approval and certification
-<br>Applicant list with scores 
-<br>Bias audit report
-<br>NYC 144 Law compliance PDFs and exports of artifacts in JSON format 
-<br>
-<b>5. Risk framing: </b>
+**👉 [View Group 4 Project Site](https://zyrirena.github.io/ME-575-AI-Design-and-Deployment-Risks/)**
 
-<b>6. Data Plan:</b>
-<br>Database Used: Resume Dataset from Kaggle https://www.kaggle.com/datasets/snehaanbhawal/resume-dataset
+---
 
-<b>7. Tool stack: </b>
-
-<b>8. Implementation plan: </b>
-
-<b>9. Validation plan: </b>
-
-<b>10. Deliverable and milestones:</b>
-Our genAI test application: <a href="https://fairhireai-production.up.railway.app/">FairHire AI</a> <br>
-FairAI application github repository: <a href="https://github.com/zyrirena/FairHireAI.git">FairHire AI Repository</a> 
-<br>
-<b>11. Role Allocation: </b>
-
-<b>12. Risks and fallback plan: </b>
+*ME-575 | Group 4: Risk Ready*
