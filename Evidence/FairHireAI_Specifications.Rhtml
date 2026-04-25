@@ -686,9 +686,9 @@
   <div class="cover-top">
     <div class="doc-meta">
       FairHire AI &nbsp;/&nbsp; Implementation Canvas<br>
-      Spec Version 1.0 &nbsp;·&nbsp; April 2026
+      April 2026
     </div>
-    <span class="doc-badge">Confidential Draft for Group 4: RiskReady</span>
+    <span class="doc-badge">Draft for Group 4: RiskReady</span>
     <div>
     <span class="doc-badge">Irena Austin, Brayden Dahl, Jacob Cossaboom</span>
     </div>
@@ -698,23 +698,16 @@
     <div class="cover-eyebrow">Implementation Canvas</div>
     <div class="cover-title">Fair<em>Hire</em><br>AI</div>
     <p class="cover-subtitle">
-      Plain-language technical choices that prime the build — a living spec for an AI-powered hiring platform designed to reduce bias, accelerate screening, and surface the most qualified candidates objectively.
+      Plain-language technical specifications.
     </p>
 
     <div class="cover-stamp">
-      <span>Bias-<br>Audited<br>AI<br>System</span>
+      <span>Risk<br>Ready<br>Approved<br>System</span>
     </div>
   </div>
 
   <div class="cover-bottom">
-    <p class="cover-tagline">"Hire on merit. Every time. At scale."</p>
-    <div class="pill-row">
-      <span class="pill">NLP Pipeline</span>
-      <span class="pill">Bias Mitigation</span>
-      <span class="pill">RAG Matching</span>
-      <span class="pill">Explainable AI</span>
-      <span class="pill">EEOC Compliant</span>
-    </div>
+    <p class="cover-tagline">"Those who say it cannot be done should not interrupt those who are doing it"</p>
   </div>
 </div>
 
@@ -733,121 +726,40 @@
       <div class="overview-cell">
         <div class="overview-cell-label">Project Name</div>
         <div class="overview-cell-value">FairHire AI</div>
-        <div class="overview-cell-sub">AI-augmented recruitment screening platform</div>
+        <div class="overview-cell-sub">genAI applicant screening platform</div>
       </div>
       <div class="overview-cell">
         <div class="overview-cell-label">Problem Statement</div>
         <div class="overview-cell-value">Bias in human-led resume screening</div>
-        <div class="overview-cell-sub">Studies show resumes with "white-sounding" names receive 50% more callbacks — this system corrects that systematically</div>
+        <div class="overview-cell-sub">Avoids the human error in application screening</div>
       </div>
       <div class="overview-cell">
         <div class="overview-cell-label">Primary Output</div>
         <div class="overview-cell-value">Ranked Candidate Shortlist</div>
-        <div class="overview-cell-sub">Scored, explained, and auditable — not a black box</div>
+        <div class="overview-cell-sub">Scored, explained, and auditable</div>
       </div>
       <div class="overview-cell">
         <div class="overview-cell-label">Target Users</div>
         <div class="overview-cell-value">HR teams, Hiring Managers, Recruiters</div>
-        <div class="overview-cell-sub">Non-technical operators using a clean dashboard interface</div>
+        <div class="overview-cell-sub">User interface makes the application easy to use and implement.</div>
       </div>
       <div class="overview-cell">
         <div class="overview-cell-label">Deployment Model</div>
-        <div class="overview-cell-value">SaaS Web App + API</div>
-        <div class="overview-cell-sub">Browser-based dashboard + REST API for ATS integrations</div>
+        <div class="overview-cell-value">Web App + API</div>
+        <div class="overview-cell-sub">Browser-based dashboard + API genAI integration</div>
       </div>
       <div class="overview-cell">
         <div class="overview-cell-label">Compliance Targets</div>
-        <div class="overview-cell-value">EEOC · GDPR · CCPA</div>
-        <div class="overview-cell-sub">Adverse impact monitoring built into every scoring run</div>
+        <div class="overview-cell-value">NY Law 144, EU AI Act, EEOC</div>
+        <div class="overview-cell-sub">Monitoring built into every scoring run</div>
       </div>
     </div>
   </div>
 
-  <!-- 02 TECH STACK -->
+  <!-- 02 AI PIPELINE -->
   <div class="section">
     <div class="section-header">
       <span class="section-num">02</span>
-      <span class="section-title">Technology Stack</span>
-      <div class="section-rule"></div>
-    </div>
-
-    <table class="stack-table">
-      <thead>
-        <tr>
-          <th>Layer</th>
-          <th>Choice</th>
-          <th>Rationale</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>Frontend</td>
-          <td>React 18 + TypeScript</td>
-          <td>Component reuse for resume cards and score widgets; TypeScript catches data-shape bugs early when handling variable resume formats.</td>
-        </tr>
-        <tr>
-          <td>Backend API</td>
-          <td>FastAPI (Python 3.11)</td>
-          <td>Async-native, auto-generates OpenAPI docs, and keeps all ML code in the same ecosystem as the models — no language boundary.</td>
-        </tr>
-        <tr>
-          <td>AI / LLM</td>
-          <td>Claude claude-sonnet-4-20250514 via Anthropic API</td>
-          <td>Strong instruction following for structured extraction; Constitutional AI training reduces model-level demographic bias; JSON mode for deterministic outputs.</td>
-        </tr>
-        <tr>
-          <td>Embeddings</td>
-          <td>text-embedding-3-small (OpenAI)</td>
-          <td>High semantic recall at low cost; used for skill-to-JD similarity; dimensions tunable to 256 for fast ANN search.</td>
-        </tr>
-        <tr>
-          <td>Vector Store</td>
-          <td>Pinecone (serverless)</td>
-          <td>Managed ANN search; serverless tier eliminates cold-start ops; supports metadata filters for department/level namespace isolation.</td>
-        </tr>
-        <tr>
-          <td>Database</td>
-          <td>PostgreSQL 16 + pgvector</td>
-          <td>Primary store for jobs, candidates, scores, audit logs; pgvector as fallback for low-volume similarity search without Pinecone cost.</td>
-        </tr>
-        <tr>
-          <td>Auth</td>
-          <td>Auth0 (OIDC + RBAC)</td>
-          <td>Roles: <code>admin</code>, <code>hiring_manager</code>, <code>recruiter</code>; SSO for enterprise clients; audit trail for who accessed which candidate.</td>
-        </tr>
-        <tr>
-          <td>File Parsing</td>
-          <td>Apache Tika + PyMuPDF</td>
-          <td>Tika handles docx/odt/rtf; PyMuPDF for layout-aware PDF extraction; preserves section structure used by the skill extractor.</td>
-        </tr>
-        <tr>
-          <td>Task Queue</td>
-          <td>Celery + Redis</td>
-          <td>Async resume processing jobs; Redis as broker + result backend; prevents blocking API responses when processing bulk uploads of 500+ resumes.</td>
-        </tr>
-        <tr>
-          <td>Observability</td>
-          <td>LangSmith + Datadog</td>
-          <td>LangSmith traces every LLM call for debugging extraction quality; Datadog monitors API latency, queue depth, and cost-per-screening-run.</td>
-        </tr>
-        <tr>
-          <td>Infra / Deploy</td>
-          <td>AWS (ECS Fargate + RDS + ElastiCache)</td>
-          <td>Containerized services; RDS for managed Postgres; ElastiCache for Redis; VPC-isolated for GDPR data residency (eu-west-1 for EU customers).</td>
-        </tr>
-        <tr>
-          <td>CI/CD</td>
-          <td>GitHub Actions + ECR</td>
-          <td>On merge to main: lint → test → build Docker image → push to ECR → deploy to ECS; staging environment mirrors prod.</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-
-  <!-- 03 AI PIPELINE -->
-  <div class="section">
-    <div class="section-header">
-      <span class="section-num">03</span>
       <span class="section-title">AI Processing Pipeline</span>
       <div class="section-rule"></div>
     </div>
@@ -856,12 +768,12 @@
       <div class="pipeline-step">
         <div class="step-num">STEP 01</div>
         <div class="step-name">Ingest &amp; Parse</div>
-        <div class="step-detail">Upload PDF/DOCX → Tika/PyMuPDF extracts raw text + structure → stored in S3 and Postgres</div>
+        <div class="step-detail">Upload PDF/DOCX/TXT → extracts raw text + structure → stored in S3 and Postgres</div>
       </div>
       <div class="pipeline-step">
         <div class="step-num">STEP 02</div>
         <div class="step-name">PII Scrub</div>
-        <div class="step-detail">Regex + NER removes name, photo references, address, graduation year before any LLM call</div>
+        <div class="step-detail">Presidio removes name, photo references, address, graduation year before any LLM call</div>
       </div>
       <div class="pipeline-step">
         <div class="step-num">STEP 03</div>
@@ -887,24 +799,19 @@
 
     <div class="callout">
       <div class="callout-label">Design Principle</div>
-      <p class="callout-text">PII removal happens before any LLM call — the model never sees a name, address, or photo. Bias mitigation is structural, not just instructional.</p>
+      <p class="callout-text">PII removal happens before any LLM call — the model never sees a name, address, or photo. Bias mitigation before any scoring occurs.</p>
     </div>
   </div>
 
-  <!-- 04 CORE FEATURES -->
+  <!-- 03 CORE FEATURES -->
   <div class="section">
     <div class="section-header">
-      <span class="section-num">04</span>
-      <span class="section-title">Core Feature Set</span>
+      <span class="section-num">03</span>
+      <span class="section-title">Feature Set</span>
       <div class="section-rule"></div>
     </div>
 
     <div class="feature-grid">
-      <div class="feature-card">
-        <div class="feature-icon">🔍</div>
-        <div class="feature-name">Semantic JD Matching</div>
-        <div class="feature-desc">Embeds job descriptions and resumes in shared vector space. Ranks candidates by cosine similarity — catches "machine learning" ↔ "ML engineer" equivalences that keyword search misses.</div>
-      </div>
       <div class="feature-card">
         <div class="feature-icon">⚖️</div>
         <div class="feature-name">Bias Audit Dashboard</div>
@@ -921,11 +828,6 @@
         <div class="feature-desc">Upload 1–1000 resumes via dashboard or POST to <code>/api/v1/resumes/batch</code>. Celery workers process asynchronously; recruiter notified via webhook when complete.</div>
       </div>
       <div class="feature-card">
-        <div class="feature-icon">🔗</div>
-        <div class="feature-name">ATS Integrations</div>
-        <div class="feature-desc">REST API + webhooks connect to Greenhouse, Lever, and Workday. Scores sync back to ATS candidate records; no double-entry for recruiting teams.</div>
-      </div>
-      <div class="feature-card">
         <div class="feature-icon">🎯</div>
         <div class="feature-name">Custom Scoring Weights</div>
         <div class="feature-desc">Hiring managers adjust skill/experience/culture signal weights per role via a simple UI slider — a staff engineer role weights technical depth heavier than a sales role.</div>
@@ -936,11 +838,6 @@
         <div class="feature-desc">Proprietary skills graph normalises "React.js", "ReactJS", and "React" to a single node. Edges encode skill adjacency — a Rails dev scores partial credit for Django experience.</div>
       </div>
       <div class="feature-card">
-        <div class="feature-icon">📊</div>
-        <div class="feature-name">Screening Analytics</div>
-        <div class="feature-desc">Per-role funnel metrics: applicant volume, average score distribution, time-to-shortlist, and source quality (LinkedIn vs. referral vs. job board) over rolling 90 days.</div>
-      </div>
-      <div class="feature-card">
         <div class="feature-icon">🔐</div>
         <div class="feature-name">Role-Based Access</div>
         <div class="feature-desc">Admins see all; hiring managers see their own roles; recruiters see shortlists only — no raw resume access unless explicitly granted. Full access log for GDPR compliance.</div>
@@ -948,10 +845,10 @@
     </div>
   </div>
 
-  <!-- 05 ARCHITECTURAL DECISIONS -->
+  <!-- 04 ARCHITECTURAL DECISIONS -->
   <div class="section">
     <div class="section-header">
-      <span class="section-num">05</span>
+      <span class="section-num">04</span>
       <span class="section-title">Key Architectural Decisions</span>
       <div class="section-rule"></div>
     </div>
@@ -961,53 +858,28 @@
         <tr>
           <th>Decision</th>
           <th>Choice Made</th>
-          <th>Why — and What We Rejected</th>
+          <th>Why</th>
         </tr>
       </thead>
       <tbody>
         <tr>
-          <td>LLM API vs. Self-Hosted</td>
-          <td>Claude API (hosted)</td>
-          <td>Self-hosting a 70B+ model requires GPU infra we can't justify at launch. API cost per resume screening run is ~$0.003 — well under budget. Data stays encrypted in transit; no fine-tune needed for extraction quality.</td>
-        </tr>
-        <tr>
-          <td>Vector DB choice</td>
-          <td>Pinecone serverless</td>
-          <td>Weaviate and Qdrant considered. Pinecone's serverless tier is zero-ops and scales to millions of vectors; no cluster to manage. Accepted trade-off: less control over index internals.</td>
-        </tr>
-        <tr>
           <td>PII handling strategy</td>
           <td>Strip before LLM, store raw encrypted</td>
-          <td>Some vendors blind the model but retain PII in structured fields for recruiter UX. We strip aggressively — the model never processes names. Raw resumes stored AES-256 in S3 for audit; model-processed data is always anonymised.</td>
+          <td>We strip before the model screens resumes. FairHire AI model never processes names. Raw resumes stored in database for audit; model-processed data is always anonymised.</td>
         </tr>
         <tr>
           <td>Scoring architecture</td>
           <td>Weighted rubric (not end-to-end ML)</td>
-          <td>An end-to-end trained ranker would require thousands of labeled "good hire" outcomes we don't have at launch. A transparent rubric with configurable weights is auditable, explainable, and doesn't perpetuate historical hiring bias baked into training labels.</td>
-        </tr>
-        <tr>
-          <td>Sync vs. async processing</td>
-          <td>Async Celery jobs</td>
-          <td>Parsing + embedding + scoring 500 resumes takes 3–8 minutes. Synchronous would time out. Celery jobs + webhook callbacks let the frontend stay responsive; recruiters get a push notification when ready.</td>
-        </tr>
-        <tr>
-          <td>Monolith vs. microservices</td>
-          <td>Modular monolith (Phase 1)</td>
-          <td>Three bounded contexts (ingestion, scoring, reporting) share a codebase but use internal service interfaces. Can extract to microservices when scale demands it — without the networking complexity at MVP stage.</td>
-        </tr>
-        <tr>
-          <td>Interview question generation</td>
-          <td>RAG from internal playbooks</td>
-          <td>Generic interview questions waste time. We embed company-specific interview playbooks in Pinecone; the LLM generates role-calibrated questions grounded in the JD and candidate's unique background — not hallucinated generic prompts.</td>
+          <td>Our model offers transparent rubric with configurable weights that is auditable and easily explainable.</td>
         </tr>
       </tbody>
     </table>
   </div>
 
-  <!-- 06 BIAS MITIGATION -->
+  <!-- 05 BIAS MITIGATION -->
   <div class="section">
     <div class="section-header">
-      <span class="section-num">06</span>
+      <span class="section-num">05</span>
       <span class="section-title">Bias Mitigation Strategy</span>
       <div class="section-rule"></div>
     </div>
@@ -1016,40 +888,35 @@
       <div class="audit-item">
         <div class="tag">Structural</div>
         <div class="audit-item-title">Pre-LLM PII Scrubbing</div>
-        <div class="audit-item-body">Name, gender pronouns, address, photo descriptions, and graduation year are removed from the text before any LLM or embedding call. Uses spaCy NER + regex patterns. This is non-negotiable architecture — not a prompt instruction that can be overridden.</div>
+        <div class="audit-item-body">Name, gender pronouns, address, photo descriptions, and graduation year are removed from the text before any LLM or embedding call. This action is embeded in the structore and not negotiable.</div>
       </div>
       <div class="audit-item">
         <div class="tag">Monitoring</div>
         <div class="audit-item-title">EEOC 4/5ths Rule Check</div>
-        <div class="audit-item-body">After every shortlist generation, the system calculates selection rates across inferred demographic proxies (name-based inference, zip code analysis). If any group's rate falls below 80% of the highest-selected group, a warning is surfaced to the admin before the shortlist is released.</div>
-      </div>
-      <div class="audit-item">
-        <div class="tag">Model-Level</div>
-        <div class="audit-item-title">Constitutional AI Model</div>
-        <div class="audit-item-body">Claude's training includes Constitutional AI principles that explicitly reduce demographic bias in outputs. We supplement this with system prompt constraints that prohibit scoring inferences based on name patterns, gaps framed as red flags, or non-job-relevant signals.</div>
+        <div class="audit-item-body">After every shortlist generation, the system calculates selection rates across inferred demographic proxies.</div>
       </div>
       <div class="audit-item">
         <div class="tag">Scoring Design</div>
         <div class="audit-item-title">Skills-First Rubric</div>
-        <div class="audit-item-body">The scoring rubric is anchored on demonstrated skills and measurable achievements — not pedigree signals like company prestige or university rankings. "Increased checkout conversion by 14%" outweighs "worked at FAANG" in the default weighting configuration.</div>
+        <div class="audit-item-body">The scoring rubric is anchored on demonstrated skills and measurable achievements . Hiring manager can adjust the scoring matrix weights to put more weight on education or skills, but there is no weight on a type of university or what company employee previously worked for.</div>
       </div>
       <div class="audit-item">
         <div class="tag">Audit Trail</div>
-        <div class="audit-item-title">Immutable Score Ledger</div>
-        <div class="audit-item-body">Every scoring event is written to an append-only audit log: model version, prompt hash, input embedding fingerprint, score breakdown, and reviewer identity. Provides defensible records if a hiring decision is ever legally challenged.</div>
+        <div class="audit-item-title">Explainable Score Ledger</div>
+        <div class="audit-item-body">Every scoring event is written to an append-only audit logwhich provides defensible records if a hiring decision is ever legally challenged.</div>
       </div>
       <div class="audit-item">
         <div class="tag">Human-in-Loop</div>
-        <div class="audit-item-title">AI Recommends, Humans Decide</div>
-        <div class="audit-item-body">FairHire AI produces a ranked shortlist with explanations — it never auto-rejects a candidate or sends communications autonomously. Every consequential action (advance, reject, interview invite) requires a human click in the dashboard with logged intent.</div>
+        <div class="audit-item-title">AI Recommends and Humans Decide</div>
+        <div class="audit-item-body">FairHire AI produces a ranked shortlist with explanations — it never auto-rejects a candidate. Every action (meets or does not meet requirements) requires a human approval and allows for an override.</div>
       </div>
     </div>
   </div>
 
-  <!-- 07 DATA MODEL -->
+  <!-- 06 DATA MODEL -->
   <div class="section">
     <div class="section-header">
-      <span class="section-num">07</span>
+      <span class="section-num">06</span>
       <span class="section-title">Core Data Model</span>
       <div class="section-rule"></div>
     </div>
@@ -1063,45 +930,29 @@
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td>Job</td>
-          <td><code>id, title, jd_text, jd_embedding, scoring_weights, status</code></td>
-          <td>JD embedding computed once on publish; weights customisable per role; status controls visibility to recruiters.</td>
-        </tr>
-        <tr>
-          <td>Resume</td>
-          <td><code>id, raw_s3_key, parsed_json, pii_scrubbed_text, uploaded_by, created_at</code></td>
-          <td>Raw file is immutable in S3. <code>parsed_json</code> contains structured extraction. <code>pii_scrubbed_text</code> is the only version sent to LLM.</td>
-        </tr>
+        
         <tr>
           <td>Candidate</td>
           <td><code>id, resume_id, skills[], embedding_id, anonymised_profile</code></td>
           <td>Decoupled from Resume to support one person applying to multiple roles. Anonymised profile is the model's view — never contains PII.</td>
         </tr>
-        <tr>
-          <td>Application</td>
-          <td><code>id, job_id, candidate_id, score, score_breakdown, explanation, status</code></td>
-          <td>Junction between Job and Candidate. <code>score_breakdown</code> is JSON with per-dimension scores. <code>explanation</code> is Claude-generated prose.</td>
-        </tr>
+
         <tr>
           <td>AuditLog</td>
           <td><code>id, event_type, actor_id, target_id, payload_hash, timestamp</code></td>
           <td>Append-only table. Payload is hashed, not stored, to avoid PII in logs. Covers scoring runs, shortlist views, status changes, and exports.</td>
         </tr>
         <tr>
-          <td>BiasReport</td>
-          <td><code>id, job_id, run_at, group_rates, flag_triggered, reviewed_by</code></td>
-          <td>Generated automatically after each scoring batch. <code>flag_triggered</code> gates shortlist release until an admin acknowledges the report.</td>
-        </tr>
+          
       </tbody>
     </table>
   </div>
 
-  <!-- 08 ROADMAP -->
+  <!-- 07 ROADMAP -->
   <div class="section">
     <div class="section-header">
-      <span class="section-num">08</span>
-      <span class="section-title">Build Roadmap</span>
+      <span class="section-num">07</span>
+      <span class="section-title">Tentative Build Roadmap</span>
       <div class="section-rule"></div>
     </div>
 
@@ -1149,10 +1000,10 @@
     </div>
   </div>
 
-  <!-- 09 NON-FUNCTIONAL REQUIREMENTS -->
+  <!-- 08 NON-FUNCTIONAL REQUIREMENTS -->
   <div class="section">
     <div class="section-header">
-      <span class="section-num">09</span>
+      <span class="section-num">08</span>
       <span class="section-title">Non-Functional Requirements</span>
       <div class="section-rule"></div>
     </div>
@@ -1172,29 +1023,9 @@
           <td>Resume parsing is async. Sync endpoints (job search, shortlist fetch) hit Postgres + Redis cache; no LLM in the hot path.</td>
         </tr>
         <tr>
-          <td>Throughput</td>
-          <td>500 resumes / batch run</td>
-          <td>Celery workers auto-scale on ECS; 10 concurrent workers process ~50 resumes/min. Full 500-resume run completes in ~10 min.</td>
-        </tr>
-        <tr>
-          <td>Uptime</td>
-          <td>99.5% monthly SLA</td>
-          <td>ECS service with min 2 tasks across 2 AZs; RDS Multi-AZ; health check auto-restart. Anthropic API outages gracefully degrade to cached scores.</td>
-        </tr>
-        <tr>
-          <td>Data Security</td>
-          <td>SOC 2 Type II (target)</td>
-          <td>AES-256 at rest (S3 + RDS); TLS 1.3 in transit; VPC isolation; secrets in AWS Secrets Manager; audit log for all data access events.</td>
-        </tr>
-        <tr>
           <td>Cost per Run</td>
           <td>&lt; $0.05 per resume</td>
           <td>Claude extraction: ~$0.003; embedding: ~$0.0001; Pinecone upsert: ~$0.001; infra amortised: ~$0.01. Total well within target at volume.</td>
-        </tr>
-        <tr>
-          <td>GDPR / CCPA</td>
-          <td>Right to erasure in &lt; 30 days</td>
-          <td><code>DELETE /candidates/{id}</code> cascades to S3, Postgres, and Pinecone namespace. Cryptographic shredding on S3 keys. Audit log entry retained (no PII content) per legal requirement.</td>
         </tr>
       </tbody>
     </table>
@@ -1206,8 +1037,8 @@
 <div class="footer">
   <div class="footer-brand">FairHire AI</div>
   <div class="footer-meta">
-    Implementation Canvas v1.0 · April 2025<br>
-    Internal Use · Not for Distribution
+    Prepared for ME 575 Final Project Use Only<br>
+    By Group 4: Risk Ready
   </div>
 </div>
 
