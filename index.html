@@ -538,6 +538,7 @@
     <div class="nav-section-label">Project Overview</div>
     <div class="nav-item active" onclick="showSection('overview')">Project Overview</div>
     <div class="nav-item" onclick="showSection('problem')">Problem Context</div>
+    <div class="nav-item" onclick="showSection('comparision')">Tool Comparision</div>
     <div class="nav-item" onclick="showSection('stakeholders')">Stakeholders</div>
 
     <div class="nav-section-label" style="margin-top: 1.5rem;">System Design</div>
@@ -591,6 +592,7 @@ Compliance: The AI agent includes data testing to provide bias review and ensure
             Our application FairHire AI design integrates bias auditing, PII scrubbing, and explainable scoring directly into the application workflow. All application activities and hiring decision are logged, bias is automatically detected utylizing integarted Fairlearn tools, and human override is mandatory—ensuring human in the loop.
           </div>
         </div>
+
         <div class="card-grid">
           <div class="card">
             <h4>🎯 Primary Goal</h4>
@@ -615,40 +617,38 @@ Compliance: The AI agent includes data testing to provide bias review and ensure
           </div>
         </div>
 
-        <div class="content-section">
-          <h3>Project Artifacts & Links</h3>
-          <table class="data-table">
-            <thead>
-              <tr>
-                <th>Resource</th>
-                <th>Link</th>
-                <th>Purpose</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td><strong>Test Application</strong></td>
-                <td><a href="https://fairhireai-production.up.railway.app" target="_blank">FairHire AI Live</a></td>
-                <td>Functional MVP for bias testing and resume screening</td>
-              </tr>
-              <tr>
-                <td><strong>Code Repository</strong></td>
-                <td><a href="https://github.com/zyrirena/FairHireAI.git" target="_blank">GitHub Repo</a></td>
-                <td>Complete source code, deployment config, and documentation</td>
-              </tr>
-              <tr>
-                <td><strong>Technical Spec</strong></td>
-                <td><a href="Evidence/FairHireAI_Specifications.html" target="_blank">Spec Sheet</a></td>
-                <td>Architecture, data model, and tech stack details</td>
-              </tr>
-              <tr>
-                <td><strong>Kaggel Dataset</strong></td>
-                <td><a href="https://www.kaggle.com/datasets/snehaanbhawal/resume-dataset" target="_blank">Resume Dataset</a></td>
-                <td>Dataset used for bias testing.</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+        <h3>Project Artifacts & Links</h3>
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Resource</th>
+              <th>Link</th>
+              <th>Purpose</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Test Application</strong></td>
+              <td><a href="https://fairhireai-production.up.railway.app" target="_blank">FairHire AI Live</a></td>
+              <td>Functional MVP for bias testing and resume screening</td>
+            </tr>
+            <tr>
+              <td><strong>Code Repository</strong></td>
+              <td><a href="https://github.com/zyrirena/FairHireAI.git" target="_blank">GitHub Repo</a></td>
+              <td>Complete source code, deployment config, and documentation</td>
+            </tr>
+            <tr>
+              <td><strong>Technical Spec</strong></td>
+              <td><a href="Evidence/FairHireAI_Specifications.html" target="_blank">Spec Sheet</a></td>
+              <td>Architecture, data model, and tech stack details</td>
+            </tr>
+            <tr>
+              <td><strong>Kaggel Dataset</strong></td>
+              <td><a href="https://www.kaggle.com/datasets/snehaanbhawal/resume-dataset" target="_blank">Resume Dataset</a></td>
+              <td>Dataset used for bias testing.</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
   </div>
@@ -676,6 +676,57 @@ Compliance: The AI agent includes data testing to provide bias review and ensure
     </div>
   </div>
 
+
+
+<!-- ════════════════════════════════════════════════════════════════ -->
+  <!-- COMPARISION -->
+  <!-- ════════════════════════════════════════════════════════════════ -->
+  <div id="comparision" class="page-section">
+    <div class="page-header">
+      <div class="header-meta">RiskReady Group</div>
+      <div class="page-title">The <em>Commercial</em> Tool Comparision</div>
+      <div class="page-subtitle">Comparision of our FairHireAI model to other commercial Automated Employmnet Decision Tool.</div>
+    </div>
+
+<h2>AEDT Comparision</h2>
+
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Feature</th>
+              <th>FairHire AI</th>
+              <th>HireVue.com</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Transparency</td>
+              <td>FairHire AI focuses on transparency by providing explainable weighed scores and how each resume was evaluated. It is easy to understand and in plain english.</td>
+              <td>Provide explainability for both candidates and the hiring team.</td>
+            </tr>
+            <tr>
+              <td>Primary Risk Mitigation</td>
+              <td>FairHire AI is structured to conduct PII scrub before resume data hits Claude LLM.</td>
+              <td>Uses context-aware models like OpenAI Privacy Filter which identifies between private identifiers and public or brand references to reduce the false negatives.</td>
+            </tr>
+            <tr>
+              <td>Compliance Readiness</td>
+              <td>FairHire AI stores all activity logs for audit purposes on a Supabase.</td>
+              <td>HireVue stores thire data on a major cloud provider with restricted data.</td>
+            </tr>
+            
+          </tbody>
+        </table>
+<br>
+<br>
+
+<h4>HireVue Trust Center</h4>
+          <p><strong>URL:</strong> <a href="https://trust.hirevue.com/" target="_blank">HireVue</a></p>
+
+
+  </div>
+
+
   <!-- ════════════════════════════════════════════════════════════════ -->
   <!-- STAKEHOLDERS -->
   <!-- ════════════════════════════════════════════════════════════════ -->
@@ -699,18 +750,15 @@ Compliance: The AI agent includes data testing to provide bias review and ensure
           <div class="card">
             <h4>NYC Department of Consumer & Worker Protection (DCWP)</h4>
             <p>NYC Department of Consumer and Worker Protection (DCWP) that enforces Local Law 144. To meet that requirement the AI agent will post the annual bias audit results.</p>
-            </div>
-            
+          </div>
           <div class="card">
             <h4>EU AI Act Regulators</h4>
             <p>EU AI Act Regulators to enforce: Since using AI agents in recruitment is "High-Risk," these regulators require technical documentation, logging, and human oversight.</p>
           </div>
-          
           <div class="card">
             <h4>EEOC (US Equal Employment Opportunity Commission)</h4>
             <p>EEOC enforces Title VII to ensure that there is no discriminatory hiring practices.</p>
           </div>
-          
           <div class="card">
             <h4>Independent Auditors</h4>
             <p>Independent Auditors - to comply with NY Law 144 organization must use independent auditors to complete annual testing requirements. </p>
@@ -722,26 +770,21 @@ Compliance: The AI agent includes data testing to provide bias review and ensure
         <div class="card-grid">
           <div class="card">
             <h4>HR Sepcialist</h4>
-            <p>HR Specialists to ensure human-in-the loop, override AI recommendations, verify applicant consent was obtained, and the Equal Employment Opportunity rights aren’t violated.</p>
+            <p>HR Specialists to ensure human-in-the loop, override AI recommendations, verify applicant consent was obtained, and the Equal Employment Opportunity rights aren't violated.</p>
           </div>
-          
           <div class="card">
             <h4>Legal Office</h4>
             <p>Legal Office to ensure all regulatory compliance was adhered, they will also be able to ensure that any regulatory changes are communicated to the design team and HR Specialists.</p>
           </div>
-          
           <div class="card">
             <h4>Software Engineers</h4>
             <p>Software Engineers to ensure that the PII scrub works correctly, they will be also responsible for updating the Claude/Gemini API prompts and verifying the database is scrubbed for 120-day retention.</p>
           </div>
-          
           <div class="card">
             <h4>Responsible AI / IT Security</h4>
             <p>Responsible AI/Data Scientist/IT Security to ensure no database leakage.</p>
           </div>
         </div>
-
-      
 
         <h2>External User Stakeholders</h2>
 
@@ -860,7 +903,6 @@ Compliance: The AI agent includes data testing to provide bias review and ensure
           <p>Ensuring that bias concerns are addressed from the design stage.</p>
           <p style="margin-top: 0.75rem;"><strong>Mitigation:</strong> Completing bias testing on the data verifying that the score is 0.8 or above and tunning the model. </p>
         </div>
-        
 
         <h2>Build Stage Risks</h2>
 
@@ -875,8 +917,6 @@ Compliance: The AI agent includes data testing to provide bias review and ensure
           <p>Accidental leak of the PII to the agent during the resume scoring or in JSON export.</p>
           <p style="margin-top: 0.75rem;"><strong>Mitigation:</strong> Add Microsoft Presidio scrubbing layer with 10 regex categories before resume data is evaluated.</p>
         </div>
-        
-        
 
         <h2>Validation Stage Risks</h2>
 
@@ -948,7 +988,7 @@ Compliance: The AI agent includes data testing to provide bias review and ensure
     <div class="page-content">
       <div class="content-section">
         <h2>Governance Framework</h2>
-        <p>The system is classified as “High-Risk” due to: </p>
+        <p>The system is classified as "High-Risk" due to: </p>
         <ul>
           <li><strong>NIST RMF Classification:</strong> High risk on civil rights, social welfare, it impacts human opportunity: Employment decisions - the agent provides recommendations to recruiters and hiring managers on which candidate is the best fit which impacts people's livelihoods, their career trajectory, and income</li>
           <li><strong>EU AI Act Classification</strong> Annex III if the system indirectly discriminates, Annex II (High Risk) even when using anti-discrimination guardrails. Ensuring fair treatment and non-discrimination ensures that protected groups (age, race, gender, disability, religion, national origin) rights are not violated. 
@@ -958,47 +998,26 @@ Compliance: The AI agent includes data testing to provide bias review and ensure
         </ul>
 
         <h2>Control Architecture and Policy-to-Control Translation</h2>
-<p>Our FairHire AI design is specifically designed to comply with the NYC Local Law 144, EU AS Act, and EEOC 4/5th rule (80%), the Title VII of the Civil Rights Act that prohibits hiring discrimination based on race, color, religion, sex, or national origin.</p>
-
-
+        <p>Our FairHire AI design is specifically designed to comply with the NYC Local Law 144, EU AS Act, and EEOC 4/5th rule (80%), the Title VII of the Civil Rights Act that prohibits hiring discrimination based on race, color, religion, sex, or national origin.</p>
 
         <h3>Compliance with New York 144 Law plan:</h3>
         <ul>
-        <li>As a new AEDT Tool, and we have no historical data to test we decided to utilize Kaggle. Using a test data set to test for bias - we tested our model utilizing the Kaggle data set that included 2,481 applications in pdf format; the AI selected 707 resumes with overall selection rate at 28.5%. The initial test passed the gender test and failed in ethnicity. We used a bias mitigation strategy, using reweighting pre-processing technique which adjusts candidate weight so underrepresented groups receive equitable consideration without discarding any applications. This technique is used by IBM’s AIF 360 toolkit.</li> 
-
-<li>Our deployment plan also involves scheduling an independent bias audit to meet the annual requirement. At minimum our independent auditor would test and provide calculations of selection or scoring rates and the impact ratio across sex categories, race/ethnicity categories, and intersectional categories. </li>
-<li>
-Our plan also involves publishing the testing summary of the most recent bias test that would include: 
-the date of the most recent bias audit of the AEDT, 
-The source and explanation of the data used to conduct the bias audit, 
-The number of individuals the AEDT assessed that fall within an unknown category, 
-The number of applicants or candidates, the selection or scoring rates, as applicable, and the impact ratios for all categories.</li>
-</li>
-<li>
-Our current version of the tool does not collect resumes directly from the applicant so to meet the automatic notice to the applicants that the employer uses AEDT tool our plan would be to request that the recruiter include notification of the tool used and receive consent from every applicant that their resume can be scanned. The recruiter certification will be required inside the user interface to confirm that the recruiter obtained a consent. </li>
-</ul>
+          <li>As a new AEDT Tool, and we have no historical data to test we decided to utilize Kaggle. Using a test data set to test for bias - we tested our model utilizing the Kaggle data set that included 2,481 applications in pdf format; the AI selected 707 resumes with overall selection rate at 28.5%. The initial test passed the gender test and failed in ethnicity. We used a bias mitigation strategy, using reweighting pre-processing technique which adjusts candidate weight so underrepresented groups receive equitable consideration without discarding any applications. This technique is used by IBM's AIF 360 toolkit.</li> 
+          <li>Our deployment plan also involves scheduling an independent bias audit to meet the annual requirement. At minimum our independent auditor would test and provide calculations of selection or scoring rates and the impact ratio across sex categories, race/ethnicity categories, and intersectional categories. </li>
+          <li>Our plan also involves publishing the testing summary of the most recent bias test that would include: the date of the most recent bias audit of the AEDT, the source and explanation of the data used to conduct the bias audit, the number of individuals the AEDT assessed that fall within an unknown category, the number of applicants or candidates, the selection or scoring rates, as applicable, and the impact ratios for all categories.</li>
+          <li>Our current version of the tool does not collect resumes directly from the applicant so to meet the automatic notice to the applicants that the employer uses AEDT tool our plan would be to request that the recruiter include notification of the tool used and receive consent from every applicant that their resume can be scanned. The recruiter certification will be required inside the user interface to confirm that the recruiter obtained a consent. </li>
+        </ul>
 
         <h3>Compliance with EU AI Act plan</h3>
         <ul>
-          <li>Our AI agent falls under the high risk category of the EU AI Act [2], which requires continuous risk management lifecycle. EU requires the AI tool to be registered in their database. Article 49: Registration | AI Act Service Desk
-</li>
+          <li>Our AI agent falls under the high risk category of the EU AI Act [2], which requires continuous risk management lifecycle. EU requires the AI tool to be registered in their database. Article 49: Registration | AI Act Service Desk</li>
           <li>When designing the system we must take under consideration the Fundamental Rights Impact Assessment and evaluate how our AI agent could unfairly treat the applicants based on their age, gender or ethnicity. Another step of the design is to document how our agent will collect data and validate it. The last step in our risk management would be to include filters that would prevent bias. </li>
           <li>The EA AI Act also specifies what technical requirements for the AI agent: 
-Transparency and explainability - agent design must produce rational explanation why decision was made
-Logging and traceability - AI agent must include event log history of at least 6 month for audit purposes
-Accuracy and robustness - AI agent must be tested against the “golden dataset” of diverse resumes across different formats like word or pdf and different languages. 
-</li>
-     <li>Other AI agent requirements we will include: 
-Human in the loop - our guardrails will include human review before rejection notification is sent, allow for a recruiter to be able to override AI agents decision or ranking of candidates
-Training - all recruiters using the AI agent will be trained to recognize any signs of bias in the selection.</li>
-<li>Notification requirements, our team will include notifications as per EU AI Act to include: 
-Disclosure notice 
-Right to explanation 
-GDPR Alignment </li>
- </ul>
-
-       
-        
+Transparency and explainability - agent design must produce rational explanation why decision was made; Logging and traceability - AI agent must include event log history of at least 6 month for audit purposes; Accuracy and robustness - AI agent must be tested against the "golden dataset" of diverse resumes across different formats like word or pdf and different languages.
+          </li>
+          <li>Other AI agent requirements we will include: Human in the loop - our guardrails will include human review before rejection notification is sent, allow for a recruiter to be able to override AI agents decision or ranking of candidates; Training - all recruiters using the AI agent will be trained to recognize any signs of bias in the selection.</li>
+          <li>Notification requirements, our team will include notifications as per EU AI Act to include: Disclosure notice, Right to explanation, GDPR Alignment.</li>
+        </ul>
       </div>
     </div>
   </div>
@@ -1025,7 +1044,6 @@ HR, Designer, Information-Technology, Teacher, Advocate, Business-Development, H
           <strong>Use:</strong> Initial training and bias testing. Anonymized resumes for synthetic demographic testing.</p>
         </div>
 
-        
         <h2>Data Quality Assurance</h2>
 
         <h3>Resume Quality Checks</h3>
@@ -1088,19 +1106,19 @@ HR, Designer, Information-Technology, Teacher, Advocate, Business-Development, H
 
         <div class="card">
           <h4>🔴 Risk: Regulation Changes:</h4>
-          <p><strong>Impact and Mitigation:</strong> Regulation changes - any updates to regulations and policies need to be communicated to the design team and recruitment team to make sure if required changes are not implemented the tool can’t be used.</p> <br>
+          <p><strong>Impact and Mitigation:</strong> Regulation changes - any updates to regulations and policies need to be communicated to the design team and recruitment team to make sure if required changes are not implemented the tool can't be used.</p>
         </div>
 
         <div class="card">
           <h4>🔴 Risk: PII leakage:</h4>
-          <p><strong>Impact and Mitigation:</strong> engineering team should be conducting monitoring to ensure Presidio is working as expected.</p> <br>
+          <p><strong>Impact and Mitigation:</strong> engineering team should be conducting monitoring to ensure Presidio is working as expected.</p>
         </div>
 
         <div class="card">
           <h4>🔴 Risk: Unauthorized Access:</h4>
-          <p><strong>Impact and Mitigation:</strong> the administrator has an access to disable other user accounts, as soon as there is a change in personnel administrator should disable the account. Also users should be educated that sharing of the account credential is not allowed and their password should be stored correctly. </p> <br>
+          <p><strong>Impact and Mitigation:</strong> the administrator has an access to disable other user accounts, as soon as there is a change in personnel administrator should disable the account. Also users should be educated that sharing of the account credential is not allowed and their password should be stored correctly. </p>
         </div>
-<br>        </div>
+      </div>
     </div>
   </div>
 
@@ -1140,8 +1158,7 @@ HR, Designer, Information-Technology, Teacher, Advocate, Business-Development, H
             </tr>
           </tbody>
         </table>
-
-          </div>    
+      </div>
     </div>
   </div>
 
@@ -1174,7 +1191,6 @@ HR, Designer, Information-Technology, Teacher, Advocate, Business-Development, H
           <li>Bias alert workflow: selection rates calculated → 4/5ths rule check → escalation to CHRO</li>
         </ul>
 
-
         <h2>Continuous Validation (Post-Launch)</h2>
 
         <ul>
@@ -1199,19 +1215,20 @@ HR, Designer, Information-Technology, Teacher, Advocate, Business-Development, H
     </div>
 
     <div class="page-content">
-    
-    <div class="content-section">
+      <div class="content-section">
         <h2>Presentation Recording</h2>
 
         <div class="card">
           <h4>🚀 Presentation</h4>
           <p><strong>URL:</strong> <a href="INSERT LINK HERE" target="_blank">INSERT LINK HERE</a></p>
         </div>
-    <div class="card">
+
+        <div class="card">
           <h4>📄 Presentation Slides</h4>
           <p><strong>URL:</strong> <a href="INSERT LINK HERE" target="_blank">INSERT LINK HERE</a></p>
         </div>
-    
+      </div>
+
       <div class="content-section">
         <h2>Live Application</h2>
 
@@ -1221,7 +1238,9 @@ HR, Designer, Information-Technology, Teacher, Advocate, Business-Development, H
           <p><strong>Features:</strong> Resume upload, job screening, bias detection, audit logs, compliance export</p>
           <p><strong>Status:</strong> Live on Railway.app</p>
         </div>
+      </div>
 
+      <div class="content-section">
         <h2>Code & Documentation</h2>
 
         <div class="card">
@@ -1229,7 +1248,9 @@ HR, Designer, Information-Technology, Teacher, Advocate, Business-Development, H
           <p><strong>URL:</strong> <a href="https://github.com/zyrirena/FairHireAI.git" target="_blank">https://github.com/zyrirena/FairHireAI.git</a></p>
           <p><strong>Contains:</strong> Full source code, deployment config, README with setup instructions</p>
         </div>
+      </div>
 
+      <div class="content-section">
         <h2>Governance & Technical Documentation</h2>
 
         <div class="card">
@@ -1242,22 +1263,22 @@ HR, Designer, Information-Technology, Teacher, Advocate, Business-Development, H
           <h4>📊 Bias Audit Report</h4>
           <p><strong>URL:</strong> <a href="Bias_Testing/Bias-testing-on-resumes-from-Kaggle_pdfs.html" target="_blank">Bias_Testing/Bias-testing-on-resumes-from-Kaggle_pdfs.html</a></p>
           <p><strong>Purpose:</strong> Initial bias test results conducted using Rstudio</p>
-          </div>
-          
-          
-          <div class="card">
+        </div>
+
+        <div class="card">
           <h4>📄 Legal Requirements</h4>
           <p><strong>URL:</strong> <a href="https://docs.google.com/document/d/11lgceakVydSnLpCkRR4HZrgujGL_v8_iHwYP-i2h-VE/edit?usp=drive_link" target="_blank">Google Doc</a></p>
           <p><strong>Purpose:</strong> Legal requirements applying to AEDT</p>
         </div>
-        
+
         <div class="card">
           <h4>📄 Final Project Report</h4>
           <p><strong>URL:</strong> <a href="https://docs.google.com/document/d/17_Ul7jLLtzaqSh-vQb5oplTGhC_7gbXqMGpwWekLmIY/edit?usp=drive_link" target="_blank">Google Doc Final Report</a></p>
           <p><strong>Purpose:</strong> Final report</p>
         </div>
-        
-        <div class="content-section">
+      </div>
+
+      <div class="content-section">
         <h2>Comparision of Commercial and Open Source Tools</h2>
 
         <div class="card">
@@ -1265,18 +1286,15 @@ HR, Designer, Information-Technology, Teacher, Advocate, Business-Development, H
           <p><strong>URL:</strong> <a href="https://docs.google.com/document/d/1IUNI8Die7fIR0dP3pJST-5gIoIX87mlukys6TYMVHSA/edit?usp=drive_link" target="_blank">Bias Tools Comparision</a></p>
           <p><strong>Description:</strong> Document explaining diffrences between Fiddler AI and Microsoft Fairlearn.</p>
         </div>
-        
+
         <div class="card">
           <h4>📄 Commercial AEDT Tools</h4>
           <p><strong>URL:</strong> <a href="INSERT LINK" target="_blank">INSERT LINK</a></p>
           <p><strong>Description:</strong> Comparing commercial Automated Employment Decision Tools to our concept.</p>
         </div>
-        
-        
-        </div>
       </div>
     </div>
-  
+  </div>
 
   <!-- ════════════════════════════════════════════════════════════════ -->
   <!-- TASKS -->
@@ -1387,13 +1405,12 @@ HR, Designer, Information-Technology, Teacher, Advocate, Business-Development, H
         <h2>Project Contact</h2>
         <p><strong>Team Name:</strong> Risk Ready (Group 4)<br>
         <strong>Project:</strong> FairHire AI<br>
+        </p>
       </div>
     </div>
   </div>
 
-</div>
-
-
+</div><!-- end .container -->
 
 <!-- SCRIPT FOR TAB SWITCHING -->
 <script>
