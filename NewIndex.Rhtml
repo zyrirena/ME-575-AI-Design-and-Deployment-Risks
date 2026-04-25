@@ -529,23 +529,19 @@ Compliance: The AI agent includes data testing to provide bias review and ensure
             Our application FairHire AI design integrates bias auditing, PII scrubbing, and explainable scoring directly into the application workflow. All application activities and hiring decision are logged, bias is automatically detected utylizing integarted Fairlearn tools, and human override is mandatory—ensuring human in the loop.
           </div>
         </div>
-
         <div class="card-grid">
           <div class="card">
             <h4>🎯 Primary Goal</h4>
-<<<<<<< HEAD
             <p>Accelerate candidate screening and provide a transparent tool for recruiters and managers to use.</p>
           </div>
           <div class="card">
             <h4>⚖️ Compliance Focus</h4>
             <p>Meet NYC Local Law 144 (bias audit reporting), EU AI Act (high-risk system governance), and EEOC and Title VII employment law requirements.</p>
-=======
             <p>Accelerate candidate screening, reducing time to hire, reducing algorithmic bias by utylizing structured testing and continuous monitoring.</p>
           </div>
           <div class="card">
             <h4>⚖️ Compliance Focus</h4>
             <p>Our team cocused primarily on the NYC Local Law 144 (bias audit reporting, 120 storage), EU AI Act (high-risk system governance), and Title VII employment law requirements.</p>
->>>>>>> bfff8229519bb025810ba638694f555eb0ebda55
           </div>
           <div class="card">
             <h4>🔍 Unique Control</h4>
@@ -940,7 +936,7 @@ GDPR Alignment </li>
  </ul>
 
        
-        </div>
+        
       </div>
     </div>
   </div>
@@ -1043,7 +1039,6 @@ HR, Designer, Information-Technology, Teacher, Advocate, Business-Development, H
           <p><strong>Impact and Mitigation:</strong> the administrator has an access to disable other user accounts, as soon as there is a change in personnel administrator should disable the account. Also users should be educated that sharing of the account credential is not allowed and their password should be stored correctly. </p> <br>
         </div>
 <br>        </div>
-      </div>
     </div>
   </div>
 
@@ -1084,20 +1079,18 @@ HR, Designer, Information-Technology, Teacher, Advocate, Business-Development, H
           </tbody>
         </table>
 
-              </div>
+          </div>    
     </div>
   </div>
-
- 
 
   <!-- ════════════════════════════════════════════════════════════════ -->
   <!-- VALIDATION PLAN -->
   <!-- ════════════════════════════════════════════════════════════════ -->
   <div id="validation" class="page-section">
     <div class="page-header">
-      <div class="header-meta">Quality Assurance</div>
+      <div class="header-meta">RiskReady Group</div>
       <div class="page-title">Validation &<br><em>Assurance Design</em></div>
-      <div class="page-subtitle">Testing strategy and sign-off criteria</div>
+      <div class="page-subtitle">Testing strategy</div>
     </div>
 
     <div class="page-content">
@@ -1106,7 +1099,7 @@ HR, Designer, Information-Technology, Teacher, Advocate, Business-Development, H
 
         <h3>Unit Testing (Code Level)</h3>
         <ul>
-          <li>PII scrubber: test 100+ regex patterns against known PII examples</li>
+          <li>PII scrubber: Microsoft Presidio</li>
           <li>Score computation: test weight calculation (40+35+15+10 = 100)</li>
           <li>JSON parsing: test malformed responses, missing fields, type validation</li>
           <li>Database queries: test audit log writes, immutability, query performance</li>
@@ -1119,80 +1112,6 @@ HR, Designer, Information-Technology, Teacher, Advocate, Business-Development, H
           <li>Bias alert workflow: selection rates calculated → 4/5ths rule check → escalation to CHRO</li>
         </ul>
 
-        <h3>Bias Testing (Model Fairness)</h3>
-        <ul>
-          <li><strong>Disparate Impact Testing:</strong> Generate 6 synthetic resumes (identical skills, different demographic names). Compute selection rate ratio for each group. Pass if all ratios ≥ 0.80.</li>
-          <li><strong>Fairness Metrics:</strong> Measure demographic parity, equalized odds, and predictive parity across gender, race, age, and disability proxies.</li>
-          <li><strong>Edge Case Testing:</strong> Underrepresented groups, non-traditional career paths, gaps in resume, etc.</li>
-        </ul>
-
-        <h3>Security Testing</h3>
-        <ul>
-          <li>Penetration testing (authorized security scan)</li>
-          <li>API key/credential scanning (code review, secret detection)</li>
-          <li>PII leakage test (prompt injection with PII in resume text)</li>
-          <li>Access control validation (RBAC testing)</li>
-        </ul>
-
-        <h3>Compliance Testing</h3>
-        <ul>
-          <li>Audit log completeness: verify every action logged with timestamp and user ID</li>
-          <li>Data deletion verification: confirm GDPR "right to erasure" works end-to-end</li>
-          <li>Regulatory export validation: NYC 144 report format, required fields</li>
-        </ul>
-
-        <h2>Sign-Off Criteria</h2>
-
-        <table class="data-table">
-          <thead>
-            <tr>
-              <th>Component</th>
-              <th>Test Requirement</th>
-              <th>Sign-Off Authority</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>PII Scrubber</td>
-              <td>False negative rate < 1% on 1000-sample validation set</td>
-              <td>Data Science Lead</td>
-            </tr>
-            <tr>
-              <td>Bias Audit</td>
-              <td>Disparate Impact Ratio ≥ 0.80 for all protected groups</td>
-              <td>Responsible AI Lead + Legal</td>
-            </tr>
-            <tr>
-              <td>Scoring Algorithm</td>
-              <td>100% of scores fall within valid range (0–100); weights sum to 100</td>
-              <td>ML Engineering Lead</td>
-            </tr>
-            <tr>
-              <td>Security Scan</td>
-              <td>Zero critical or high-severity vulnerabilities; no API keys exposed</td>
-              <td>IT Security Lead</td>
-            </tr>
-            <tr>
-              <td>Audit Trail</td>
-              <td>100% of actions logged with timestamp, user ID, decision state</td>
-              <td>Compliance Officer</td>
-            </tr>
-            <tr>
-              <td>Human-in-Loop</td>
-              <td>All overrides documented; no batch auto-advance observed</td>
-              <td>CHRO / QA Lead</td>
-            </tr>
-          </tbody>
-        </table>
-
-        <h2>Test Data Strategy</h2>
-
-        <ul>
-          <li><strong>Kaggle Dataset:</strong> 24 job categories, 200K+ candidates for representative testing</li>
-          <li><strong>Synthetic Resumes:</strong> Team-generated with controlled demographic variations for bias testing</li>
-          <li><strong>Edge Cases:</strong> Career gaps, job-switching, multiple languages, industry transitions</li>
-          <li><strong>Real Anonymized Data (Post-Launch):</strong> Validate on organization's historical hiring data</li>
-        </ul>
 
         <h2>Continuous Validation (Post-Launch)</h2>
 
@@ -1212,7 +1131,7 @@ HR, Designer, Information-Technology, Teacher, Advocate, Business-Development, H
   <!-- ════════════════════════════════════════════════════════════════ -->
   <div id="deliverables" class="page-section">
     <div class="page-header">
-      <div class="header-meta">Project Deliverables</div>
+      <div class="header-meta">RiskReady Group</div>
       <div class="page-title">Milestones &<br><em>Deliverables</em></div>
       <div class="page-subtitle">Working application and documentation artifacts</div>
     </div>
@@ -1223,7 +1142,7 @@ HR, Designer, Information-Technology, Teacher, Advocate, Business-Development, H
 
         <div class="card">
           <h4>🚀 FairHire AI MVP</h4>
-          <p><strong>URL:</strong> <a href="https://fairhire-production-4782.up.railway.app/" target="_blank">https://fairhire-production-4782.up.railway.app/</a></p>
+          <p><strong>URL:</strong> <a href="https://fairhireai-production.up.railway.app/" target="_blank">https://fairhireai-production.up.railway.app/</a></p>
           <p><strong>Features:</strong> Resume upload, job screening, bias detection, audit logs, compliance export</p>
           <p><strong>Status:</strong> Live on Railway.app</p>
         </div>
@@ -1232,7 +1151,7 @@ HR, Designer, Information-Technology, Teacher, Advocate, Business-Development, H
 
         <div class="card">
           <h4>📦 GitHub Repository</h4>
-          <p><strong>URL:</strong> <a href="https://github.com/zyrirena/FairHire.git" target="_blank">https://github.com/zyrirena/FairHire.git</a></p>
+          <p><strong>URL:</strong> <a href="https://github.com/zyrirena/FairHireAI.git" target="_blank">https://github.com/zyrirena/FairHireAI.git</a></p>
           <p><strong>Contains:</strong> Full source code, deployment config, README with setup instructions</p>
         </div>
 
@@ -1240,61 +1159,33 @@ HR, Designer, Information-Technology, Teacher, Advocate, Business-Development, H
 
         <div class="card">
           <h4>📄 Technical Specifications Sheet</h4>
-          <p><strong>Purpose:</strong> Complete tech stack, data model, API endpoints, and architecture diagrams</p>
-        </div>
-
-        <div class="card">
-          <h4>⚖️ Governance Framework</h4>
-          <p><strong>Purpose:</strong> Roles, responsibilities, control architecture, and escalation procedures</p>
+          <p><strong>URL:</strong> <a href="Evidence/FairHireAI_Specifications.html" target="_blank">Evidence/FairHireAI_Specifications.html</a></p>
+          <p><strong>Purpose:</strong> Complete tech information</p>
         </div>
 
         <div class="card">
           <h4>📊 Bias Audit Report</h4>
-          <p><strong>Purpose:</strong> Quarterly bias testing results, disparate impact analysis, compliance attestation</p>
+          <p><strong>URL:</strong> <a href="Bias_Testing/Bias-testing-on-resumes-from-Kaggle_pdfs.html" target="_blank">Bias_Testing/Bias-testing-on-resumes-from-Kaggle_pdfs.html</a></p>
+          <p><strong>Purpose:</strong> Initial bias test results conducted using Rstudio</p>
+          </div>
+          
+          
+          <div class="card">
+          <h4>📄 Legal Requirements</h4>
+          <p><strong>URL:</strong> <a href="https://docs.google.com/document/d/11lgceakVydSnLpCkRR4HZrgujGL_v8_iHwYP-i2h-VE/edit?usp=drive_link" target="_blank">Google Doc</a></p>
+          <p><strong>Purpose:</strong> Legal requirements applying to AEDT</p>
         </div>
-
+        
         <div class="card">
-          <h4>📋 Model Inventory Card</h4>
-          <p><strong>Purpose:</strong> SR 11-7 style documentation of AI model (Claude 3 Haiku), training data, performance metrics</p>
+          <h4>📄 Final Project Report</h4>
+          <p><strong>URL:</strong> <a href="https://docs.google.com/document/d/17_Ul7jLLtzaqSh-vQb5oplTGhC_7gbXqMGpwWekLmIY/edit?usp=drive_link" target="_blank">Google Doc Final Report</a></p>
+          <p><strong>Purpose:</strong> Final report</p>
         </div>
-
-        <div class="card">
-          <h4>🔐 Data Privacy & Security Plan</h4>
-          <p><strong>Purpose:</strong> PII handling, encryption, access controls, data deletion procedures (GDPR/CCPA compliant)</p>
-        </div>
-
-        <h2>Compliance Artifacts</h2>
-
-        <ul>
-          <li><strong>NYC Local Law 144 Compliance Report:</strong> Annual bias audit results, algorithm transparency notice</li>
-          <li><strong>EU AI Act Documentation:</strong> Technical documentation, risk assessment, governance procedures</li>
-          <li><strong>EEOC Adverse Impact Testing:</strong> Disparate Impact Ratio results, 4/5ths rule analysis</li>
-          <li><strong>Audit Defense Package:</strong> Complete logs, test results, policy documentation for regulatory inquiries</li>
-        </ul>
-
-        <h2>Project Milestones</h2>
-
-        <div class="card-grid">
-          <div class="card">
-            <h4>✓ MVP Development</h4>
-            <p>Core application with resume screening, bias detection, audit logging. Code on GitHub. Deployed on Railway.</p>
-          </div>
-          <div class="card">
-            <h4>✓ Governance Framework</h4>
-            <p>Complete documentation of roles, controls, policies, and escalation procedures.</p>
-          </div>
-          <div class="card">
-            <h4>✓ Bias Testing & Validation</h4>
-            <p>Formal bias audit, disparate impact analysis, sign-off from Data Science and Legal.</p>
-          </div>
-          <div class="card">
-            <h4>📋 Compliance Certification</h4>
-            <p>Independent audit of NY 144 and EU AI Act compliance. Public compliance report (future).</p>
-          </div>
+        
         </div>
       </div>
     </div>
-  </div>
+  
 
   <!-- ════════════════════════════════════════════════════════════════ -->
   <!-- TASKS -->
