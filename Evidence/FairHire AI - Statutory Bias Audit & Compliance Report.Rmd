@@ -1,6 +1,6 @@
 ---
 title: "FairHire AI - Statutory Bias Audit & Compliance Report"
-author: "Lead Engineer: I.Zyr"
+author: "Lead Engineer: I.Austin"
 date: "`r Sys.Date()`"
 output: 
   html_document:
