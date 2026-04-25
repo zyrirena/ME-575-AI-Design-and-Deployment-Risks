@@ -1,0 +1,1337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FairHire AI — Project Report</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=Instrument+Serif:ital@0;1&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --ink: #0d0f0e;
+    --paper: #f5f2ec;
+    --paper2: #ede9e0;
+    --accent: #1a6b45;
+    --accent2: #c8e87d;
+    --rule: #c4bfb4;
+    --muted: #7a766d;
+    --tag-bg: #e8e3d8;
+    --mono: 'DM Mono', monospace;
+    --serif: 'Instrument Serif', serif;
+    --sans: 'Syne', sans-serif;
+  }
+
+  html { font-size: 16px; }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--mono);
+    min-height: 100vh;
+    display: flex;
+    overflow-x: hidden;
+  }
+
+  /* ─────────────────────────────── SIDEBAR NAV ─────────────────────────────── */
+  .sidebar {
+    width: 280px;
+    background: var(--ink);
+    color: var(--paper);
+    padding: 2rem 0;
+    position: fixed;
+    height: 100vh;
+    overflow-y: auto;
+    border-right: 2px solid var(--accent);
+    z-index: 100;
+  }
+
+  .sidebar-logo {
+    padding: 0 1.5rem 2rem;
+    border-bottom: 1px solid var(--rule);
+    margin-bottom: 2rem;
+  }
+
+  .sidebar-logo-text {
+    font-family: var(--serif);
+    font-size: 1.4rem;
+    font-style: italic;
+    color: var(--accent2);
+  }
+
+  .sidebar-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .nav-item {
+    padding: 1rem 1.5rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border-left: 3px solid transparent;
+    font-size: 0.85rem;
+    letter-spacing: 0.05em;
+    color: var(--paper);
+  }
+
+  .nav-item:hover {
+    background: rgba(200, 232, 125, 0.1);
+    border-left-color: var(--accent2);
+  }
+
+  .nav-item.active {
+    background: rgba(200, 232, 125, 0.15);
+    border-left-color: var(--accent2);
+    font-weight: 600;
+  }
+
+  .nav-section-label {
+    padding: 1.5rem 1.5rem 0.75rem;
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    font-weight: 600;
+  }
+
+  /* ─────────────────────────────── MAIN CONTENT ─────────────────────────────── */
+  .container {
+    margin-left: 280px;
+    width: calc(100% - 280px);
+    background: var(--paper);
+  }
+
+  .page-section {
+    display: none;
+    animation: fadeIn 0.4s ease;
+  }
+
+  .page-section.active {
+    display: block;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  /* ─────────────────────────────── HEADER ─────────────────────────────── */
+  .page-header {
+    background: linear-gradient(135deg, rgba(26, 107, 69, 0.08) 0%, transparent 100%);
+    border-bottom: 2px solid var(--ink);
+    padding: 3rem 4rem;
+    position: relative;
+  }
+
+  .page-header::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      repeating-linear-gradient(0deg, transparent, transparent 47px, var(--rule) 47px, var(--rule) 48px),
+      repeating-linear-gradient(90deg, transparent, transparent 47px, var(--rule) 47px, var(--rule) 48px);
+    opacity: 0.35;
+    pointer-events: none;
+  }
+
+  .header-meta {
+    font-size: 0.7rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    line-height: 1.8;
+    margin-bottom: 1.5rem;
+  }
+
+  .page-title {
+    font-family: var(--serif);
+    font-size: 2.8rem;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    position: relative;
+  }
+
+  .page-title em {
+    color: var(--accent);
+    font-style: italic;
+  }
+
+  .page-subtitle {
+    font-family: var(--sans);
+    font-size: 0.9rem;
+    color: var(--muted);
+    margin-top: 1rem;
+    max-width: 600px;
+  }
+
+  /* ─────────────────────────────── CONTENT ─────────────────────────────── */
+  .page-content {
+    padding: 3rem 4rem;
+    max-width: 1100px;
+  }
+
+  .content-section {
+    margin-bottom: 3.5rem;
+  }
+
+  .content-section h2 {
+    font-family: var(--sans);
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid var(--ink);
+  }
+
+  .content-section h3 {
+    font-family: var(--sans);
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin: 1.5rem 0 0.75rem;
+  }
+
+  .content-section p {
+    font-family: var(--sans);
+    font-size: 0.95rem;
+    line-height: 1.8;
+    margin-bottom: 1rem;
+    color: var(--ink);
+  }
+
+  .content-section ul {
+    font-family: var(--sans);
+    font-size: 0.95rem;
+    margin-left: 1.5rem;
+    margin-bottom: 1rem;
+    line-height: 1.8;
+  }
+
+  .content-section li {
+    margin-bottom: 0.6rem;
+  }
+
+  /* ─────────────────────────────── GRID CARDS ─────────────────────────────── */
+  .card-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+    margin: 1.5rem 0;
+  }
+
+  .card {
+    background: var(--paper2);
+    border: 1px solid var(--rule);
+    border-left: 3px solid var(--accent);
+    padding: 1.75rem;
+    border-radius: 2px;
+  }
+
+  .card h4 {
+    font-family: var(--sans);
+    font-weight: 700;
+    font-size: 1rem;
+    margin-bottom: 0.75rem;
+    color: var(--ink);
+  }
+
+  .card p {
+    font-size: 0.9rem;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  /* ─────────────────────────────── TABLES ─────────────────────────────── */
+  .data-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    border: 1px solid var(--rule);
+    margin: 1.5rem 0;
+  }
+
+  .data-table th {
+    background: var(--paper2);
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    padding: 0.85rem 1rem;
+    text-align: left;
+    border-bottom: 2px solid var(--rule);
+    font-weight: 600;
+  }
+
+  .data-table td {
+    padding: 1rem;
+    border-bottom: 1px solid var(--rule);
+    font-family: var(--sans);
+    font-size: 0.9rem;
+    color: var(--ink);
+  }
+
+  .data-table tbody tr:hover {
+    background: var(--paper2);
+  }
+
+  .data-table tbody tr:last-child td {
+    border-bottom: none;
+  }
+
+  /* ─────────────────────────────── STATUS BADGES ─────────────────────────────── */
+  .status-badge {
+    display: inline-block;
+    padding: 0.3rem 0.75rem;
+    border-radius: 2px;
+    font-size: 0.65rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    font-weight: 600;
+  }
+
+  .status-checked {
+    background: rgba(26, 107, 69, 0.2);
+    color: var(--accent);
+    border: 1px solid var(--accent);
+  }
+
+  .status-pending {
+    background: rgba(224, 160, 32, 0.2);
+    color: #b8860b;
+    border: 1px solid #d4a520;
+  }
+
+  /* ─────────────────────────────── CALLOUT ─────────────────────────────── */
+  .callout {
+    border-left: 4px solid var(--accent);
+    background: rgba(26, 107, 69, 0.08);
+    padding: 1.5rem;
+    margin: 2rem 0;
+    border-radius: 2px;
+  }
+
+  .callout-title {
+    font-family: var(--sans);
+    font-weight: 700;
+    margin-bottom: 0.75rem;
+    font-size: 1rem;
+  }
+
+  .callout-text {
+    font-family: var(--sans);
+    font-size: 0.95rem;
+    line-height: 1.7;
+    color: var(--muted);
+  }
+
+  /* ─────────────────────────────── PILL TAGS ─────────────────────────────── */
+  .pill {
+    display: inline-block;
+    background: var(--tag-bg);
+    border: 1px solid var(--rule);
+    padding: 0.3rem 0.75rem;
+    border-radius: 999px;
+    font-size: 0.7rem;
+    letter-spacing: 0.08em;
+    color: var(--muted);
+    margin-right: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
+
+  /* ─────────────────────────────── FOOTER ─────────────────────────────── */
+  .page-footer {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 2rem 4rem;
+    border-top: 2px solid var(--ink);
+    margin-top: 4rem;
+    margin-left: 280px;
+  }
+
+  .footer-content {
+    max-width: 1100px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+  }
+
+  .footer-section h3 {
+    font-family: var(--serif);
+    font-size: 1.1rem;
+    margin-bottom: 1rem;
+  }
+
+  .footer-text {
+    font-family: var(--sans);
+    font-size: 0.9rem;
+    line-height: 1.8;
+    color: rgba(245, 242, 236, 0.85);
+  }
+
+  /* ─────────────────────────────── RESPONSIVE ─────────────────────────────── */
+  @media (max-width: 1024px) {
+    .sidebar {
+      width: 200px;
+    }
+    .container {
+      margin-left: 200px;
+      width: calc(100% - 200px);
+    }
+    .page-footer {
+      margin-left: 200px;
+    }
+    .card-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .sidebar {
+      width: 100%;
+      height: auto;
+      position: relative;
+      border-right: none;
+      border-bottom: 2px solid var(--accent);
+    }
+    .container {
+      margin-left: 0;
+      width: 100%;
+    }
+    .page-footer {
+      margin-left: 0;
+    }
+    .page-header, .page-content {
+      padding: 2rem 1.5rem;
+    }
+    .page-title {
+      font-size: 2rem;
+    }
+    .nav-item {
+      display: inline-block;
+      padding: 0.5rem 1rem;
+      border-left: none;
+      border-bottom: 2px solid transparent;
+    }
+    .sidebar-nav {
+      flex-direction: row;
+      flex-wrap: wrap;
+    }
+    .footer-content {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  /* Code & Links */
+  code {
+    font-family: var(--mono);
+    background: var(--tag-bg);
+    padding: 0.1em 0.4em;
+    border-radius: 2px;
+    border: 1px solid var(--rule);
+    color: var(--accent);
+  }
+
+  a {
+    color: var(--accent);
+    text-decoration: none;
+    border-bottom: 1px solid var(--accent);
+    transition: all 0.2s ease;
+  }
+
+  a:hover {
+    background: var(--tag-bg);
+    padding: 0 0.3rem;
+  }
+
+  /* Scrollbar styling */
+  .sidebar::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  .sidebar::-webkit-scrollbar-track {
+    background: var(--ink);
+  }
+
+  .sidebar::-webkit-scrollbar-thumb {
+    background: var(--rule);
+    border-radius: 3px;
+  }
+
+  .sidebar::-webkit-scrollbar-thumb:hover {
+    background: var(--accent);
+  }
+</style>
+</head>
+<body>
+
+<!-- SIDEBAR NAVIGATION -->
+<div class="sidebar">
+  <div class="sidebar-logo">
+    <div class="sidebar-logo-text">FairHire<br>AI</div>
+  </div>
+
+  <div class="sidebar-nav">
+    <div class="nav-section-label">Project Overview</div>
+    <div class="nav-item active" onclick="showSection('overview')">Project Overview</div>
+    <div class="nav-item" onclick="showSection('problem')">Problem Context</div>
+    <div class="nav-item" onclick="showSection('stakeholders')">Stakeholders</div>
+
+    <div class="nav-section-label" style="margin-top: 1.5rem;">System Design</div>
+    <div class="nav-item" onclick="showSection('scope')">System Scope</div>
+    <div class="nav-item" onclick="showSection('risk')">Risk Framing</div>
+    <div class="nav-item" onclick="showSection('governance')">Governance & Operating Model</div>
+
+    <div class="nav-section-label" style="margin-top: 1.5rem;">Implementation</div>
+    <div class="nav-item" onclick="showSection('data')">Data Plan</div>
+    <div class="nav-item" onclick="showSection('toolstack')">Tool Stack</div>
+
+    <div class="nav-section-label" style="margin-top: 1.5rem;">Delivery</div>
+    <div class="nav-item" onclick="showSection('validation')">Validation Plan</div>
+    <div class="nav-item" onclick="showSection('deliverables')">Deliverables</div>
+    <div class="nav-item" onclick="showSection('tasks')">Task Allocation</div>
+    <div class="nav-item" onclick="showSection('team')">Team</div>
+  </div>
+</div>
+
+<!-- MAIN CONTAINER -->
+<div class="container">
+
+  <!-- ════════════════════════════════════════════════════════════════ -->
+  <!-- OVERVIEW -->
+  <!-- ════════════════════════════════════════════════════════════════ -->
+  <div id="overview" class="page-section active">
+    <div class="page-header">
+      <div class="header-meta">ME 575 · Group 4: Risk Ready</div>
+      <div class="header-meta">Irena Austin, Brayden Dahl, Jacob Cossaboon</div>
+      <div class="page-title">FairHire AI<br><em>Governance Heavy Project Report</em></div>
+      <div class="page-subtitle">GenAI application that is: compliant, bias-audited and meets the NYC Local Law 144, EEOC, and EU AI Act requirements.</div>
+    </div>
+
+    <div class="page-content">
+      <div class="content-section">
+        <h2>Project Overview</h2>
+        <p>Our FairHire AI is a generative AI-powered application screening tool designed to help various organizations automate the initial review of resumes while ensuring compliance with employment law and bias mitigation requirements. Our system design combines resume screening, bias detection, and audit logging, human-in-the-loop to create a transparent, auditable hiring process.
+  <br>
+  Our AI agent FairHire AI is designed to solve multiple problems in a recruiting environment. 
+  <br> 
+Operational: it helps the business screen through hundreds of resumes quickly to pull minimum qualified candidates to review. The agent will review applicants' resumes for education, experience and minimum requirements against the advertised position and provide a match score. Recruiter then will have to go in and validate each applicant to either confirm or override the agent's output. Applicants who meet the minimum criteria will then be included on a pdf report which will be generated by agent so that it can be forwarded to the hiring manager for possible interview. </br>
+<br>
+Compliance: The AI agent includes data testing to provide bias review and ensure compliance with NY 144 law, Equal Employment Opportunity Commission and compliance with EU AI Act Article 10. The bias testing can be completed in the application itself using administrator account. The administrator will also have access to review audit logs for last 120 days that can be exported as JSON.
+</br>
+</br>
+        </p>
+
+        <div class="callout">
+          <div class="callout-title">Key Innovation</div>
+          <div class="callout-text">
+            Our application FairHire AI design integrates bias auditing, PII scrubbing, and explainable scoring directly into the application workflow. All application activities and hiring decision are logged, bias is automatically detected utylizing integarted Fairlearn tools, and human override is mandatory—ensuring human in the loop.
+          </div>
+        </div>
+        <div class="card-grid">
+          <div class="card">
+            <h4>🎯 Primary Goal</h4>
+            <p>Accelerate candidate screening and provide a transparent tool for recruiters and managers to use.</p>
+          </div>
+          <div class="card">
+            <h4>⚖️ Compliance Focus</h4>
+            <p>Meet NYC Local Law 144 (bias audit reporting), EU AI Act (high-risk system governance), and EEOC and Title VII employment law requirements.</p>
+            <p>Accelerate candidate screening, reducing time to hire, reducing algorithmic bias by utylizing structured testing and continuous monitoring.</p>
+          </div>
+          <div class="card">
+            <h4>⚖️ Compliance Focus</h4>
+            <p>Our team cocused primarily on the NYC Local Law 144 (bias audit reporting, 120 storage), EU AI Act (high-risk system governance), and Title VII employment law requirements.</p>
+          </div>
+          <div class="card">
+            <h4>🔍 Unique Control</h4>
+            <p>Use PII scrubbing before Claude review, disparate impact ratio monitoring (EEOC 4/5ths rule), and audit logs for every action in the screening tool.</p>
+          </div>
+          <div class="card">
+            <h4>👥 Human-in-Loop</h4>
+            <p>Human decides weather accept or override AI recommendation. Recruiters must certify that all AI recommendations were reviewed before sending resumes to hiring manager.</p>
+          </div>
+        </div>
+
+        <div class="content-section">
+          <h3>Project Artifacts & Links</h3>
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Resource</th>
+                <th>Link</th>
+                <th>Purpose</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Test Application</strong></td>
+                <td><a href="https://fairhireai-production.up.railway.app" target="_blank">FairHire AI Live</a></td>
+                <td>Functional MVP for bias testing and resume screening</td>
+              </tr>
+              <tr>
+                <td><strong>Code Repository</strong></td>
+                <td><a href="https://github.com/zyrirena/FairHireAI.git" target="_blank">GitHub Repo</a></td>
+                <td>Complete source code, deployment config, and documentation</td>
+              </tr>
+              <tr>
+                <td><strong>Technical Spec</strong></td>
+                <td><a href="Evidence/FairHireAI_Specifications.html" target="_blank">Spec Sheet</a></td>
+                <td>Architecture, data model, and tech stack details</td>
+              </tr>
+              <tr>
+                <td><strong>Kaggel Dataset</strong></td>
+                <td><a href="https://www.kaggle.com/datasets/snehaanbhawal/resume-dataset" target="_blank">Resume Dataset</a></td>
+                <td>Dataset used for bias testing.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════════════════════════════ -->
+  <!-- PROBLEM CONTEXT -->
+  <!-- ════════════════════════════════════════════════════════════════ -->
+  <div id="problem" class="page-section">
+    <div class="page-header">
+      <div class="header-meta">RiskReady Group</div>
+      <div class="page-title">The <em>Problem</em> Statement</div>
+      <div class="page-subtitle">Our AI agent FairHire AI is designed to solve multiple problems in a recruiting environment.</div>
+    </div>
+
+    <div class="page-content">
+      <div class="content-section">
+        <h2>Operational Challenge</h2>
+        <p> FairHire Ai helps the business screen through hundreds of resumes quickly to pull minimum qualified candidates to review. The agent will review applicants' resumes for education, experience and minimum requirements against the advertised position and provide a match score. Recruiter then will have to go in and validate each applicant to either confirm or override the agent's output. Applicants who meet the minimum criteria will then be included on a pdf report which will be generated by agent so that it can be forwarded to the hiring manager for possible interview. 
+</p>
+
+        <h2>Compliance Challenge</h2>
+        <p>The AI agent includes data testing to provide bias review and ensure compliance with NY 144 law, Equal Employment Opportunity Commission and compliance with EU AI Act Article 10. The bias testing can be completed in the application itself using administrator account. The administrator will also have access to review audit logs for last 120 days that can be exported as JSON.
+</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════════════════════════════ -->
+  <!-- STAKEHOLDERS -->
+  <!-- ════════════════════════════════════════════════════════════════ -->
+  <div id="stakeholders" class="page-section">
+    <div class="page-header">
+      <div class="header-meta">RiskReady Group</div>
+      <div class="page-title">Target Entity &<br><em>Stakeholders</em></div>
+      <div class="page-subtitle">Our application design can target many diffrent businesses and individuals.</div>
+    </div>
+
+    <div class="page-content">
+      <div class="content-section">
+        <h2>Target Entity</h2>
+        <p>The target entity for our application is a business or organization that has an in-house Recruitment Office and screens applicants for multiple positions or a Recruitment Agency.</p>
+
+        <h2>External Regulatory Stakeholders</h2>
+        <p>Regulatory and legal stakeholders who would verify that organization is following the regulation and penalize if violations are found. Since the organization is located in NY we included the:
+</p>
+        
+        <div class="card-grid">
+          <div class="card">
+            <h4>NYC Department of Consumer & Worker Protection (DCWP)</h4>
+            <p>NYC Department of Consumer and Worker Protection (DCWP) that enforces Local Law 144. To meet that requirement the AI agent will post the annual bias audit results.</p>
+            </div>
+            
+          <div class="card">
+            <h4>EU AI Act Regulators</h4>
+            <p>EU AI Act Regulators to enforce: Since using AI agents in recruitment is "High-Risk," these regulators require technical documentation, logging, and human oversight.</p>
+          </div>
+          
+          <div class="card">
+            <h4>EEOC (US Equal Employment Opportunity Commission)</h4>
+            <p>EEOC enforces Title VII to ensure that there is no discriminatory hiring practices.</p>
+          </div>
+          
+          <div class="card">
+            <h4>Independent Auditors</h4>
+            <p>Independent Auditors - to comply with NY Law 144 organization must use independent auditors to complete annual testing requirements. </p>
+          </div>
+        </div>
+
+        <h2>Internal Organizational Stakeholders</h2>
+
+        <div class="card-grid">
+          <div class="card">
+            <h4>HR Sepcialist</h4>
+            <p>HR Specialists to ensure human-in-the loop, override AI recommendations, verify applicant consent was obtained, and the Equal Employment Opportunity rights aren’t violated.</p>
+          </div>
+          
+          <div class="card">
+            <h4>Legal Office</h4>
+            <p>Legal Office to ensure all regulatory compliance was adhered, they will also be able to ensure that any regulatory changes are communicated to the design team and HR Specialists.</p>
+          </div>
+          
+          <div class="card">
+            <h4>Software Engineers</h4>
+            <p>Software Engineers to ensure that the PII scrub works correctly, they will be also responsible for updating the Claude/Gemini API prompts and verifying the database is scrubbed for 120-day retention.</p>
+          </div>
+          
+          <div class="card">
+            <h4>Responsible AI / IT Security</h4>
+            <p>Responsible AI/Data Scientist/IT Security to ensure no database leakage.</p>
+          </div>
+        </div>
+
+      
+
+        <h2>External User Stakeholders</h2>
+
+        <div class="card-grid">
+          <div class="card">
+            <h4>Job Candidates</h4>
+            <p>Job candidates - they will be the ones providing their resumes with PII to the HR Department and will receive the notification with their rights to alternate (human review) and notice that review includes genAI.</p>
+          </div>
+          <div class="card">
+            <h4>Hiring Managers</h4>
+            <p>Hiring managers as they will be receiving resumes that initial review includes genAI screen and explanation why this person is a match.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════════════════════════════ -->
+  <!-- SYSTEM SCOPE -->
+  <!-- ════════════════════════════════════════════════════════════════ -->
+  <div id="scope" class="page-section">
+    <div class="page-header">
+      <div class="header-meta">RiskReady Group</div>
+      <div class="page-title">System <em>Scope</em> & Boundaries</div>
+      <div class="page-subtitle">MVP application with full compliance instrumentation</div>
+    </div>
+
+    <div class="page-content">
+      <div class="content-section">
+        <h2>Model & Infrastructure</h2>
+        <p><strong>AI Model:</strong> Claude 3 Haiku (claude-3-haiku-20240307) via Anthropic API<br>
+        <strong>Justification:</strong> Fast and low-cost.</p>
+
+        <h2>Data Inputs</h2>
+        <ul>
+          <li><strong>Resumes:</strong> Recruiter uploaded PDFs, TXTs, and DOCX files.</li>
+          <li><strong>Job Descriptions:</strong> Hiring Manager or Recruiter created. Stored in database with required skills, experience, education, and certifications</li>
+          <li><strong>Test Datasets:</strong> Kaggle Resume Dataset.</li>
+        </ul>
+
+        <h2>Core Workflow</h2>
+        <p>
+          <strong>Resume Ingestion Pipeline:</strong><br>
+          File upload → Text extraction (pdf-parse) → PII scrubbing (Microsoft Presidio or 10 regex categories if Presidio fails) → Scrub validation → Database persistence
+        </p>
+        <p style="margin-top: 1rem;">
+          <strong>Screening Workflow:</strong><br>
+          Anonymized resume text + job criteria → Claude API → Structured JSON response → Validation for prohibited content → Score computation (skills 40pt, experience 35pt, education 15pt, certifications 10pt) → Results + prompt logged to database
+        </p>
+
+        <h2>AI Agents</h2>
+
+        <div class="card-grid">
+          <div class="card">
+            <h4>Bias Detection Agent</h4>
+          </div>
+          <div class="card">
+            <h4>Selection Rate Monitor</h4>
+          </div>
+          <div class="card">
+            <h4>Audit Logging Agent</h4>
+          </div>
+          <div class="card">
+            <h4>Compliance Export Agent</h4>
+          </div>
+        </div>
+
+        <h2>User Roles & Access Control</h2>
+        <ul>
+          <li><strong>Administrator:</strong> Full access, disabling other user accounts, manager and recruiter view.</li>
+          <li><strong>Recruiter:</strong> Uploading and screening resumes, overriding AI recommendation, creating job descriptions. </li>
+          <li><strong>Manager:</strong> Creating job descriptions to include weighted scoring adjustment based on the vacancy requirements, making selections from certified list. </li>
+        </ul>
+
+        <h2>Human Review Points</h2>
+        <ul>
+          <li><strong>Consent Gate:</strong> Recruiter must click "I confirm that I have obtained the candidate's consent to process their resume data. The data will be anonymized (PII removed) before AI screening and stored for a maximum of 120 days. Candidates can request deletion at any time." before resumes are uploaded to the FairHire AI.</li>
+          <li><strong>Recruiter Override:</strong> Recruiter must review AI recommendation and accept or override the decision. Override requires a reason for the change.</li>
+          <li><strong>Bias Alert Review:</strong> FairHire AI includes bias audit so that recruiter or administrator can stop the review.</li>
+        </ul>
+
+        <h2>Outputs & Reports</h2>
+        <ul>
+          <li>Hiring Manager report with recommended resumes</li>
+          <li>Applicant list with scores and explanations</li>
+          <li>Bias audit report (quarterly)</li>
+          <li>NYC Local Law 144 compliance exports (PDF + JSON)</li>
+          <li>Audit trail (immutable logs of all decisions)</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════════════════════════════ -->
+  <!-- RISK FRAMING -->
+  <!-- ════════════════════════════════════════════════════════════════ -->
+  <div id="risk" class="page-section">
+    <div class="page-header">
+      <div class="header-meta">Risk Assessment</div>
+      <div class="page-title">Risk <em>Framing</em></div>
+      <div class="page-subtitle">Stage-by-stage risk identification and mitigation</div>
+    </div>
+
+    <div class="page-content">
+      <div class="content-section">
+        <h2>Design Stage Risks</h2>
+
+        <div class="card">
+          <h4>⚠️ Regulatory Misalignment Risk</h4>
+          <p>Misinterpreting requirements from NYC Local Law 144 and EU AI Act which could lead to compliance concerns.</p>
+          <p style="margin-top: 0.75rem;"><strong>Mitigation:</strong> Create an annual independent audit workflow for the application. Ensure independent testing on data which should include bias, PII scrub, compliance requirements are conducted and published.</p>
+        </div>
+        
+        <div class="card">
+          <h4>⚠️ Biast Testing on historical data</h4>
+          <p>Ensuring that bias concerns are addressed from the design stage.</p>
+          <p style="margin-top: 0.75rem;"><strong>Mitigation:</strong> Completing bias testing on the data verifying that the score is 0.8 or above and tunning the model. </p>
+        </div>
+        
+
+        <h2>Build Stage Risks</h2>
+
+        <div class="card">
+          <h4>⚠️ Representative Data Risk</h4>
+          <p>Training/Testing data from Kaggle failing to reflect current real-world market standards. </p>
+          <p style="margin-top: 0.75rem;"><strong>Mitigation:</strong> Reviewing test data and obtaining more current database of resumes. </p>
+        </div>
+
+        <div class="card">
+          <h4>⚠️ PII Leak</h4>
+          <p>Accidental leak of the PII to the agent during the resume scoring or in JSON export.</p>
+          <p style="margin-top: 0.75rem;"><strong>Mitigation:</strong> Add Microsoft Presidio scrubbing layer with 10 regex categories before resume data is evaluated.</p>
+        </div>
+        
+        
+
+        <h2>Validation Stage Risks</h2>
+
+        <div class="card">
+          <h4>⚠️ Bias</h4>
+          <p>The AI agent scores the protested groups (age/race/sex) lower than others and violates the EEOC standards.</p>
+          <p style="margin-top: 0.75rem;"><strong>Mitigation:</strong> Run Counterfactual Testing with the model: (swapping names) and the 4/5ths Rule threshold alert (DIR < 0.80).</p>
+        </div>
+
+        <h2>Deployment Stage Risks</h2>
+
+        <div class="card">
+          <h4>⚠️ Regulatory misalignment risk </h4>
+          <p>Misinterpreting requirements from NYC Local Law 144 and EU AI Act which could lead to compliance concerns.</p>
+          <p style="margin-top: 0.75rem;"><strong>Mitigation:</strong> Create an annual independent audit workflow for the application. Ensure independent testing on data which should include bias, PII scrub, compliance requirements are conducted and published. </p>
+        </div>
+
+        <h2>Operating Stage Risks</h2>
+
+        <div class="card">
+          <h4>⚠️ Hallucinations</h4>
+          <p>Claude inventing qualifications, skills or degrees that are not in resumes.</p>
+          <p style="margin-top: 0.75rem;"><strong>Mitigation:</strong> Immutable append-only audit logs. Daily backups. Monthly audit log review. Automated alerts for missing data.</p>
+        </div>
+
+        <div class="card">
+          <h4>⚠️ API Loop</h4>
+          <p>The bias-detection agent gets stuck in infinite loops exceeding token usage.</p>
+          <p style="margin-top: 0.75rem;"><strong>Mitigation:</strong> Agent will be set at $5 limit for its usage with a dashboard that monitors the usage.</p>
+        </div>
+        
+        <div class="card">
+          <h4>⚠️ Audit Failure</h4>
+          <p>The audit logs are not created properly which would lead to non compliance with EU AI Act. </p>
+          <p style="margin-top: 0.75rem;"><strong>Mitigation:</strong> Application will run logs for a 120-day period, stored in Supabase.</p>
+        </div>
+
+        <h2>Evolve Stage Risks</h2>
+
+        <div class="card">
+          <h4>⚠️ Regulatory Risk/Legal Liability</h4>
+          <p>Regulatory changes are not being reflected in the AEDT tool and application is no longer compliant.  Incorrect scoring could expose penalties or bring lawsuits.</p>
+          <p style="margin-top: 0.75rem;"><strong>Mitigation:</strong> Ensure the compliance department communicates any regulatory changes to the technical team so that they can update how the system works, and set updated guardrails. Ensure independent audits are completed at least annually.</p>
+        </div>
+
+        <h2>Key Risk Management Priorities</h2>
+        <div style="margin-top: 1.5rem;">
+          <span class="pill">Bias Audit</span>
+          <span class="pill">Data Integrity</span>
+          <span class="pill">Remove Proxy Variables</span>
+          <span class="pill">Secure PII</span>
+          <span class="pill">Prompt Injection Prevention</span>
+          <span class="pill">Data Drift Monitoring</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════════════════════════════ -->
+  <!-- GOVERNANCE & OPERATING MODEL -->
+  <!-- ════════════════════════════════════════════════════════════════ -->
+  <div id="governance" class="page-section">
+    <div class="page-header">
+      <div class="header-meta">RiskReady Group</div>
+      <div class="page-title">Operating Model &<br><em>Governance Design</em></div>
+      <div class="page-subtitle">Control architecture and policy-to-control translation</div>
+    </div>
+
+    <div class="page-content">
+      <div class="content-section">
+        <h2>Governance Framework</h2>
+        <p>The system is classified as “High-Risk” due to: </p>
+        <ul>
+          <li><strong>NIST RMF Classification:</strong> High risk on civil rights, social welfare, it impacts human opportunity: Employment decisions - the agent provides recommendations to recruiters and hiring managers on which candidate is the best fit which impacts people's livelihoods, their career trajectory, and income</li>
+          <li><strong>EU AI Act Classification</strong> Annex III if the system indirectly discriminates, Annex II (High Risk) even when using anti-discrimination guardrails. Ensuring fair treatment and non-discrimination ensures that protected groups (age, race, gender, disability, religion, national origin) rights are not violated. 
+</li>
+          <li><strong>Historical bias</strong>  through training models on data that had historical bias. The model should be tested on a regular basis, and have at least one annual independent test to ensure compliance. Ensure testing includes protected groups.</li>
+          <li><strong>Explainability</strong> any rejected applicant should be able to challenge the decision and receive a response on how the decision was made, which should be in plain english so that it is understandable. </li>
+        </ul>
+
+        <h2>Control Architecture and Policy-to-Control Translation</h2>
+<p>Our FairHire AI design is specifically designed to comply with the NYC Local Law 144, EU AS Act, and EEOC 4/5th rule (80%), the Title VII of the Civil Rights Act that prohibits hiring discrimination based on race, color, religion, sex, or national origin.</p>
+
+
+
+        <h3>Compliance with New York 144 Law plan:</h3>
+        <ul>
+        <li>As a new AEDT Tool, and we have no historical data to test we decided to utilize Kaggle. Using a test data set to test for bias - we tested our model utilizing the Kaggle data set that included 2,481 applications in pdf format; the AI selected 707 resumes with overall selection rate at 28.5%. The initial test passed the gender test and failed in ethnicity. We used a bias mitigation strategy, using reweighting pre-processing technique which adjusts candidate weight so underrepresented groups receive equitable consideration without discarding any applications. This technique is used by IBM’s AIF 360 toolkit.</li> 
+
+<li>Our deployment plan also involves scheduling an independent bias audit to meet the annual requirement. At minimum our independent auditor would test and provide calculations of selection or scoring rates and the impact ratio across sex categories, race/ethnicity categories, and intersectional categories. </li>
+<li>
+Our plan also involves publishing the testing summary of the most recent bias test that would include: 
+the date of the most recent bias audit of the AEDT, 
+The source and explanation of the data used to conduct the bias audit, 
+The number of individuals the AEDT assessed that fall within an unknown category, 
+The number of applicants or candidates, the selection or scoring rates, as applicable, and the impact ratios for all categories.</li>
+</li>
+<li>
+Our current version of the tool does not collect resumes directly from the applicant so to meet the automatic notice to the applicants that the employer uses AEDT tool our plan would be to request that the recruiter include notification of the tool used and receive consent from every applicant that their resume can be scanned. The recruiter certification will be required inside the user interface to confirm that the recruiter obtained a consent. </li>
+</ul>
+
+        <h3>Compliance with EU AI Act plan</h3>
+        <ul>
+          <li>Our AI agent falls under the high risk category of the EU AI Act [2], which requires continuous risk management lifecycle. EU requires the AI tool to be registered in their database. Article 49: Registration | AI Act Service Desk
+</li>
+          <li>When designing the system we must take under consideration the Fundamental Rights Impact Assessment and evaluate how our AI agent could unfairly treat the applicants based on their age, gender or ethnicity. Another step of the design is to document how our agent will collect data and validate it. The last step in our risk management would be to include filters that would prevent bias. </li>
+          <li>The EA AI Act also specifies what technical requirements for the AI agent: 
+Transparency and explainability - agent design must produce rational explanation why decision was made
+Logging and traceability - AI agent must include event log history of at least 6 month for audit purposes
+Accuracy and robustness - AI agent must be tested against the “golden dataset” of diverse resumes across different formats like word or pdf and different languages. 
+</li>
+     <li>Other AI agent requirements we will include: 
+Human in the loop - our guardrails will include human review before rejection notification is sent, allow for a recruiter to be able to override AI agents decision or ranking of candidates
+Training - all recruiters using the AI agent will be trained to recognize any signs of bias in the selection.</li>
+<li>Notification requirements, our team will include notifications as per EU AI Act to include: 
+Disclosure notice 
+Right to explanation 
+GDPR Alignment </li>
+ </ul>
+
+       
+        
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════════════════════════════ -->
+  <!-- DATA PLAN -->
+  <!-- ════════════════════════════════════════════════════════════════ -->
+  <div id="data" class="page-section">
+    <div class="page-header">
+      <div class="header-meta">RiskReady Group</div>
+      <div class="page-title">Data Plan,<br><em>Risks & Fallbacks</em></div>
+      <div class="page-subtitle">Data sources and contingency planning</div>
+    </div>
+
+    <div class="page-content">
+      <div class="content-section">
+        <h2>Primary Data Sources</h2>
+
+        <div class="card">
+          <h4>Kaggle Resume Dataset</h4>
+          <p><strong>Source:</strong> A collection of Resume Examples taken from livecareer.com for categorizing a given resume into any of the labels defined in the dataset.<br>
+          <strong>Coverage:</strong> Present categories are
+HR, Designer, Information-Technology, Teacher, Advocate, Business-Development, Healthcare, Fitness, Agriculture, BPO, Sales, Consultant, Digital-Media, Automobile, Chef, Finance, Apparel, Engineering, Accountant, Construction, Public-Relations, Banking, Arts, Aviation<br>
+          <strong>Use:</strong> Initial training and bias testing. Anonymized resumes for synthetic demographic testing.</p>
+        </div>
+
+        
+        <h2>Data Quality Assurance</h2>
+
+        <h3>Resume Quality Checks</h3>
+        <ul>
+          <li>File format validation (PDF, DOCX, TXT)</li>
+          <li>Text extraction validation (ensure text is readable, not corrupted)</li>
+          <li>PII detection and removal (MS Presidio)</li>
+          <li>Length validation (must contain extractable text)</li>
+        </ul>
+
+        <h3>Job Description Quality Checks</h3>
+        <ul>
+          <li>Completeness: required skills, experience, education, certifications populated</li>
+          <li>Bias review: avoid coded language (e.g., "age", digital native", "team fit")</li>
+        </ul>
+
+        <h3>Scoring Validation</h3>
+        <ul>
+          <li>JSON schema validation on Claude response</li>
+          <li>Score range validation (0–100)</li>
+          <li>Weight verification (40+35+15+10 = 100%)</li>
+          <li>Spot check: manual review of 5–10 scored resumes weekly</li>
+        </ul>
+
+        <h2>Data Retention & Privacy</h2>
+
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Data Type</th>
+              <th>Retention Period</th>
+              <th>Deletion Method</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Raw resume files</td>
+              <td>7 years as per legal requirement</td>
+              <td>Encrypted in S3; deleted via lifecycle policy</td>
+            </tr>
+            <tr>
+              <td>Extracted resume data (anonymized)</td>
+              <td>120 days post-hire/no-hire</td>
+              <td>Database deletion</td>
+            </tr>
+            <tr>
+              <td>Audit logs</td>
+              <td>3 years (compliance)</td>
+              <td>Deleted after 3 years</td>
+            </tr>
+            <tr>
+              <td>Bias audit reports</td>
+              <td>Indefinite (regulatory requirement)</td>
+              <td>Stored securely; PII references removed</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h2>Data Risks & Mitigations</h2>
+
+        <div class="card">
+          <h4>🔴 Risk: Regulation Changes:</h4>
+          <p><strong>Impact and Mitigation:</strong> Regulation changes - any updates to regulations and policies need to be communicated to the design team and recruitment team to make sure if required changes are not implemented the tool can’t be used.</p> <br>
+        </div>
+
+        <div class="card">
+          <h4>🔴 Risk: PII leakage:</h4>
+          <p><strong>Impact and Mitigation:</strong> engineering team should be conducting monitoring to ensure Presidio is working as expected.</p> <br>
+        </div>
+
+        <div class="card">
+          <h4>🔴 Risk: Unauthorized Access:</h4>
+          <p><strong>Impact and Mitigation:</strong> the administrator has an access to disable other user accounts, as soon as there is a change in personnel administrator should disable the account. Also users should be educated that sharing of the account credential is not allowed and their password should be stored correctly. </p> <br>
+        </div>
+<br>        </div>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════════════════════════════ -->
+  <!-- TOOL STACK -->
+  <!-- ════════════════════════════════════════════════════════════════ -->
+  <div id="toolstack" class="page-section">
+    <div class="page-header">
+      <div class="header-meta">RiskReady Group</div>
+      <div class="page-title">Tool Stack &<br><em>Integration</em></div>
+      <div class="page-subtitle">Complete tech architecture with justification</div>
+    </div>
+
+    <div class="page-content">
+      <div class="content-section">
+        <h2>Architecture</h2>
+
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Component</th>
+              <th>Purpose</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Railway</strong></td>
+              <td>hosting and deploying the application</td>
+            </tr>
+            <tr>
+              <td><strong>Supabase</strong></td>
+              <td>open-source database</td>
+            </tr>
+            <tr>
+              <td><strong>GitHub</strong></td>
+              <td>storing application code</td>
+            </tr>
+          </tbody>
+        </table>
+
+          </div>    
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════════════════════════════ -->
+  <!-- VALIDATION PLAN -->
+  <!-- ════════════════════════════════════════════════════════════════ -->
+  <div id="validation" class="page-section">
+    <div class="page-header">
+      <div class="header-meta">RiskReady Group</div>
+      <div class="page-title">Validation &<br><em>Assurance Design</em></div>
+      <div class="page-subtitle">Testing strategy</div>
+    </div>
+
+    <div class="page-content">
+      <div class="content-section">
+        <h2>Validation Framework</h2>
+
+        <h3>Unit Testing (Code Level)</h3>
+        <ul>
+          <li>PII scrubber: Microsoft Presidio</li>
+          <li>Score computation: test weight calculation (40+35+15+10 = 100)</li>
+          <li>JSON parsing: test malformed responses, missing fields, type validation</li>
+          <li>Database queries: test audit log writes, immutability, query performance</li>
+        </ul>
+
+        <h3>Integration Testing (End-to-End)</h3>
+        <ul>
+          <li>Resume upload → text extraction → PII scrubbing → Claude API → scoring → database write</li>
+          <li>Override workflow: recruiter decision → audit log → email notification</li>
+          <li>Bias alert workflow: selection rates calculated → 4/5ths rule check → escalation to CHRO</li>
+        </ul>
+
+
+        <h2>Continuous Validation (Post-Launch)</h2>
+
+        <ul>
+          <li><strong>Daily:</strong> Monitor bias metrics dashboard. Alert on drift.</li>
+          <li><strong>Weekly:</strong> Manual spot-check of 5–10 scored resumes.</li>
+          <li><strong>Monthly:</strong> Review override patterns. Escalate if systematic bias detected.</li>
+          <li><strong>Quarterly:</strong> Formal bias audit. Report to leadership and board.</li>
+          <li><strong>Annually:</strong> Independent third-party audit. Public compliance report.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════════════════════════════ -->
+  <!-- DELIVERABLES -->
+  <!-- ════════════════════════════════════════════════════════════════ -->
+  <div id="deliverables" class="page-section">
+    <div class="page-header">
+      <div class="header-meta">RiskReady Group</div>
+      <div class="page-title">Milestones &<br><em>Deliverables</em></div>
+      <div class="page-subtitle">Working application and documentation artifacts</div>
+    </div>
+
+    <div class="page-content">
+      <div class="content-section">
+        <h2>Live Application</h2>
+
+        <div class="card">
+          <h4>🚀 FairHire AI MVP</h4>
+          <p><strong>URL:</strong> <a href="https://fairhireai-production.up.railway.app/" target="_blank">https://fairhireai-production.up.railway.app/</a></p>
+          <p><strong>Features:</strong> Resume upload, job screening, bias detection, audit logs, compliance export</p>
+          <p><strong>Status:</strong> Live on Railway.app</p>
+        </div>
+
+        <h2>Code & Documentation</h2>
+
+        <div class="card">
+          <h4>📦 GitHub Repository</h4>
+          <p><strong>URL:</strong> <a href="https://github.com/zyrirena/FairHireAI.git" target="_blank">https://github.com/zyrirena/FairHireAI.git</a></p>
+          <p><strong>Contains:</strong> Full source code, deployment config, README with setup instructions</p>
+        </div>
+
+        <h2>Governance & Technical Documentation</h2>
+
+        <div class="card">
+          <h4>📄 Technical Specifications Sheet</h4>
+          <p><strong>URL:</strong> <a href="Evidence/FairHireAI_Specifications.html" target="_blank">Evidence/FairHireAI_Specifications.html</a></p>
+          <p><strong>Purpose:</strong> Complete tech information</p>
+        </div>
+
+        <div class="card">
+          <h4>📊 Bias Audit Report</h4>
+          <p><strong>URL:</strong> <a href="Bias_Testing/Bias-testing-on-resumes-from-Kaggle_pdfs.html" target="_blank">Bias_Testing/Bias-testing-on-resumes-from-Kaggle_pdfs.html</a></p>
+          <p><strong>Purpose:</strong> Initial bias test results conducted using Rstudio</p>
+          </div>
+          
+          
+          <div class="card">
+          <h4>📄 Legal Requirements</h4>
+          <p><strong>URL:</strong> <a href="https://docs.google.com/document/d/11lgceakVydSnLpCkRR4HZrgujGL_v8_iHwYP-i2h-VE/edit?usp=drive_link" target="_blank">Google Doc</a></p>
+          <p><strong>Purpose:</strong> Legal requirements applying to AEDT</p>
+        </div>
+        
+        <div class="card">
+          <h4>📄 Final Project Report</h4>
+          <p><strong>URL:</strong> <a href="https://docs.google.com/document/d/17_Ul7jLLtzaqSh-vQb5oplTGhC_7gbXqMGpwWekLmIY/edit?usp=drive_link" target="_blank">Google Doc Final Report</a></p>
+          <p><strong>Purpose:</strong> Final report</p>
+        </div>
+        
+        </div>
+      </div>
+    </div>
+  
+
+  <!-- ════════════════════════════════════════════════════════════════ -->
+  <!-- TASKS -->
+  <!-- ════════════════════════════════════════════════════════════════ -->
+  <div id="tasks" class="page-section">
+    <div class="page-header">
+      <div class="header-meta">RiskReady Group</div>
+      <div class="page-title">Task <em>Allocation</em></div>
+      <div class="page-subtitle">Team responsibilities and deadlines</div>
+    </div>
+
+    <div class="page-content">
+      <div class="content-section">
+        <h2>Task Status & Assignments</h2>
+
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Status</th>
+              <th>Task</th>
+              <th>Assigned To</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><span class="status-badge status-checked">✓ Done</span></td>
+              <td>Set up Repository</td>
+              <td>Irena Austin</td>
+            </tr>
+            <tr>
+              <td><span class="status-badge status-checked">✓ Done</span></td>
+              <td>Model Training & Bias Testing</td>
+              <td>Irena Austin</td>
+            </tr>
+            <tr>
+              <td><span class="status-badge status-checked">✓ Done</span></td>
+              <td>Regulatory Compliance Review</td>
+              <td>Jacob Cossaboon</td>
+            </tr>
+            <tr>
+              <td><span class="status-badge status-checked">✓ Done</span></td>
+              <td>Documentation & Project Report</td>
+              <td>Bryden Dahl</td>
+            </tr>
+            <tr>
+              <td><span class="status-badge status-checked">✓ Done</span></td>
+              <td>MVP Application Deployment</td>
+              <td>Irena Austin</td>
+            </tr>
+            <tr>
+              <td><span class="status-badge status-checked">✓ Done</span></td>
+              <td>Governance Framework Documentation</td>
+              <td>Jacob Cossaboon</td>
+            </tr>
+            <tr>
+              <td><span class="status-badge status-checked">✓ Done</span></td>
+              <td>Final Technical Specification</td>
+              <td>Bryden Dahl</td>
+            </tr>
+            <tr>
+              <td><span class="status-badge status-checked">✓ Done</span></td>
+              <td>Test & Validation</td>
+              <td>Irena Austin</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════════════════════════════ -->
+  <!-- TEAM -->
+  <!-- ════════════════════════════════════════════════════════════════ -->
+  <div id="team" class="page-section">
+    <div class="page-header">
+      <div class="header-meta">Project Team</div>
+      <div class="page-title">Team<br><em>Members</em></div>
+      <div class="page-subtitle">Group 4: Risk Ready</div>
+    </div>
+
+    <div class="page-content">
+      <div class="content-section">
+        <h2>Group Members</h2>
+
+        <div class="card-grid">
+          <div class="card">
+            <h4>Irena Austin</h4>
+            <p><strong>Role:</strong> Technical<br>
+            <strong>Responsibilities:</strong> Repository setup, model training, bias testing, MVP deployment<br>
+            </p>
+          </div>
+
+          <div class="card">
+            <h4>Jacob Cossaboon</h4>
+            <p><strong>Role:</strong> Research<br>
+            <strong>Responsibilities:</strong> Regulatory compliance review, governance framework, legal analysis<br>
+            </p>
+          </div>
+
+          <div class="card">
+            <h4>Bryden Dahl</h4>
+            <p><strong>Role:</strong> Documentation<br>
+            <strong>Responsibilities:</strong> Technical specifications<br>
+            </p>
+          </div>
+        </div>
+
+        <h2>Project Contact</h2>
+        <p><strong>Team Name:</strong> Risk Ready (Group 4)<br>
+        <strong>Project:</strong> FairHire AI<br>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+
+
+<!-- SCRIPT FOR TAB SWITCHING -->
+<script>
+  function showSection(sectionId) {
+    // Hide all sections
+    const sections = document.querySelectorAll('.page-section');
+    sections.forEach(section => {
+      section.classList.remove('active');
+    });
+
+    // Remove active class from all nav items
+    const navItems = document.querySelectorAll('.nav-item');
+    navItems.forEach(item => {
+      item.classList.remove('active');
+    });
+
+    // Show selected section
+    const selectedSection = document.getElementById(sectionId);
+    if (selectedSection) {
+      selectedSection.classList.add('active');
+    }
+
+    // Add active class to clicked nav item
+    event.target.classList.add('active');
+
+    // Scroll to top
+    window.scrollTo(0, 0);
+  }
+</script>
+
+</body>
+</html>
