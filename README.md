@@ -26,7 +26,7 @@ Simply click the link above — no setup required.
 | # | Resource | Link |
 |---|----------|------|
 | 1 | 🏢 Main Page of the Project | [Page](https://zyrirena.github.io/ME-575-AI-Design-and-Deployment-Risks/) |
-| 2 | 🎥 Presentation Recording | *Recording* (add link here) |
+| 2 | 🎥 Presentation Recording | [Recording](https://drive.google.com/file/d/1ef7-du2cFC_ow7DveGIEa1Zb818OiK0L/view?usp=sharing/) |
 | 3 | 📊 Presentation Slides | [View Slides](https://docs.google.com/presentation/d/1zWCfOxYKbGX6ClzKzndqMfBupO1LTLpC/edit?usp=drive_link&ouid=115836712551367581503&rtpof=true&sd=true) |
 | 4 | 🤖 FairHire AI MVP | [Live App](https://fairhireai-production.up.railway.app/) |
 | 5 | 💻 FairHire AI Repository | [GitHub Repo](https://github.com/zyrirena/FairHireAI.git) |
