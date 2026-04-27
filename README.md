@@ -36,7 +36,6 @@ Simply click the link above — no setup required.
 | 9 | ⚖️ Legal Requirements | [Legal Doc](https://docs.google.com/document/d/11lgceakVydSnLpCkRR4HZrgujGL_v8_iHwYP-i2h-VE/edit?usp=drive_link) |
 | 10 | 📄 Final Project Report | [Final Report](https://docs.google.com/document/d/17_Ul7jLLtzaqSh-vQb5oplTGhC_7gbXqMGpwWekLmIY/edit?usp=drive_link) |
 | 11 | 🛠️ Bias Tools | [Bias Tools](https://docs.google.com/document/d/1IUNI8Die7fIR0dP3pJST-5gIoIX87mlukys6TYMVHSA/edit?usp=drive_link) |
-| 12 | 🏢 Commercial AEDT Tools | *Pending* (add link here)|
 
 ---
 
